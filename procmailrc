@@ -1,0 +1,16 @@
+PMDIR=$HOME/.procmail.d
+VERBOSE=off
+MAILDIR=$HOME/Mail
+DEFAULT=$MAILDIR/INBOX
+LOGFILE=$PMDIR/log
+LOGABSTRACT=all
+ARCHIVEBY=`date +%Y-%m`
+ARCHIVE=$MAILDIR/archives/$ARCHIVEBY
+MKARCHIVE=`test -d ${ARCHIVE} || mkdir -p ${ARCHIVE}`
+ 
+# Prevent duplicates
+:0Wh: $PMDIR/msgid.lock
+| /usr/bin/formail -D 100000 $PMDIR/msgid.cache
+ 
+:0c
+${ARCHIVE}/

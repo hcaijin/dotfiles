@@ -1,0 +1,38 @@
+[general]
+# change to whatever you want, example: Riseup, Gmail
+accounts = Gmail
+# choose one of: quiet, ttyui, machineui, syslog, basic, blinkenlights
+ui = quiet
+maxsyncaccounts = 3
+
+[Account Gmail]
+# Profile-Name for the local Mails for a given Account
+localrepository = GmailLocal
+# Profile-Name for the remote Mails for a given Account
+remoterepository = GmailRemote
+# autorefresh = 5 # fetches your mails every 5 Minutes
+
+[Repository GmailLocal]
+# Way of storing Mails locally. Only Maildir is currently supported
+type = Maildir
+# Place where the synced Mails should be
+localfolders = ~/.Mail/inbox/hcjgmail
+
+[Repository GmailRemote]
+# Type of remote Mailbox. Only IMAP is supported right now.
+type = IMAP
+remotehost = imap.gmail.com
+# Whether to use SSL or not
+ssl = yes
+# Would specify a port if uncommented. That way, it just tries to use a default-port
+# remoteport = 993
+remoteuser = hcjonline@gmail.com
+# Login-Password. -- ACHTUNG! Of course, this is not too safe. Make sure that the file is readable only by you. Even better: use some of the suggestions in the OfflineIMAP-Manual to make it safer.
+remotepass = ${password}
+
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+keepalive = 120
+realdelete = yes
+holdconnectionopen = true
+
+#folderfilter = lambda foldername: foldername not in ['[Google Mail].All Mail',  '[Google Mail].Bin', '[Google Mail].Bin.Doctor Reis', '  [Google Mail].Bin.[GMail].Bin', '[Google Mail].Bin.Receipts', '[Google Mail].Bin.TODO', '[Google Mail].Drafts', '[Google Mail].Important', '[Google Mail].Sent Mail', '[Google Mail].Spam ', '[Google Mail].Starred' ]

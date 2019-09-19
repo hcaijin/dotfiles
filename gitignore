@@ -1,0 +1,9 @@
+*.swp
+*.swpx
+*.vim
+*.tar
+*.gz
+*.zip
+*.log
+*.txt
+RECOVERED_FILES/

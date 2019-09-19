@@ -1,0 +1,27 @@
+[color]
+	ui = true
+	branch = auto
+	status = auto
+[user]
+	name = hcaijin
+	email = hcjonline@gmail.com
+[push]
+	default = simple
+[credential]
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = true
+[difftool "vimdiff"]
+  cmd = vim -d $LOCAL $REMOTE
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore
+	autocrlf = input
+[merge]
+	tool = vimdiff
+  conflictstyle = diff3
+[mergetool]
+  prompt = true
+[mergetool "vimdiff"]
+  cmd = vim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'

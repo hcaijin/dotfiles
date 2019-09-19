@@ -1,0 +1,214 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+## choose termite, xterm, urxvt
+set $term termite
+# Your preferred application launcher
+set $menu dmenu_path | dmenu | xargs swaymsg exec
+
+set $resizepx 30px
+set $movepx 60px
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg ~/.wallpaper/300-Arch.png fill
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+# output eDP-1 resolution 1024x768 position 1024,0
+# output eDP-1 resolution 1366x768 position 1366,0
+# output eDP-1 resolution 1600x900 position 1600,0
+# output eDP-1 resolution 1920x1080 position 1920,0
+
+exec --no-startup-id fcitx -r &
+#exec --no-startup-id wmname LG3D
+### Idle configuration
+#
+# Example configuration:
+
+exec swayidle \
+    timeout 300 'swaylock -c 000000' \
+    timeout 600 'swaymsg "output * dpms off"' \
+       resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 600 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+   input "1739:0:Synaptics_TM3383-002" {
+       dwt enabled
+       tap enabled
+       natural_scroll enabled
+       middle_emulation enabled
+   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+### Key bindings
+#
+# Basics:
+#
+#font pango:FiraMonoFor Nerd Font Medium 10
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders smart
+gaps inner 15
+gaps outer 15
+popup_during_fullscreen smart
+
+# Layout mode for new containers value: default|stacking|tabbed
+# workspace_layout tabbed
+
+# Orientation for new workspaces  value: horizontal|vertical|auto
+# default_orientation vertical
+
+# new window default border
+#new_window pixel
+#new_float pixel 2
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+#
+# Moving around:
+#
+# Back and Forth
+workspace_auto_back_and_forth yes
+
+# ASSIGN WORKSPACE VARIABLES
+#set $WS1 »term
+#set $WS2 »web
+#set $WS3 »text
+#set $WS4 »mail
+#set $WS5 »misc
+#set $WS6 »system
+#set $WS7 »office
+#set $WS8 »midea
+#set $WS9 »games
+#set $WS0 »code
+
+set $WS0 " "
+set $WS1 " "
+#set $WS2 " "
+set $WS2 " "
+set $WS3 " "
+#set $WS3 " "
+set $WS4 " "
+set $WS5 " "
+set $WS6 " "
+set $WS7 " "
+set $WS8 " "
+set $WS9 " "
+set $WS10 ""
+
+
+######grouping workspaces+name####
+#set $WS1 "<span color='#78da59'>1:</span>"
+# set $WS1 "1:"
+# set $WS2 "<span color='#ffff33'>2:</span>"
+# set $WS3 "<span color='#cc00ff'>3:</span>"
+# set $WS4 "<span color='#00A1F1'>4:</span>"
+# set $WS5 "<span color='#F65314'>5:</span>"
+# set $WS6 "<span color='#f7786b'>6:</span>"
+# set $WS7 "<span color='#FBBC05'>7:</span>"
+# set $WS8 "<span color='#00ffff'>8:</span>"
+# set $WS9 "<span color='#33bdf5'>9:</span>"
+# set $WS0 "<span color='#ff66ff'>10: </span>"
+#
+# WINDOW CONTROL
+# Float
+## Float everything
+for_window [class="^.*"] border pixel 2
+#for_window [class="[.]*"] floating enable
+#for_window [class=""] floating enable
+#for_window [class="xpad" instance="scratchpad"] move scratchpad
+#for_window [title="Firefox" class="Firefox"] floating enable
+# for_window [id="nautilus"] border none
+
+# #---Dropdown Windows---# #
+# General dropdown window traits. The order can matter.
+for_window [instance="dropdown_*"] floating enable
+for_window [instance="dropdown_*"] move scratchpad
+for_window [instance="dropdown_*"] sticky enable
+for_window [instance="dropdown_*"] scratchpad show
+for_window [instance="dropdown_tmuxdd"] resize set 625 450
+for_window [instance="dropdown_dropdowncalc"] resize set 800 300
+for_window [instance="dropdown_tmuxdd"] border pixel 3
+for_window [instance="dropdown_dropdowncalc"] border pixel 2
+for_window [instance="dropdown_*"] move position center
+
+## Move to workspace
+assign [class="(?i)studio|idea"] $WS10
+assign [class="termite" instance="termite"] $WS1
+assign [class="Chromium|Firefox|Tor"] $WS2
+assign [class="vimiv"] $WS4
+assign [class="VirtualBox Manager" instance="VirtualBox Manager"] $WS9
+# assign [instance="libreoffice"] $WS7
+
+
+# Colors
+set $bg-color			#2f343f
+set $inactive-bg-color		#2f343f
+set $text-color			#f3f4f5
+set $inactive-text-color	#676E7D
+set $urgent-bg-color		#5294e2
+
+#				border			background			text
+#client.focused			$bg-color		$urgent-bg-color		$text-color
+#client.focused_inactive		$inactive-bg-color	$inactive-bg-color		$inactive-text-color
+#client.unfocused		$inactive-bg-color	$inactive-bg-color		$inactive-text-color
+#client.urgent			$urgent-bg-color	$urgent-bg-color		$text-color
+
+bar {
+  status_command i3status
+  position top
+  # font  Monaco,Bold 13px
+  font pango:Droid Sans 13px
+  # font pango:FiraMonoFor Nerd Font Medium 8.5
+  separator_symbol "   "
+  mode dock
+  colors {
+    background $bg-color
+    separator #757575
+    focused_workspace  	$bg-color 		$bg-color		$text-color
+    inactive_workspace 	$inactive-bg-color 	$inactive-bg-color    	$inactive-text-color
+    urgent_workspace   	$urgent-bg-color 	$urgent-bg-color    	$text-color
+    }
+
+}
+# bar {
+	# font pango:mono 10
+	# status_command i3blocks
+	# position top
+	# mode dock
+# }
+
+include $HOME/.config/sway/config.d/*
