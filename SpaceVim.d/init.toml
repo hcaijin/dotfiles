@@ -29,12 +29,41 @@
     statusline_unicode_symbols = false
     # Enable vim compatible mode, avoid changing origin vim key bindings
     vimcompatible = true
+    default_indent = 4
+    enable_debug = 1
+    enable_ale = 0
+    # enable_ycm = 1
+    # snippet_engine = "ultisnips"
+    line_on_the_fly = 0
+    realtime_leader_guide = 1
+    enable_os_fileformat_icon = 1
+    auto_disable_touchpad = 0
+    guifont = 'DejaVu Sans Mono for Powerline 9'
 
 # Enable autocomplete layer
 [[layers]]
 name = 'autocomplete'
 auto-completion-return-key-behavior = "complete"
 auto-completion-tab-key-behavior = "cycle"
-
 [[layers]]
 name = "ctrlp"
+[[layers]]
+name = 'tags'
+[[layers]]
+name = 'lang#python'
+[[layers]]
+name = 'lang#vim'
+[[layers]]
+name = 'debug'
+[[layers]]
+name = 'autocomplete'
+auto-completion-return-key-behavior = "complete"
+auto-completion-tab-key-behavior = "smart"
+[[layers]]
+name = 'lang#markdown'
+enableWcwidth = 1
+listItemIndent = 1
+[[layers]]
+name = 'shell'
+default_position = 'top'
+default_height = 30
