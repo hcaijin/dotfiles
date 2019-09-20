@@ -13,12 +13,13 @@ Red='\033[0;31m'
 PRE=.orig
 
 delink () {
-  TARGET=$PWD/$1
   FILE=$HOME/.$1
+  OLDLINK=$FILE$PRE
   if [ -e "$FILE" ]
   then
     if file $FILE | grep $PWD &> /dev/null;then
-        rm -rf "$FILE"
+        # rm -rf "$FILE"
+        mv $FILE $OLDLINK
         printf "Removed File $Blue$FILE${Color_off}\n"
     else
         printf "Skipping $Red$FILE${Color_off}\n"
@@ -40,41 +41,23 @@ deldel () {
   fi
 }
 
-delink 'local/share/fonts'
-delink 'wallpaper'
-# pc config
-delink 'config/sway/config'
-delink 'config/i3status/config'
-# termite
-delink 'config/termite/config'
-# mail
-delink 'muttrc'
-delink 'mutt'
-# windows manager
-delink 'config/vifm'
-# npm
-delink 'npmrc'
-# git
-delink 'gitconfig'
-delink 'gitignore'
-#bash
-delink 'zshrc'
-delink 'zprofile'
-delink 'bashrc'
-delink 'wgetrc'
-# firefox plugin
-delink 'vimperatorrc'
-# bash script
-delink 'scripts'
-# bash bin script
-delink 'bin'
-# for SpaceVim
-delink 'SpaceVim.d'
-# ssh
-delink 'ssh/config'
-# rofi
-#delink 'colors'
 
 #deldel 'fzf'
 #deldel 'maven_bash_completion.bash'
 #deldel 'tmux'
+
+domain() {
+  LOCKFILE=$PWD/dotfiles.lock
+  if [ ! -e "$LOCKFILE" ]
+  then
+    echo "Nothing to do!! Please check you lock exit!"
+    exit
+  fi
+  for file in `cat $LOCKFILE`;
+  do
+    delink $file
+  done
+  rm $LOCKFILE
+}
+
+domain

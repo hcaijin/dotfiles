@@ -73,18 +73,12 @@ On_IPurple='\033[0;105m'  # Purple
 On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
-# utils
-need_cmd () {
-    if ! command -v "$1" > /dev/null 2>&1
-    then printf "${Red}need '$1' (command not found)${Color_off}\n"
-    fi
-}
-
 # Symlinks the configs
-# Manager func
 symlink () {
-    TARGET=$PWD/$1
+    TARGET=$PWD/$2$1
     FILE=$HOME/.$1
+    # echo $TARGET
+    # echo $FILE
     if [ -e "$FILE" ]
     then
         if file $FILE | grep $PWD &> /dev/null;then
@@ -94,45 +88,17 @@ symlink () {
         fi
     else
         printf "Linking $Cyan$FILE${Color_off} -> $Blue$TARGET${Color_off}\n"
+        echo $1 >> $LOCKFILE
         ln -s "$TARGET" "$FILE"
     fi
 }
+
 
 if [ ! -d "$HOME/.config" ];then
     mkdir ~/.config
 fi
 
-if [ ! -d "$HOME/.ssh" ];then
-    mkdir ~/.ssh
-fi
-
-if [ ! -d "$HOME/.config/termite" ];then
-    mkdir ~/.config/termite
-fi
-
-if [ ! -d "$HOME/.config/i3status" ];then
-    mkdir ~/.config/i3status
-fi
-
-if [ ! -d "$HOME/.config/sway" ];then
-    mkdir ~/.config/sway
-fi
-
-#install personal.keymap to /usr/local/share/kbd/keymaps/
-cp personal.map /usr/local/share/kbd/keymaps/
-
-# Install configuration
-symlink 'local/share/fonts'
-symlink 'wallpaper'
-# pc config
-symlink 'config/sway/config'
-symlink 'config/i3status/config'
-# termite
-symlink 'config/termite/config'
 # mail
-symlink 'offlineimaprc'
-symlink 'muttrc'
-symlink 'mutt'
 if [ ! -f ~/.msmtprc ];
 then
     cp msmtprc ~/.msmtprc
@@ -140,77 +106,44 @@ then
     printf "you need to run chmod 0600 ~/.msmtprc after edit password\n"
     
 fi
-symlink 'procmailrc'
-symlink 'mailcap'
-# windows manager
-symlink 'config/vifm'
 # fcitx
 ## pacman -S fcitx fcitx-table-extra
 ## fcitx-configtool setting the wubi & wubi pinyin
-# npm
-symlink 'npmrc'
-# git
-symlink 'gitconfig'
-symlink 'gitignore'
-#bash
-symlink 'zshrc'
-symlink 'zprofile'
-symlink 'bashrc'
-symlink 'wgetrc'
-# firefox plugin
-symlink 'vimperatorrc'
-# bash script
-symlink 'scripts'
-# bash bin script
-symlink 'bin'
-# for SpaceVim
-symlink 'SpaceVim.d'
-# ssh
-symlink 'ssh/config'
-# rofi
-#symlink 'colors'
-symlink 'docker'
 
-# Install FZF
-if [ -e ~/.fzf ]
-then
-    printf "Installed $Red~/.fzf$Color_off\n"
-else
-    printf "$Cyan Downloading  fzf -> $Blue$HOME/.fzf$Color_off\n"
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install
-    printf "$Blue Finished Installing fzf$Color_off\n"
-fi
+linkHiddenFile() {
+  for file in `ls hiddenrc`;
+  do
+    symlink $file hiddenrc/
+  done
+}
 
-# Install maven bash complete
-if [ -e ~/.maven_bash_completion.bash ]
-then
-    printf "Installed $Red~/.maven_bash_completion.bash$Color_off\n"
-else
-    printf "$Cyan Downloading maven_bash_completion.bash -> $Blue$HOME/.maven_bash_completion.bash$Color_off\n"
-    curl -fLo ~/.maven_bash_completion.bash https://raw.githubusercontent.com/juven/maven-bash-completion/master/bash_completion.bash
-    printf "$Blue Finished Installing maven_bash_completion$Color_off\n"
-fi
+linkFolder() {
+  for dir in `find folderc/ -maxdepth 2 -type d`;
+  do
+    symlink $dir folderc
+  done
+}
 
-# Install tmux
-if [ -e ~/.tmux ]
-then
-    printf "Installed $Red~/.tmux$Color_off\n"
-else
-    printf "$Cyan Downloading  tmux -> $Blue$HOME/.tmux$Color_off\n"
-    git clone --depth 1 https://github.com/tony/tmux-config.git ~/tmux-config
-    ~/tmux-config/install.sh
-    printf "$Blue Finished Installing tmux$Color_off\n"
-    rm -rf ~/tmux-config
-fi
+domain() {
+  for file in `ls $1 | egrep -v '^(etc|share)'`;
+  do
+    symlink $1/$file
+  done
+}
 
-# Install fonts-powerline
-# if [ -e ~/.fonts-powerline ]
-# then
-#     printf "Installed $Red~/.fonts-powerline$Color_off\n"
-# else
-#     printf "$Cyan Downloading  fonts-powerline -> $Blue$HOME/.fonts-powerline$Color_off\n"
-#     git clone --depth 1 https://github.com/powerline/fonts.git ~/.fonts-powerline
-#     ~/.fonts-powerline/install.sh
-#     printf "$Blue Finished Installing powerline$Color_off\n"
-# fi
+main() {
+    LOCKFILE=$PWD/dotfiles.lock
+    if [ -e "$LOCKFILE" ]
+    then
+      echo "You can delete the lock file and next"
+      exit
+    fi
+
+  domain config
+  domain local
+  domain local/share
+
+  linkHiddenFile
+}
+
+main
