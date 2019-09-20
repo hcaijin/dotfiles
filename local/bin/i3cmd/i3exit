@@ -1,0 +1,30 @@
+#!/bin/bash
+function lock(){
+    swaylock -f -i $HOME/.wallpaper/300-Arch.png
+}
+
+case "$1" in
+    lock)
+        lock
+        ;;
+    logout)
+        swaymsg -q exit
+        ;;
+    suspend)
+        lock && systemctl suspend
+        ;;
+    hibernate)
+        systemctl hibernate
+        ;;
+    reboot)
+        systemctl reboot
+        ;;
+    shutdown)
+	systemctl poweroff
+        ;;
+    *)
+        echo "Usage: $0 {lock|logout|suspend|hibernate|reboot|shutdown}"
+        exit 2
+esac
+
+exit 0
