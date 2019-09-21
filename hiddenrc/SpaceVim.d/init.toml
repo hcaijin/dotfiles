@@ -48,6 +48,8 @@ auto-completion-tab-key-behavior = "cycle"
 [[layers]]
 name = "ctrlp"
 [[layers]]
+name = 'git'
+[[layers]]
 name = 'tags'
 [[layers]]
 name = 'lang#python'

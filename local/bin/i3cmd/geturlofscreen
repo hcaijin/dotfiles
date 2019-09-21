@@ -7,6 +7,7 @@ echo "$(wl-paste -l)" | grep -n 'image/png' 2>&1 >/dev/null
 
 img=$(mktemp -d)/img.png
 wl-paste > $img || exit
+# Todo: upload remote server
 # url=$(curl -s -F c=@${img} https://img.vim-cn.com/)
 # echo $url
 # echo $img
