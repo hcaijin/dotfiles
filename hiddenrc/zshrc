@@ -135,10 +135,10 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   # dunst for notifications
   dunst &
   # mpv show mp4
-  mpd >/dev/null 2>&1 &
-  mpdupdate &
+  mpd 2>&1 >/dev/null &
+  # mpdupdate &
   # Sway start
-  XKB_DEFAULT_LAYOUT=us exec sway -d 2>&1 > /dev/null # or /tmp/sway.log
+  XKB_DEFAULT_LAYOUT=us exec sway
 fi
 
 # sway sock

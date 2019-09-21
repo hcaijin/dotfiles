@@ -18,8 +18,8 @@ delink () {
   if [ -e "$FILE" ]
   then
     if file $FILE | grep $PWD &> /dev/null;then
-        # rm -rf "$FILE"
-        mv $FILE $OLDLINK
+        rm -rf "$FILE"
+        # mv $FILE $OLDLINK
         printf "Removed File $Blue$FILE${Color_off}\n"
     else
         printf "Skipping $Red$FILE${Color_off}\n"
