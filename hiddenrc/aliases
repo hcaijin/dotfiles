@@ -11,25 +11,20 @@ alias root='sudo -i' \
     wget="wget -U 'noleak'" \
     curl="curl --user-agent 'noleak'" \
     gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative" \
-    gitdiff="git difftool"
-    gitmerge="git mergetool"
+    gitdiff="git difftool" \
+    gitmerge="git mergetool" \
     tsharkbyopenwrt="ssh openwrt 'tcpdump -s 0 -U -n -w - -i eth0 not port 22' | wireshark -k -i -" \
     msfconsole="msfconsole --quiet -x \"db_connect ${USER}@msf\"" \
     go='http_proxy=http://127.0.0.1:7777/ https_proxy=http://127.0.0.1:7777/ no_proxy=localhost,127.0.0.0/8,::1 go' \
-    ka="killall" \
 	mkd="mkdir -pv" \
 	mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
 	calcurse="calcurse -D ~/.config/calcurse" \
-	magit="nvim -c MagitOnly" \
 	p="sudo pacman" \
 	SS="sudo systemctl" \
 	f="$FILE" \
-	g="git" \
-	trem="transmission-remote" \
 	e="$EDITOR" \
 	v="$EDITOR" \
 	x="sxiv -ft *" \
-	sdn="sudo shutdown -h now" \
 	gua="git remote | xargs -L1 git push --all" \
 	ls="ls -hN --color=auto --group-directories-first" \
 	grep="grep --color=auto" \
@@ -38,8 +33,7 @@ alias root='sudo -i' \
 	yt="youtube-dl --add-metadata -i -o '%(upload_date)s-%(title)s.%(ext)s'" \
 	yta="yt -x -f bestaudio/best" \
 	YT="youtube-viewer" \
-	ref="shortcuts >/dev/null; source ~/.config/shortcutrc" \
-	upc="sudo pacman -Syu; pkill -RTMIN+8 i3blocks" \
+	psyu="sudo pacman -Syu" \
 	lsp="pacman -Qett --color=always | less" \
 	ffmpeg="ffmpeg -hide_banner"
 

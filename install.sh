@@ -73,8 +73,12 @@ On_IPurple='\033[0;105m'  # Purple
 On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
+
+LOCKFILE=$PWD/dotfiles.lock
+
 # Symlinks the configs
 symlink () {
+    echo $1 >> $LOCKFILE
     TARGET=$PWD/$2$1
     FILE=$HOME/.$1
     # echo $TARGET
@@ -88,7 +92,6 @@ symlink () {
         fi
     else
         printf "Linking $Cyan$FILE${Color_off} -> $Blue$TARGET${Color_off}\n"
-        echo $1 >> $LOCKFILE
         ln -s "$TARGET" "$FILE"
     fi
 }
@@ -132,12 +135,11 @@ domain() {
 }
 
 main() {
-    LOCKFILE=$PWD/dotfiles.lock
-    if [ -e "$LOCKFILE" ]
-    then
-      echo "You can delete the lock file and next"
-      exit
-    fi
+    # if [ -e "$LOCKFILE" ]
+    # then
+      # echo "You can delete the lock file and next"
+      # exit
+    # fi
 
   domain config
   domain local
