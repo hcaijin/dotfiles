@@ -78,36 +78,36 @@ LOCKFILE=$PWD/dotfiles.lock
 
 # Symlinks the configs
 symlink () {
-    echo $1 >> $LOCKFILE
-    TARGET=$PWD/$2$1
-    FILE=$HOME/.$1
-    # echo $TARGET
-    # echo $FILE
-    if [ -e "$FILE" ]
-    then
-        if file $FILE | grep $PWD &> /dev/null;then
-            printf "Installed $Red$FILE${Color_off}\n"
-        else
-            printf "Skipping $Red$FILE${Color_off}\n"
-        fi
+  echo $1 >> $LOCKFILE
+  TARGET=$PWD/$2$1
+  FILE=$HOME/.$1
+  # echo $TARGET
+  # echo $FILE
+  if [ -e "$FILE" ]
+  then
+    if file $FILE | grep $PWD &> /dev/null;then
+      printf "Installed $Red$FILE${Color_off}\n"
     else
-        printf "Linking $Cyan$FILE${Color_off} -> $Blue$TARGET${Color_off}\n"
-        ln -s "$TARGET" "$FILE"
+      printf "Skipping $Red$FILE${Color_off}\n"
     fi
+  else
+    printf "Linking $Cyan$FILE${Color_off} -> $Blue$TARGET${Color_off}\n"
+    ln -s "$TARGET" "$FILE"
+  fi
 }
 
 
 if [ ! -d "$HOME/.config" ];then
-    mkdir ~/.config
+  mkdir ~/.config
 fi
 
 # mail
 if [ ! -f ~/.msmtprc ];
 then
-    cp msmtprc ~/.msmtprc
-    printf "copy ${red}msmtprc to ~/.msmtprc ${color_off}\n"
-    printf "you need to run chmod 0600 ~/.msmtprc after edit password\n"
-    
+  cp msmtprc ~/.msmtprc
+  printf "copy ${red}msmtprc to ~/.msmtprc ${color_off}\n"
+  printf "you need to run chmod 0600 ~/.msmtprc after edit password\n"
+
 fi
 # fcitx
 ## pacman -S fcitx fcitx-table-extra
@@ -135,11 +135,11 @@ domain() {
 }
 
 main() {
-    # if [ -e "$LOCKFILE" ]
-    # then
-      # echo "You can delete the lock file and next"
-      # exit
-    # fi
+  # if [ -e "$LOCKFILE" ]
+  # then
+  # echo "You can delete the lock file and next"
+  # exit
+  # fi
 
   domain config
   domain local

@@ -11,12 +11,12 @@
     # set spacevim theme. by default colorscheme layer is not loaded,
     # if you want to use more colorscheme, please load the colorscheme
     # layer
-    colorscheme = "default"
+    colorscheme = "nord"
     colorscheme_bg = "dark"
     # Disable guicolors in basic mode, many terminal do not support 24bit
     # true colors
     enable_guicolors = false
-# disable cursorline
+    # disable cursorline
     enable_cursorline = false
     # Disable statusline separator, if you want to use other value, please
     # install nerd fonts
@@ -28,8 +28,8 @@
     enable_statusline_mode = false
     statusline_unicode_symbols = false
     # Enable vim compatible mode, avoid changing origin vim key bindings
-    vimcompatible = true
-    default_indent = 4
+    # vimcompatible = true
+    # default_indent = 4
     enable_debug = 1
     enable_ale = 0
     # enable_ycm = 1
@@ -38,34 +38,67 @@
     realtime_leader_guide = 1
     enable_os_fileformat_icon = 1
     auto_disable_touchpad = 0
-    guifont = 'DejaVu Sans Mono for Powerline 9'
+    # guifont = 'DejaVu Sans Mono for Powerline 9'
+    # filemanager = "defx"
+    filetree_direction = "right"
 
-# Enable autocomplete layer
+# SpaceVim layer config {{{
 [[layers]]
-name = 'autocomplete'
-auto-completion-return-key-behavior = "complete"
-auto-completion-tab-key-behavior = "cycle"
+    name = 'denite'
 [[layers]]
-name = "ctrlp"
+    name = 'format'
 [[layers]]
-name = 'git'
+    name = 'git'
 [[layers]]
-name = 'tags'
+    name = 'tools'
 [[layers]]
-name = 'lang#python'
+    name = 'gtags'
+    gtagslabel = 'pygments'
 [[layers]]
-name = 'lang#vim'
+    name = 'cscope'
 [[layers]]
-name = 'debug'
+    name = 'VersionControl'
 [[layers]]
-name = 'autocomplete'
-auto-completion-return-key-behavior = "complete"
-auto-completion-tab-key-behavior = "smart"
+    name = 'lang#vim'
 [[layers]]
-name = 'lang#markdown'
-enableWcwidth = 1
-listItemIndent = 1
+    name = 'lang#c'
 [[layers]]
-name = 'shell'
-default_position = 'top'
-default_height = 30
+    name = 'lang#goby'
+[[layers]]
+    name = 'lang#lua'
+[[layers]]
+    name = 'lang#sh'
+    bash-file-head = [
+        '#!/usr/bin/env bash',
+        '# Time: `strftime("%Y-%m-%d %T")`',
+        ''
+    ]
+[[layers]]
+    name = 'lang#racket'
+[[layers]]
+    name = 'lang#xml'
+[[layers]]
+    name = 'debug'
+[[layers]]
+    name = 'lang#toml'
+[[layers]]
+    name = 'colorscheme'
+[[layers]]
+    name = 'core#statusline'
+    enable = true
+[[layers]]
+    name = 'core#tabline'
+    enable = true
+[[layers]]
+    name = 'autocomplete'
+    auto-completion-delay = 10
+    auto-completion-return-key-behavior = "smart"
+    auto-completion-tab-key-behavior = "smart"
+[[layers]]
+    name = 'lang#markdown'
+    enableWcwidth = 1
+    listItemIndent = 1
+[[layers]]
+    name = 'shell'
+    default_position = 'top'
+    default_height = 30

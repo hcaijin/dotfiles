@@ -5,22 +5,78 @@
 # Read `man 5 sway` for a complete reference.
 
 ### Variables
-#
+set {
 # Logo key. Use Mod1 for Alt.
-set $mod Mod4
+$mod Mod4
 # Home row direction keys, like vim
-set $left h
-set $down j
-set $up k
-set $right l
+$left h
+$down j
+$up k
+$right l
 # Your preferred terminal emulator
 ## choose termite, xterm, urxvt
-set $term $TERMINAL
+$term $TERMINAL
 # Your preferred application launcher
-set $menu dmenu_path | dmenu | xargs swaymsg exec
+$menu dmenu_path | dmenu | xargs swaymsg exec
+# ASSIGN WORKSPACE VARIABLES
+#$WS1 »term
+#$WS2 »web
+#$WS3 »text
+#$WS4 »mail
+#$WS5 »misc
+#$WS6 »system
+#$WS7 »office
+#$WS8 »midea
+#$WS9 »games
+#$WS0 »code
 
-set $resizepx 30px
-set $movepx 60px
+$WS0 " "
+$WS1 " "
+#$WS2 " "
+$WS2 " "
+$WS3 " "
+#$WS3 " "
+$WS4 " "
+$WS5 " "
+$WS6 " "
+$WS7 " "
+$WS8 " "
+$WS9 " "
+$WS10 ""
+
+
+######grouping workspaces+name####
+#$WS1 "<span color='#78da59'>1:</span>"
+# $WS1 "1:"
+# $WS2 "<span color='#ffff33'>2:</span>"
+# $WS3 "<span color='#cc00ff'>3:</span>"
+# $WS4 "<span color='#00A1F1'>4:</span>"
+# $WS5 "<span color='#F65314'>5:</span>"
+# $WS6 "<span color='#f7786b'>6:</span>"
+# $WS7 "<span color='#FBBC05'>7:</span>"
+# $WS8 "<span color='#00ffff'>8:</span>"
+# $WS9 "<span color='#33bdf5'>9:</span>"
+# $WS0 "<span color='#ff66ff'>10: </span>"
+
+$resizepx 30px
+$movepx 60px
+$nag         exec swaynagmode
+$nag_exit    $nag --exit
+$nag_confirm $nag --confirm
+$nag_select  $nag --select
+# Create Log out, Reboot, Poweroff bindings
+$mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+$mode_print PrtSc (w) screen, (s) part+screen, (r) recorder, (t) audio+recorder, (p) part+recorder
+$freeze Distraction-free mode (super+shift+f to reactivate bindings)
+# Colors
+$bg-color			#2f343f
+$inactive-bg-color		#2f343f
+$text-color			#f3f4f5
+$inactive-text-color	#676E7D
+$urgent-bg-color		#5294e2
+
+}
+#
 
 ### Output configuration
 #
@@ -103,45 +159,6 @@ floating_modifier $mod normal
 # Back and Forth
 workspace_auto_back_and_forth yes
 
-# ASSIGN WORKSPACE VARIABLES
-#set $WS1 »term
-#set $WS2 »web
-#set $WS3 »text
-#set $WS4 »mail
-#set $WS5 »misc
-#set $WS6 »system
-#set $WS7 »office
-#set $WS8 »midea
-#set $WS9 »games
-#set $WS0 »code
-
-set $WS0 " "
-set $WS1 " "
-#set $WS2 " "
-set $WS2 " "
-set $WS3 " "
-#set $WS3 " "
-set $WS4 " "
-set $WS5 " "
-set $WS6 " "
-set $WS7 " "
-set $WS8 " "
-set $WS9 " "
-set $WS10 ""
-
-
-######grouping workspaces+name####
-#set $WS1 "<span color='#78da59'>1:</span>"
-# set $WS1 "1:"
-# set $WS2 "<span color='#ffff33'>2:</span>"
-# set $WS3 "<span color='#cc00ff'>3:</span>"
-# set $WS4 "<span color='#00A1F1'>4:</span>"
-# set $WS5 "<span color='#F65314'>5:</span>"
-# set $WS6 "<span color='#f7786b'>6:</span>"
-# set $WS7 "<span color='#FBBC05'>7:</span>"
-# set $WS8 "<span color='#00ffff'>8:</span>"
-# set $WS9 "<span color='#33bdf5'>9:</span>"
-# set $WS0 "<span color='#ff66ff'>10: </span>"
 #
 # WINDOW CONTROL
 # Float
@@ -174,19 +191,6 @@ assign [class="VirtualBox Manager" instance="VirtualBox Manager"] $WS9
 # assign [instance="libreoffice"] $WS7
 
 
-# Colors
-set $bg-color			#2f343f
-set $inactive-bg-color		#2f343f
-set $text-color			#f3f4f5
-set $inactive-text-color	#676E7D
-set $urgent-bg-color		#5294e2
-
-#				border			background			text
-#client.focused			$bg-color		$urgent-bg-color		$text-color
-#client.focused_inactive		$inactive-bg-color	$inactive-bg-color		$inactive-text-color
-#client.unfocused		$inactive-bg-color	$inactive-bg-color		$inactive-text-color
-#client.urgent			$urgent-bg-color	$urgent-bg-color		$text-color
-
 bar {
   status_command i3status
   position top
@@ -210,5 +214,4 @@ bar {
 	# position top
 	# mode dock
 # }
-
 include $HOME/.config/sway/config.d/*
