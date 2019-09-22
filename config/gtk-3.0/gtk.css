@@ -1,0 +1,7 @@
+/**
+ * Help: https://github.com/thestinger/termite
+ * Internal padding can be added by using CSS to style Termite. Adding the following snippet to $XDG_CONFIG_HOME/gtk-3.0/gtk.css (or ~/.config/gtk-3.0/gtk.css) will add uniform 2px padding around the edges:
+ */
+.termite {
+    padding: 5px;
+}
