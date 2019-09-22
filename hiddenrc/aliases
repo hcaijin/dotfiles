@@ -6,32 +6,17 @@
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias root='sudo -i'
-alias gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-#alias shred="shred -zf"
-alias python="python2"
-alias wget="wget -U 'noleak'"
-alias curl="curl --user-agent 'noleak'"
-alias tsharkbyopenwrt="ssh openwrt 'tcpdump -s 0 -U -n -w - -i eth0 not port 22' | wireshark -k -i -"
 
-#golang.org
-# alias go='http_proxy=http://127.0.0.1:7777/ https_proxy=http://127.0.0.1:7777/ no_proxy=localhost,127.0.0.0/8,::1 go'
-
-# Privileged access
-if (( UID != 0 )); then
-    # alias sudo='sudo -E'
-    # alias cat='sudo cat'
-    alias vi='sudo -E vim'
-    # alias svn='sudo svn'
-    # alias git='sudo git'
-    # alias reboot='sudo systemctl reboot'
-    # alias poweroff='sudo systemctl poweroff'
-fi
-
-# hacker
-alias msfconsole="msfconsole --quiet -x \"db_connect ${USER}@msf\""
-
-alias ka="killall" \
+alias root='sudo -i' \
+    wget="wget -U 'noleak'" \
+    curl="curl --user-agent 'noleak'" \
+    gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative" \
+    gitdiff="git difftool"
+    gitmerge="git mergetool"
+    tsharkbyopenwrt="ssh openwrt 'tcpdump -s 0 -U -n -w - -i eth0 not port 22' | wireshark -k -i -" \
+    msfconsole="msfconsole --quiet -x \"db_connect ${USER}@msf\"" \
+    go='http_proxy=http://127.0.0.1:7777/ https_proxy=http://127.0.0.1:7777/ no_proxy=localhost,127.0.0.0/8,::1 go' \
+    ka="killall" \
 	mkd="mkdir -pv" \
 	mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
 	calcurse="calcurse -D ~/.config/calcurse" \

@@ -15,7 +15,7 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 ## choose termite, xterm, urxvt
-set $term termite
+set $term $TERMINAL
 # Your preferred application launcher
 set $menu dmenu_path | dmenu | xargs swaymsg exec
 

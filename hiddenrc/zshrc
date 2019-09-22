@@ -8,7 +8,7 @@ export ZSH=/home/graz/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="trapd00r"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -50,7 +50,7 @@ ZSH_THEME="robbyrussell"
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -59,8 +59,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(sudo  git git-extras)
-plugins+=(zsh-completions)
+# plugins=(sudo git git-extras)
 autoload -U compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
@@ -71,7 +70,7 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
-#export LANGUAGE=zh_CN:en_US
+# export LANGUAGE=en_US:zh_CN
 export LC_CTYPE=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
@@ -87,25 +86,23 @@ fi
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
-export PATH="$HOME/.bin:$HOME/.npm-packages/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
+export PATH="$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//'):$HOME/.npm-packages/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH"
 export ANDROID_HOME="$HOME/Tools/android-sdk-linux"
 export NODE_PATH="$HOME/.npm-packages/lib/node_modules"
-export PATH="$PATH:$(du "$HOME/.local/bin/" | cut -f2 | tr '\n' ':' | sed 's/:*$//')"
 
 export TERMINAL="termite"
 export BROWSER="chromium"
 export READER="zathura"
 export FILE="vifm"
 
-# less/man colors
-export LESS=-R
-export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"; a="${a%_}"
-export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"; a="${a%_}"
-export LESS_TERMCAP_me="$(printf '%b' '[0m')"; a="${a%_}"
-export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"; a="${a%_}"
-export LESS_TERMCAP_se="$(printf '%b' '[0m')"; a="${a%_}"
-export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"; a="${a%_}"
-export LESS_TERMCAP_ue="$(printf '%b' '[0m')"; a="${a%_}"
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/graz/Source/google-cloud-sdk/path.zsh.inc' ]; then . '/home/graz/Source/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/graz/Source/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/graz/Source/google-cloud-sdk/completion.zsh.inc'; fi
+
+# sway sock
+export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock
 
 # keychain start
 eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)"
@@ -119,28 +116,29 @@ setopt nonomatch
 [ -f ~/.zprofile ] && source ~/.zprofile
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-  export _JAVA_AWT_WM_NONREPARENTING=1
-  # Disabling client-side Qt decorations
-  #export QT_QPA_PLATFORM=wayland
-  #export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-  # Blank window in Java application.
+    export GTK_IM_MODULE=fcitx
+    export QT_IM_MODULE=fcitx
+    export XMODIFIERS="@im=fcitx"
 
-  # dunst for notifications
-  # dunst &
-  # mpv show mp4
-  # mpd 2>&1 >/dev/null &
-  # mpdupdate &
-  # Sway start
-  XKB_DEFAULT_LAYOUT=us exec sway
+    export _JAVA_AWT_WM_NONREPARENTING=1
+    # Disabling client-side Qt decorations
+    #export QT_QPA_PLATFORM=wayland
+    #export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+    # Blank window in Java application.
+
+    # dunst for notifications
+    # dunst &
+    #
+    # # mpv midea and music
+    # mpd 2>&1 >/dev/null &
+    # mpdupdate &
+    #
+    # Sway start
+    # exec sway -d 2> /tmp/sway.log # sway debug
+    XKB_DEFAULT_LAYOUT=us exec sway 2> /tmp/sway.log
 fi
 
-# sway sock
-export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/graz/Source/google-cloud-sdk/path.zsh.inc' ]; then . '/home/graz/Source/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/graz/Source/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/graz/Source/google-cloud-sdk/completion.zsh.inc'; fi
-
-
+if [[ $TERM == xterm-termite ]]; then
+  . /etc/profile.d/vte.sh
+  __vte_osc7
+fi
