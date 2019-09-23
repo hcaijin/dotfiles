@@ -28,7 +28,7 @@
     enable_statusline_mode = false
     statusline_unicode_symbols = false
     # Enable vim compatible mode, avoid changing origin vim key bindings
-    # vimcompatible = true
+    vimcompatible = true
     # default_indent = 4
     enable_debug = 1
     enable_ale = 0
@@ -92,7 +92,7 @@
 [[layers]]
     name = 'autocomplete'
     auto-completion-delay = 10
-    auto-completion-return-key-behavior = "smart"
+    auto-completion-return-key-behavior = "complete"
     auto-completion-tab-key-behavior = "smart"
 [[layers]]
     name = 'lang#markdown'

@@ -13,24 +13,24 @@ FILE=$HOME/screenshot/screenshot-`date +%F-%H%M%S`.png
 VFILE=$HOME/screenshot/recorder-`date +%F-%H%M%S`.mp4
 
 case "$1" in
-    sw)
-        grim - | tee $FILE 2>&1 > /dev/null
-        ;;
-    sp)
-	grim -g "$(slurp)" - | tee $FILE 2>&1 > /dev/null 
-        ;;
-    rw)
-	wf-recorder -f $VFILE
-        ;;
-    raw)
-	wf-recorder -a -f $VFILE
-        ;;
-    rp)
-	wf-recorder -g "$(slurp)" -f $VFILE
-        ;;
-    *)
-        echo "Usage: $0 {sw|sp|rw|raw|rp}"
-        exit 2
+  sw)
+    grim - | tee $FILE 2>&1 > /dev/null
+    ;;
+  sp)
+    grim -g "$(slurp)" - | tee $FILE 2>&1 > /dev/null 
+    ;;
+  rw)
+    wf-recorder -f $VFILE
+    ;;
+  raw)
+    wf-recorder -a -f $VFILE
+    ;;
+  rp)
+    wf-recorder -g "$(slurp)" -f $VFILE
+    ;;
+  *)
+    echo "Usage: $0 {sw|sp|rw|raw|rp}"
+    exit 2
 esac
 
 exit 0

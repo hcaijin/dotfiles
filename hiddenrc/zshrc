@@ -129,8 +129,6 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   #export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
   # Blank window in Java application.
 
-  # dunst for notifications
-  dunst &
   #
   # # mpv midea and music
   # mpd 2>&1 >/dev/null &
