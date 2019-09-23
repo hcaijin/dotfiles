@@ -8,34 +8,34 @@
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias root='sudo -i' \
-    wget="wget -U 'noleak'" \
-    curl="curl --user-agent 'noleak'" \
-    gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative" \
-    gitdiff="git difftool" \
-    gitmerge="git mergetool" \
-    tsharkbyopenwrt="ssh openwrt 'tcpdump -s 0 -U -n -w - -i eth0 not port 22' | wireshark -k -i -" \
-    msfconsole="msfconsole --quiet -x \"db_connect ${USER}@msf\"" \
-    go='http_proxy=http://127.0.0.1:7777/ https_proxy=http://127.0.0.1:7777/ no_proxy=localhost,127.0.0.0/8,::1 go' \
-	mkd="mkdir -pv" \
-	mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
-	calcurse="calcurse -D ~/.config/calcurse" \
-	p="sudo pacman" \
-	SS="sudo systemctl" \
-	f="$FILE" \
-	e="$EDITOR" \
-	v="$EDITOR" \
-	x="sxiv -ft *" \
-	gua="git remote | xargs -L1 git push --all" \
-	ls="ls -hN --color=auto --group-directories-first" \
-	grep="grep --color=auto" \
-	diff="diff --color=auto" \
-	ccat="highlight --out-format=ansi" \
-	yt="youtube-dl --add-metadata -i -o '%(upload_date)s-%(title)s.%(ext)s'" \
-	yta="yt -x -f bestaudio/best" \
-	YT="youtube-viewer" \
-	psyu="sudo pacman -Syu" \
-	lsp="pacman -Qett --color=always | less" \
-	ffmpeg="ffmpeg -hide_banner"
+           wget="wget -U 'noleak'" \
+           curl="curl --user-agent 'noleak'" \
+           gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative" \
+           gitdiff="git difftool" \
+           gitmerge="git mergetool" \
+           tsharkbyopenwrt="ssh openwrt 'tcpdump -s 0 -U -n -w - -i eth0 not port 22' | wireshark -k -i -" \
+           msfconsole="msfconsole --quiet -x \"db_connect ${USER}@msf\"" \
+           go='http_proxy=http://127.0.0.1:7777/ https_proxy=http://127.0.0.1:7777/ no_proxy=localhost,127.0.0.0/8,::1 go' \
+           mkd="mkdir -pv" \
+           mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
+           calcurse="calcurse -D ~/.config/calcurse" \
+           p="sudo pacman" \
+           SS="sudo systemctl" \
+           f="$FILE" \
+           e="$EDITOR" \
+           v="$EDITOR" \
+           x="sxiv -ft *" \
+           gua="git remote | xargs -L1 git push --all" \
+           ls="ls -hN --color=auto --group-directories-first" \
+           grep="grep --color=auto" \
+           diff="diff --color=auto" \
+           ccat="highlight --out-format=ansi" \
+           yt="youtube-dl --add-metadata -i -o '%(upload_date)s-%(title)s.%(ext)s'" \
+           yta="yt -x -f bestaudio/best" \
+           YT="youtube-viewer" \
+           psyu="sudo pacman -Syu" \
+           lsp="pacman -Qett --color=always | less" \
+           ffmpeg="ffmpeg -hide_banner"
 
 command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d" # Use neovim for vim if present.
 

@@ -78,7 +78,12 @@ LOCKFILE=$PWD/dotfiles.lock
 
 # Symlinks the configs
 symlink () {
-  echo $1 >> $LOCKFILE
+  grep "$2" $LOCKFILE 2>&1 >/dev/null
+  if [ $? != 0 ]
+  then
+    echo $1 >> $LOCKFILE
+  fi
+
   TARGET=$PWD/$2$1
   FILE=$HOME/.$1
   # echo $TARGET

@@ -15,6 +15,7 @@ A list of applications that I use:
 - [neovim](https://neovim.io/) - Vim-fork focused on extensibility and usability 
 - [vifm](https://vifm.info/) - an ncurses based file manager with vi like key bindings
 - [vimiv](http://karlch.github.io/vimiv/) - An image viewer with vim-like keybindings
+- [mpv]()
 
 ## Screenshots
 
