@@ -183,8 +183,7 @@ bar {
   status_command i3status
   position top
   # font  Monaco,Bold 13px
-  font pango:Droid Sans 13px
-  # font pango:FiraMonoFor Nerd Font Medium 8.5
+  font DejaVu Sans Mono for Powerline 9
   separator_symbol "   "
   mode dock
   colors {

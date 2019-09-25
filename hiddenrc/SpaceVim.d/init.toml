@@ -7,6 +7,7 @@
 #=============================================================================
 
 # All SpaceVim option below [option] section
+# SpaceVim options {{{
 [options]
     # set spacevim theme. by default colorscheme layer is not loaded,
     # if you want to use more colorscheme, please load the colorscheme
@@ -24,11 +25,10 @@
     statusline_inactive_separator = "bar"
     buffer_index_type = 4
     windows_index_type = 3
-    enable_tabline_filetype_icon = false
     enable_statusline_mode = false
     statusline_unicode_symbols = false
     # Enable vim compatible mode, avoid changing origin vim key bindings
-    vimcompatible = true
+    # vimcompatible = true
     # default_indent = 4
     enable_debug = 1
     enable_ale = 0
@@ -36,13 +36,23 @@
     # snippet_engine = "ultisnips"
     line_on_the_fly = 0
     realtime_leader_guide = 1
-    enable_os_fileformat_icon = 1
-    auto_disable_touchpad = 0
-    # guifont = 'DejaVu Sans Mono for Powerline 9'
     # filemanager = "defx"
     filetree_direction = "right"
+    # default_custom_leader = "e"
+    # enable_neomake = false
+    enable_os_fileformat_icon = false
+    auto_disable_touchpad = 0
+    # checkinstall = false
+    enable_tabline_filetype_icon = false
+    search_tools = ["rg", "pt", "ack", "grep", "findstr"]
+    # autocomplete_method = "coc"
+    # commandline_prompt = '>'
+    guifont = 'DejaVu Sans Mono for Powerline 13'
+    enable_statusline_tag = false
+# }}}
 
 # SpaceVim layer config {{{
+# enable denite in nvim has an error: deoplete undefined /usr/share/dict/words. The solution's pamcan -S words
 [[layers]]
     name = 'denite'
 [[layers]]
@@ -92,7 +102,7 @@
 [[layers]]
     name = 'autocomplete'
     auto-completion-delay = 10
-    auto-completion-return-key-behavior = "complete"
+    auto-completion-return-key-behavior = "smart"
     auto-completion-tab-key-behavior = "smart"
 [[layers]]
     name = 'lang#markdown'

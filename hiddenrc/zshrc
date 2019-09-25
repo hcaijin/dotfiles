@@ -95,8 +95,6 @@ export BROWSER="chromium"
 export READER="zathura"
 export FILE="vifm"
 
-export GTAGSLABEL=pygments
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/graz/Source/google-cloud-sdk/path.zsh.inc' ]; then . '/home/graz/Source/google-cloud-sdk/path.zsh.inc'; fi
 
@@ -109,6 +107,7 @@ export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock
 # keychain start
 eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)"
 
+# diable zsh no match notify
 setopt nonomatch
 
 [ -f ~/.aliases ] && source ~/.aliases
@@ -141,6 +140,7 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
 
 fi
 
+# enable termite current dir. Help: man termite
 if [[ $TERM == xterm-termite ]]; then
   . /etc/profile.d/vte.sh
   __vte_osc7
