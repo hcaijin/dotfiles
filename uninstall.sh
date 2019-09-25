@@ -41,11 +41,6 @@ deldel () {
   fi
 }
 
-
-#deldel 'fzf'
-#deldel 'maven_bash_completion.bash'
-#deldel 'tmux'
-
 domain() {
   LOCKFILE=$PWD/dotfiles.lock
   if [ ! -e "$LOCKFILE" ]
@@ -53,7 +48,26 @@ domain() {
     echo "Nothing to do!! Please check you lock exit!"
     exit
   fi
-  for file in `cat $LOCKFILE`;
+  if [ -e ~/.fzf ]
+  then
+    ~/.fzf/uninstall
+    mv ~/.fzf ~/.fzf.orig
+  fi
+  if [ -e ~/.tmux ]
+  then
+    if [ -e ~/.tmux.orig ]
+    then
+      rm -rf ~/.tmux.orig
+    fi
+    mv ~/.tmux ~/.tmux.orig
+    rm ~/.tmux.conf
+  fi
+  if [ -e ~/.fonts-powerline ]
+  then
+    ~/.fonts-powerline/uninstall.sh
+    mv ~/.fonts-powerline ~/.fonts-powerline.orig
+  fi
+  for file in `cat $LOCKFILE | sort -n | uniq`;
   do
     delink $file
   done

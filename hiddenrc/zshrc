@@ -112,8 +112,6 @@ setopt nonomatch
 
 [ -f ~/.aliases ] && source ~/.aliases
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 [ -f ~/.zprofile ] && source ~/.zprofile
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
@@ -145,3 +143,5 @@ if [[ $TERM == xterm-termite ]]; then
   . /etc/profile.d/vte.sh
   __vte_osc7
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

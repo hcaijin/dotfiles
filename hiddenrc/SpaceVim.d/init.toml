@@ -88,6 +88,8 @@
 [[layers]]
     name = 'lang#xml'
 [[layers]]
+    name = 'tmux'
+[[layers]]
     name = 'debug'
 [[layers]]
     name = 'lang#toml'

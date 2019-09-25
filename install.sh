@@ -78,16 +78,13 @@ LOCKFILE=$PWD/dotfiles.lock
 
 # Symlinks the configs
 symlink () {
-  grep "$2" $LOCKFILE 2>&1 >/dev/null
+  grep "$1" $LOCKFILE 2>&1 >/dev/null
   if [ $? != 0 ]
   then
     echo $1 >> $LOCKFILE
   fi
-
   TARGET=$PWD/$2$1
   FILE=$HOME/.$1
-  # echo $TARGET
-  # echo $FILE
   if [ -e "$FILE" ]
   then
     if file $FILE | grep $PWD &> /dev/null;then
@@ -101,23 +98,6 @@ symlink () {
   fi
 }
 
-
-if [ ! -d "$HOME/.config" ];then
-  mkdir ~/.config
-fi
-
-# mail
-if [ ! -f ~/.msmtprc ];
-then
-  cp msmtprc ~/.msmtprc
-  printf "copy ${red}msmtprc to ~/.msmtprc ${color_off}\n"
-  printf "you need to run chmod 0600 ~/.msmtprc after edit password\n"
-
-fi
-# fcitx
-## pacman -S fcitx fcitx-table-extra
-## fcitx-configtool setting the wubi & wubi pinyin
-
 linkHiddenFile() {
   for file in `ls hiddenrc`;
   do
@@ -126,13 +106,6 @@ linkHiddenFile() {
 }
 
 linkFolder() {
-  for dir in `find folderc/ -maxdepth 2 -type d`;
-  do
-    symlink $dir folderc
-  done
-}
-
-domain() {
   for file in `ls $1 | egrep -v '^(etc|share)'`;
   do
     symlink $1/$file
@@ -140,17 +113,56 @@ domain() {
 }
 
 main() {
-  # if [ -e "$LOCKFILE" ]
-  # then
-  # echo "You can delete the lock file and next"
-  # exit
-  # fi
+  # mkdir 
+  if [ ! -d "$HOME/.config" ];then
+    mkdir ~/.config
+  fi
+  # mail
+  if [ ! -f ~/.msmtprc ];
+  then
+    cp msmtprc ~/.msmtprc
+    printf "copy ${red}msmtprc to ~/.msmtprc ${color_off}\n"
+    printf "you need to run chmod 0600 ~/.msmtprc after edit password\n"
 
-  domain config
-  domain local
-  domain local/share
-
+  fi
+  # Install folder to config or local
+  linkFolder config
+  linkFolder local
+  # linkFolder local/share
+  # Install hidden file to ~
   linkHiddenFile
+  # Install FZF
+  if [ -e ~/.fzf ]
+  then
+    printf "Installed $Red~/.fzf$Color_off\n"
+  else
+    printf "$Cyan Downloading  fzf -> $Blue$HOME/.fzf$Color_off\n"
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+    printf "$Blue Finished Installing fzf$Color_off\n"
+  fi
+  # Install tmux
+  if [ -e ~/.tmux ]
+  then
+    printf "Installed $Red~/.tmux$Color_off\n"
+  else
+    printf "$Cyan Downloading  tmux -> $Blue$HOME/.tmux$Color_off\n"
+    git clone --depth 1 https://github.com/tony/tmux-config.git ~/tmux-config
+    ~/tmux-config/install.sh
+    rm -rf ~/tmux-config
+    cat $PWD/tmux_custom.conf >> ~/.tmux/.tmux.conf
+    printf "$Blue Finished Installing tmux$Color_off\n"
+  fi
+  # Install fonts-powerline
+  if [ -e ~/.fonts-powerline ]
+  then
+    printf "Installed $Red~/.fonts-powerline$Color_off\n"
+  else
+    printf "$Cyan Downloading  fonts-powerline -> $Blue$HOME/.fonts-powerline$Color_off\n"
+    git clone --depth 1 https://github.com/powerline/fonts.git ~/.fonts-powerline
+    ~/.fonts-powerline/install.sh
+    printf "$Blue Finished Installing powerline$Color_off\n"
+  fi
 }
 
 main
