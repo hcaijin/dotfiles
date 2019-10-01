@@ -1,5 +1,10 @@
 # graz's dotfiles
 
+## requirement font-ttf
+```
+yay -S ttf-dejavu-sans-mono-powerline-git nerd-fonts-source-code-pro
+```
+
 ## Install
 
 ```sh

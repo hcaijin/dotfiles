@@ -62,11 +62,6 @@ domain() {
     mv ~/.tmux ~/.tmux.orig
     rm ~/.tmux.conf
   fi
-  if [ -e ~/.fonts-powerline ]
-  then
-    ~/.fonts-powerline/uninstall.sh
-    mv ~/.fonts-powerline ~/.fonts-powerline.orig
-  fi
   for file in `cat $LOCKFILE | sort -n | uniq`;
   do
     delink $file

@@ -1,4 +1,5 @@
 # Default config for sway
+# Help wiki: https://github.com/swaywm/sway/wiki
 #
 # Copy this to ~/.config/sway/config and edit it to your liking.
 #
@@ -13,11 +14,15 @@ $left h
 $down j
 $up k
 $right l
+# default px
+$resizepx 30px
+$movepx 60px
 # Your preferred terminal emulator
 ## choose termite, xterm, urxvt
 $term $TERMINAL
-# Your preferred application launcher
-$menu dmenu_path | dmenu | xargs swaymsg exec
+# replay to rofi
+#$menu dmenu_path | dmenu | xargs swaymsg exec
+
 # ASSIGN WORKSPACE VARIABLES
 #$WS1 »term
 #$WS2 »web
@@ -58,12 +63,6 @@ $WS10 ""
 # $WS9 "<span color='#33bdf5'>9:</span>"
 # $WS0 "<span color='#ff66ff'>10: </span>"
 
-$resizepx 30px
-$movepx 60px
-$nag         exec swaynagmode
-$nag_exit    $nag --exit
-$nag_confirm $nag --confirm
-$nag_select  $nag --select
 # Create Log out, Reboot, Poweroff bindings
 $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 $mode_print PrtSc (w) screen, (s) part+screen, (r) recorder, (t) audio+recorder, (p) part+recorder
@@ -101,13 +100,23 @@ output * bg ~/.wallpaper/300-Arch.png fill
 ### Input configuration
 #
 # Example configuration:
-#
-   input "1739:0:Synaptics_TM3383-002" {
-       dwt enabled
-       tap enabled
-       natural_scroll enabled
-       middle_emulation enabled
-   }
+#Make caps lock work as escape: xkb_options caps:escape
+#Swap escape and caps lock: xkb_options caps:swapescape
+#Make caps lock work as control: xkb_options ctrl:nocaps
+#Swap left alt and super, and set caps lock to escape: xkb_options altwin:swap_lalt_lwin,caps:escape
+
+input type:keyboard {
+    xkb_options ctrl:swap_lalt_lctl,caps:swapescape
+}
+# or use file:
+#input type:keyboard xkb_layout "us-custom-winkey"
+
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -116,7 +125,10 @@ output * bg ~/.wallpaper/300-Arch.png fill
 #
 # Basics:
 #
-#font pango:FiraMonoFor Nerd Font Medium 10
+# font pango:FiraMonoFor Nerd Font Medium 10
+# font SauceCodePro Nerd Font
+# font Inconsolata-g for Powerline 13
+# font DejaVu Sans Mono for Powerline 12
 default_border pixel 2
 default_floating_border pixel 2
 hide_edge_borders smart
@@ -156,19 +168,7 @@ for_window [class="^.*"] border pixel 2
 #for_window [class=""] floating enable
 #for_window [class="xpad" instance="scratchpad"] move scratchpad
 #for_window [title="Firefox" class="Firefox"] floating enable
-# for_window [id="nautilus"] border none
-
-# #---Dropdown Windows---# #
-# General dropdown window traits. The order can matter.
-for_window [instance="dropdown_*"] floating enable
-for_window [instance="dropdown_*"] move scratchpad
-for_window [instance="dropdown_*"] sticky enable
-for_window [instance="dropdown_*"] scratchpad show
-for_window [instance="dropdown_tmuxdd"] resize set 625 450
-for_window [instance="dropdown_dropdowncalc"] resize set 800 300
-for_window [instance="dropdown_tmuxdd"] border pixel 3
-for_window [instance="dropdown_dropdowncalc"] border pixel 2
-for_window [instance="dropdown_*"] move position center
+#for_window [id="nautilus"] border none
 
 ## Move to workspace
 assign [class="(?i)studio|idea"] $WS10
@@ -183,8 +183,10 @@ bar {
   status_command i3status
   position top
   # font  Monaco,Bold 13px
-  font DejaVu Sans Mono for Powerline 9
-  separator_symbol "   "
+  # font DejaVu Sans Mono for Powerline
+  # font Inconsolata-g for Powerline 15
+  font SauceCodePro Nerd Font
+  separator_symbol "  "
   mode dock
   colors {
     background $bg-color
@@ -193,7 +195,6 @@ bar {
     inactive_workspace 	$inactive-bg-color 	$inactive-bg-color    	$inactive-text-color
     urgent_workspace   	$urgent-bg-color 	$urgent-bg-color    	$text-color
     }
-
 }
 # bar {
 	# font pango:mono 10

@@ -153,16 +153,6 @@ main() {
     cat $PWD/tmux_custom.conf >> ~/.tmux/.tmux.conf
     printf "$Blue Finished Installing tmux$Color_off\n"
   fi
-  # Install fonts-powerline
-  if [ -e ~/.fonts-powerline ]
-  then
-    printf "Installed $Red~/.fonts-powerline$Color_off\n"
-  else
-    printf "$Cyan Downloading  fonts-powerline -> $Blue$HOME/.fonts-powerline$Color_off\n"
-    git clone --depth 1 https://github.com/powerline/fonts.git ~/.fonts-powerline
-    ~/.fonts-powerline/install.sh
-    printf "$Blue Finished Installing powerline$Color_off\n"
-  fi
 }
 
 main

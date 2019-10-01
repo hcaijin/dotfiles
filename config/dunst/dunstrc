@@ -183,7 +183,8 @@
     dmenu = /usr/bin/dmenu -p dunst:
 
     # Browser for opening urls in context menu.
-    browser = $BROWSER -new-tab
+    # browser = $BROWSER -new-tab
+    browser = /usr/bin/firefox -new-tab
 
     # Always run rule-defined scripts, even if the notification is suppressed
     always_run_script = true
@@ -258,19 +259,19 @@
     # Xev might be helpful to find names for keys.
 
     # Close notification.
-    close = mod1+space
+    close =
 
     # Close all notifications.
-    close_all = mod1+shift+space
+    close_all =
 
     # Redisplay last message(s).
     # On the US keyboard layout "grave" is normally above TAB and left
     # of "1". Make sure this key actually exists on your keyboard layout,
     # e.g. check output of 'xmodmap -pke'
-    history = mod1+grave+h
+    history =
 
     # Context menu.
-    context = ctrl+shift+period
+    context =
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
