@@ -8,7 +8,7 @@ dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
 # font = Courier 10 Pitch 13.5
-# font = DejaVu Sans Mono for Powerline 11.5
+font = DejaVu Sans Mono for Powerline 11.5
 # font = Inconsolata-g for Powerline 13
 # font = Droid Sans Mono for Powerline Plus Nerd File Types Mono 11,Source Code Pro
 # font = Source Code Pro,Source Code Pro ExtraLight:style=ExtraLight Italic,Italic
@@ -66,14 +66,15 @@ color14 = #8ec07c
 color15 = #ebdbb2
 
 [hints]
-#font = Monospace 12
-#foreground = #dcdccc
-#background = #3f3f3f
-#active_foreground = #e68080
-#active_background = #3f3f3f
-#padding = 2
-#border = #3f3f3f
-#border_width = 0.5
-#roundness = 2.0
+# font = Monospace 12
+font = DejaVu Sans Mono for Powerline 13
+foreground = #dcdccc
+background = #3f3f3f
+active_foreground = #e68080
+active_background = #3f3f3f
+padding = 2
+border = #3f3f3f
+border_width = 0.5
+roundness = 2.0
 
 # vim: ft=dosini cms=#%s
