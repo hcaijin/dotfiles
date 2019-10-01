@@ -107,6 +107,8 @@ eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)"
 
 # diable zsh no match notify
 setopt nonomatch
+# vi mode
+set -o vi
 
 [ -f ~/.aliases ] && source ~/.aliases
 

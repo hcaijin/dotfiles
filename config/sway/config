@@ -103,7 +103,7 @@ output * bg ~/.wallpaper/300-Arch.png fill
 #Swap left alt and super, and set caps lock to escape: xkb_options altwin:swap_lalt_lwin,caps:escape
 
 input type:keyboard {
-    xkb_options ctrl:swap_lalt_lctl,caps:swapescape
+    xkb_options ctrl:swap_lalt_lctl,caps:escape
 }
 # or use file:
 #input type:keyboard xkb_layout "us-custom-winkey"
