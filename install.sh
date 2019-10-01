@@ -113,7 +113,7 @@ linkFolder() {
 }
 
 main() {
-  # mkdir 
+  # mkdir
   if [ ! -d "$HOME/.config" ];then
     mkdir ~/.config
   fi
@@ -128,7 +128,7 @@ main() {
   # Install folder to config or local
   linkFolder config
   linkFolder local
-  # linkFolder local/share
+  linkFolder local/share
   # Install hidden file to ~
   linkHiddenFile
   # Install FZF
