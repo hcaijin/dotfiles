@@ -93,9 +93,6 @@ output * bg ~/.wallpaper/300-Arch.png fill
 # output eDP-1 resolution 1600x900 position 1600,0
 # output eDP-1 resolution 1920x1080 position 1920,0
 
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 600 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Input configuration
 #
@@ -111,6 +108,13 @@ input type:keyboard {
 # or use file:
 #input type:keyboard xkb_layout "us-custom-winkey"
 
+#Keyboard repeat delay and rate
+#input type:keyboard {
+    #repeat_delay 200
+    #repeat_rate 2
+#}
+
+# touchpad
 input type:touchpad {
     dwt enabled
     tap enabled
