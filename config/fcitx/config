@@ -1,6 +1,6 @@
 [Hotkey]
 # Trigger Input Method
-#TriggerKey=CTRL_SPACE
+TriggerKey=CTRL_SHIFT_LCTRL
 # Use extra trigger key only after using it to inactivate
 # Available Value:
 # True False
@@ -48,7 +48,7 @@
 # ALT_SHIFT
 # CTRL_SUPER
 # ALT_SUPER
-#IMSwitchHotkey=CTRL_SHIFT
+IMSwitchHotkey=ALT_SHIFT
 # Reload configuration
 #ReloadConfig=CTRL_5
 # Interval of Two Key Input
