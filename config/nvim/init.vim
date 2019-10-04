@@ -17,13 +17,12 @@ call plug#begin(s:bundle_dir)
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
-" Plug 'tpope/vim-commentary'
 Plug 'vim-airline/vim-airline'
 Plug 'lilydjwg/fcitx.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
-Plug 'easymotion/vim-easymotion'
+Plug 'Lokaltog/vim-easymotion'
 Plug 'gcmt/wildfire.vim'
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
@@ -65,7 +64,7 @@ call plug#end()
 	" 可以与系统剪贴版通过y,p复制粘贴 h: clipboard-unnamedplus
 	set clipboard+=unnamedplus,unnamed
 	" 设置 gvim 显示字体
-	"set guifont=Inconsolata-g\ for\ Powerline\ 11.5
+	"set guifont=Inconsolata-g\ for\ Powerline\ 13
 	" Some basics:
 	set encoding=utf-8
 	set number relativenumber
@@ -100,10 +99,10 @@ call plug#end()
         tnoremap <esc>            <c-\><c-n>
         tnoremap <C-d>            <C-\><C-N>ZZ
         tnoremap <leader>q        <C-\><C-N>ZZ
-        inoremap <C-h>            <C-\><C-N><C-w>h
-        inoremap <C-j>            <C-\><C-N><C-w>j
-        inoremap <C-k>            <C-\><C-N><C-w>k
-        inoremap <C-l>            <C-\><C-N><C-w>l
+        tnoremap <C-h>            <C-\><C-N><C-w>h
+        tnoremap <C-j>            <C-\><C-N><C-w>j
+        tnoremap <C-k>            <C-\><C-N><C-w>k
+        tnoremap <C-l>            <C-\><C-N><C-w>l
         autocmd TermOpen,BufEnter term://* startinsert
     endif
 
@@ -260,19 +259,22 @@ call plug#end()
     " -----------------------------------------------------------------------------
 	" < vim-easymotion > 快速移动
     " -----------------------------------------------------------------------------
+    let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
     " Jump to anywhere you want with minimal keystrokes, with just one key binding.
     " `s{char}{label}`
-    "nmap s <Plug>(easymotion-overwin-f)
+    " nmap s <Plug>(easymotion-overwin-f)
     " or
     " `s{char}{char}{label}`
     " Need one more keystroke, but on average, it may be more comfortable.
-    nmap <silent><space> <plug>(easymotion-s2)
+    nmap <silent><space> <Plug>(easymotion-overwin-f2)
     " Turn on case-insensitive feature
     let g:EasyMotion_smartcase = 1
     " JK motions: Line motions
-    nmap <Leader>j <Plug>(easymotion-j)
-    nmap <Leader>k <Plug>(easymotion-k)
+    map <Leader>j <Plug>(easymotion-j)
+    map <Leader>k <Plug>(easymotion-k)
 
+    " Plugin: vim-session {{{2
     " -----------------------------------------------------------------------------
 	" < vim-session > 恢复工作台环境 安装依赖vim-misc
     " -----------------------------------------------------------------------------
@@ -289,8 +291,8 @@ call plug#end()
     nnoremap <leader><leader> :Denite buffer<CR>
     nnoremap <C-p> :Denite file/rec<CR>
     nnoremap <leader>fs :DeniteProjectDir file/rec<CR>
-    nnoremap <leader>ss :DeniteCursorWord buffer<CR>
-    nnoremap <leader>sf :DeniteCursorWord file/rec<CR>
+    nnoremap <leader>fw :DeniteCursorWord buffer<CR>
+    nnoremap <leader>fd :DeniteCursorWord file/rec<CR>
     " Option
     let s:denite_options = {
           \ 'default' : {
