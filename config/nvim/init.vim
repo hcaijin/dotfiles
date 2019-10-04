@@ -182,8 +182,8 @@ call plug#end()
 " plugin {{{1
 
     " Plugin: airline {{{2
-    let g:airline_left_sep='>'
-    let g:airline_right_sep='<'
+    let g:airline_left_sep  = '>'
+    let g:airline_right_sep = '<'
 
     " Plugin: surround {{{2
     " -----------------------------------------------------------------------------
@@ -208,28 +208,8 @@ call plug#end()
     " 在窗口里可以使用q退出
 	autocmd bufenter * if (winnr("$") == 1 && exists("b:nerdtree") && b:nerdtree.istabtree()) | q | endif
 
-    " Plugin: nerdcommenter plugin settings {{{2
+    " Plugin: nerdcommenter {{{2
     " -----------------------------------------------------------------------------
-    " Add extra space around delimiters when commenting, remove them when
-    " uncommenting
-    let g:NERDSpaceDelims = 1
-    let g:NERDCreateDefaultMappings = 0
-    " Always remove the extra spaces when uncommenting regardless of whether
-    " NERDSpaceDelims is set
-    let g:NERDRemoveExtraSpaces = 1
-    " Use compact syntax for prettified multi-line comments
-    let g:NERDCompactSexyComs = 1
-    " Align line-wise comment delimiters flush left instead of following code
-    " indentation
-    let g:NERDDefaultAlign = 'left'
-    " Allow commenting and inverting empty lines (useful when commenting a
-    " region)
-    let g:NERDCommentEmptyLines = 1
-    " Enable trimming of trailing whitespace when uncommenting
-    let g:NERDTrimTrailingWhitespace = 1
-    " Always use alternative delimiter
-    let g:NERD_c_alt_style = 1
-    let g:NERDCustomDelimiters = {'c': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' }}
 
     " Plugin: tagbar {{{2
     " -----------------------------------------------------------------------------
@@ -249,8 +229,8 @@ call plug#end()
 	" < wildfire.vim >快速编辑结对符
     " -----------------------------------------------------------------------------
     " 快捷键
-    map <leader><SPACE> <Plug>(wildfire-fuel)
-    vmap <leader><S-SPACE> <Plug>(wildfire-water)
+    map <C-SPACE> <Plug>(wildfire-fuel)
+    vmap <S-SPACE> <Plug>(wildfire-water)
     " 适用于哪些结对符
     let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "i>", "ip"]
 
@@ -259,8 +239,10 @@ call plug#end()
     " -----------------------------------------------------------------------------
 	" < vim-easymotion > 快速移动
     " -----------------------------------------------------------------------------
-    let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
+    " Disable default mappings
+    let g:EasyMotion_do_mapping = 0
+    " Turn on case-insensitive feature
+    let g:EasyMotion_smartcase = 1
     " Jump to anywhere you want with minimal keystrokes, with just one key binding.
     " `s{char}{label}`
     " nmap s <Plug>(easymotion-overwin-f)
@@ -268,11 +250,6 @@ call plug#end()
     " `s{char}{char}{label}`
     " Need one more keystroke, but on average, it may be more comfortable.
     nmap <silent><space> <Plug>(easymotion-overwin-f2)
-    " Turn on case-insensitive feature
-    let g:EasyMotion_smartcase = 1
-    " JK motions: Line motions
-    map <Leader>j <Plug>(easymotion-j)
-    map <Leader>k <Plug>(easymotion-k)
 
     " Plugin: vim-session {{{2
     " -----------------------------------------------------------------------------
@@ -344,40 +321,14 @@ call plug#end()
 	function! s:denite_filter_my_settings() abort
       imap <silent><buffer> <Esc> <Plug>(denite_filter_quit)
 	endfunction
-
 	" Change file/rec command.
 	call denite#custom#var('file/rec', 'command',
 	\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-
 	" Change sorters.
 	call denite#custom#source(
 	\ 'file/rec', 'sorters', ['sorter/sublime'])
-
 	" Change default action.
 	call denite#custom#kind('file', 'default_action', 'split')
-
-	" Add custom menus
-	let s:menus = {}
-
-	let s:menus.zsh = {
-		\ 'description': 'Edit your import zsh configuration'
-		\ }
-	let s:menus.zsh.file_candidates = [
-		\ ['zshrc', '~/.config/zsh/.zshrc'],
-		\ ['zshenv', '~/.zshenv'],
-		\ ]
-
-	let s:menus.my_commands = {
-		\ 'description': 'Example commands'
-		\ }
-	let s:menus.my_commands.command_candidates = [
-		\ ['Split the window', 'vnew'],
-		\ ['Open zsh menu', 'Denite menu:zsh'],
-		\ ['Format code', 'FormatCode', 'go,python'],
-		\ ]
-
-	call denite#custom#var('menu', 'menus', s:menus)
-
 	" Ag command on grep source
     call denite#custom#var('grep', 'command', ['rg'])
     call denite#custom#var('grep', 'default_opts',
@@ -386,7 +337,6 @@ call plug#end()
     call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
     call denite#custom#var('grep', 'separator', ['--'])
     call denite#custom#var('grep', 'final_opts', [])
-
 	" Specify multiple paths in grep source
 	"call denite#start([{'name': 'grep',
 	"      \ 'args': [['a.vim', 'b.vim'], '', 'pattern']}])
@@ -395,12 +345,10 @@ call plug#end()
     call denite#custom#var(
           \ 'buffer',
           \ 'date_format', '%m-%d-%Y %H:%M:%S')
-
 	" Define alias
 	call denite#custom#alias('source', 'file/rec/git', 'file/rec')
 	call denite#custom#var('file/rec/git', 'command',
 	      \ ['git', 'ls-files', '-co', '--exclude-standard'])
-
 	" Change ignore_globs
 	call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
 	      \ [ '.git/', '.ropeproject/', '__pycache__/',
@@ -443,7 +391,7 @@ call plug#end()
     " Plugin: vim-signature {{{2
     " help multiple-cursors-mappings
 
-    " Plugin: ultisnips and vim-signature {{{2
+    " Plugin: ultisnips and vim-snippets {{{2
     " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
     let g:UltiSnipsExpandTrigger="<leader><tab>"
     let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -483,7 +431,7 @@ call plug#end()
     " 智能当前行高亮
     " autocmd InsertLeave,WinEnter * set cursorline
     " autocmd InsertEnter,WinLeave * set nocursorline
-    " 应该是不给包含afile的窗口缓存
+
     au BufEnter * if isdirectory(expand('<afile>')) | set nobuflisted | endif
 
 " }}}
