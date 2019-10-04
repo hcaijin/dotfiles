@@ -74,6 +74,7 @@ $text-color			#f3f4f5
 $inactive-text-color	#676E7D
 $urgent-bg-color		#5294e2
 
+$setwinsize resize set 600 350;
 }
 #
 
