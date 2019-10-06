@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+#
+# help: https://wiki.archlinux.org/index.php/Transmission
+
+ifinstalled transmission-daemon || exit
+
+sudo -A systemctl restart transmission 2>/dev/null || exit 2
+
+notify-send "Starting torrent daemon..." && sleep 5
+
+$BROWSER http://localhost:9091

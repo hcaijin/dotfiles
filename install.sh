@@ -24,7 +24,8 @@ symlink () {
   then
     if file $FILE | grep $PWD &> /dev/null;then
       printf "Installed $Red$FILE${Color_off}\n"
-    else
+
+  else
       printf "Skipping $Red$FILE${Color_off}\n"
     fi
   else
@@ -85,7 +86,7 @@ main() {
     git clone --depth 1 https://github.com/tony/tmux-config.git ~/tmux-config
     ~/tmux-config/install.sh
     rm -rf ~/tmux-config
-    cat $PWD/tmux_custom.conf >> ~/.tmux/.tmux.conf
+    # cat $PWD/tmux_custom.conf >> ~/.tmux/.tmux.conf
     printf "$Blue Finished Installing tmux$Color_off\n"
   fi
 }

@@ -1,6 +1,5 @@
 include "linux-with-two-alt-keys"
 keycode 1 = Caps_Lock
 keycode 58 = Escape
-keycode 125 = Control
+keycode 56 = Control
 keycode 29 = Alt_L
-keycode 56 = Meta_nul

@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # exports
-export PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:"
+# export PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/graz/.oh-my-zsh
@@ -144,10 +144,12 @@ if [[ $TERM == xterm-termite ]]; then
   __vte_osc7
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # sway sock
 export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock
 
 sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
 
+# fzf {{{1
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Use ~~ as the trigger sequence instead of the default **
+export FZF_COMPLETION_TRIGGER='~~'

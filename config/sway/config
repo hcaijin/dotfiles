@@ -94,6 +94,8 @@ output * bg ~/.wallpaper/300-Arch.png fill
 # output eDP-1 resolution 1600x900 position 1600,0
 # output eDP-1 resolution 1920x1080 position 1920,0
 
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
 
 ### Input configuration
 #
@@ -122,9 +124,9 @@ input type:touchpad {
     natural_scroll enabled
     middle_emulation enabled
 }
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
+
+# Hides the cursor image after the specified timeout (in millisec‐onds) has elapsed with no activity on that cursor.
+seat seat0 hide_cursor 10000
 
 ### Key bindings
 #
@@ -163,17 +165,36 @@ floating_modifier $mod normal
 #
 # Back and Forth
 workspace_auto_back_and_forth yes
-
 #
 # WINDOW CONTROL
 # Float
 ## Float everything
 for_window [class="^.*"] border pixel 2
+# for_window [title="."] title_format "%title [ %app_id ]"
 #for_window [class="[.]*"] floating enable
 #for_window [class=""] floating enable
 #for_window [class="xpad" instance="scratchpad"] move scratchpad
 #for_window [title="Firefox" class="Firefox"] floating enable
 #for_window [id="nautilus"] border none
+
+# #---Dropdown Windows---# #
+# General dropdown window traits. The order can matter.
+# for_window [title="dropdown_*"] floating enable
+# for_window [title="dropdown_*"] move scratchpad
+# for_window [title="dropdown_*"] sticky enable
+# for_window [title="dropdown_*"] scratchpad show
+# for_window [title="dropdown_tmuxdd"] resize set 800 500
+# for_window [title="dropdown_dropdowncalc"] resize set 800 300
+# for_window [title="dropdown_tmuxdd"] border pixel 3
+# for_window [title="dropdown_dropdowncalc"] border pixel 2
+# for_window [title="dropdown_*"] move position center
+
+# Bindings to make the webcam float and stick.
+for_window [title="mpvfloat"] floating enable
+for_window [title="mpvfloat"] sticky enable
+for_window [title="mpvfloat"] border pixel 0
+for_window [title="mpvfloat"] move position 1315 698
+no_focus [title="mpvfloat"]
 
 ## Move to workspace
 assign [class="(?i)studio|idea"] $WS10

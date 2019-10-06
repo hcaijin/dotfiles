@@ -4,3 +4,5 @@ config/fcitx/clipboard/
 config/fcitx/dbus/
 config/fcitx/profile
 config/fcitx/table/*.tmp
+config/calcurse/apts
+config/calcurse/todo

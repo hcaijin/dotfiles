@@ -34,6 +34,7 @@ Plug 'junegunn/vim-easy-align',   {'on': '<plug>(LiveEasyAlign)'}
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'dyng/ctrlsf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 call plug#end()
 
 " setting {{{1
@@ -193,6 +194,7 @@ call plug#end()
     " Plugin: nerdtree {{{2
     " -----------------------------------------------------------------------------
 	nnoremap <F1> :NERDTreeToggle<CR>
+	nnoremap <leader>gp :NERDTreeCWD<CR>
 	nnoremap <leader>gf :NERDTreeFind<CR>
 	inoremap <leader>gf <ESC>:NERDTreeFind<CR>
     " 设置NERDTree子窗口宽度
@@ -340,11 +342,6 @@ call plug#end()
 	" Change file/rec command.
 	call denite#custom#var('file/rec', 'command',
 	\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-	" Change sorters.
-	call denite#custom#source(
-	\ 'file/rec', 'sorters', ['sorter/sublime'])
-	" Change default action.
-	call denite#custom#kind('file', 'default_action', 'split')
 	" Ag command on grep source
     call denite#custom#var('grep', 'command', ['rg'])
     call denite#custom#var('grep', 'default_opts',
@@ -429,6 +426,54 @@ call plug#end()
     nnoremap <leader>ft :CtrlSFToggle<CR>
     inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
 
+    " Plugin: fzf {{{2
+    set runtimepath+=~/.fzf
+
+    nnoremap <leader>B :Buffers<cr>
+    nnoremap <leader>C :Colorschemes<cr>
+    nnoremap <leader>P :Plugins<cr>
+    nnoremap <leader>F :FZF<cr>
+
+    function! s:buflist()
+      return map(filter(range(1, bufnr('$')),
+            \ 'bufloaded(v:val)'), 'printf("%s: %s", v:val, bufname(v:val))')
+    endfunction
+
+    function! s:bufopen(lines)
+      if len(a:lines) < 2 | return | endif
+      let cmd = get({
+        \ 'ctrl-s': 'split',
+        \ 'ctrl-v': 'vsplit',
+        \ 'ctrl-t': 'tabedit'
+        \ }, a:lines[0], 'edit')
+      execute cmd '+b'.matchstr(a:lines[1], '^\d\+')
+    endfunction
+
+    function! s:plugopen(entry)
+      execute 'NERDTree' expand(s:bundle_dir) .'/'. a:entry
+    endfunction
+
+    command! Buffers let bl = reverse(s:buflist()) | call fzf#run({
+          \ 'source':  bl,
+          \ 'sink*':   function('<sid>bufopen'),
+          \ 'options': '+m --expect=ctrl-s,ctrl-v,ctrl-t',
+          \ 'down':    len(bl) + 2,
+          \ }) | unlet bl
+
+    command! Plugins call fzf#run({
+          \ 'source':  reverse(sort(map(globpath(s:bundle_dir, '*', 0, 1), 'fnamemodify(v:val, ":t")'))),
+          \ 'sink':    function('<sid>plugopen'),
+          \ 'options': '+m',
+          \ 'left':    30
+          \ })
+
+    command! Colorschemes call fzf#run({
+          \ 'source':  reverse(sort(map(globpath(&rtp, 'colors/*.vim', 0, 1), 'fnamemodify(v:val, ":t:r")'))),
+          \ 'sink':    'colorscheme',
+          \ 'options': '+m',
+          \ 'left':    30
+          \ })
+
 " }}}
 
 " autocommand {{{1
@@ -450,4 +495,6 @@ call plug#end()
 
     au BufEnter * if isdirectory(expand('<afile>')) | set nobuflisted | endif
 
+    autocmd  FileType fzf set laststatus=0 noshowmode noruler
+      \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 " }}}
