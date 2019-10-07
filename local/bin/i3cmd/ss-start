@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+#
+ifinstalled ss-local || exit
+
+pkill -x ss-local || ss-local -c /etc/shadowsocks/config.json &
+
+sleep 5
+
+pid=`pgrep -x ss-local`
+
+if [ $pid ]
+then
+    notify-send 'ss started and you can proxy'
+fi
