@@ -4,8 +4,22 @@
 
 ifinstalled transmission-daemon || exit
 
-sudo -A systemctl restart transmission 2>/dev/null || exit 2
+stopmain() {
+    stat=$(pgrep -f transmission-daemon)
+    if [ $stat  ]
+    then
+        sudo -A systemctl stop transmission 2>/dev/null
+        notify-send "Stoped torrent daemon."
+        return 1
+    else
+        return 0
+    fi
+}
 
-notify-send "Starting torrent daemon..." && sleep 5
-
-$BROWSER http://localhost:9091
+stopmain
+if [ $? -eq 0 ]
+then
+    sudo -A systemctl restart transmission 2>/dev/null || exit
+    notify-send "Starting torrent daemon..." && sleep 5
+    $BROWSER http://localhost:9091
+fi

@@ -59,7 +59,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-# plugins=(sudo git git-extras)
+plugins=(sudo git git-extras vi-mode)
 autoload -U compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
@@ -107,8 +107,6 @@ eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)"
 
 # diable zsh no match notify
 setopt nonomatch
-# vi mode
-set -o vi
 
 [ -f ~/.aliases ] && source ~/.aliases
 

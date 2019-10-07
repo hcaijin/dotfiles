@@ -6,3 +6,4 @@ config/fcitx/profile
 config/fcitx/table/*.tmp
 config/calcurse/apts
 config/calcurse/todo
+config/vifm/vifminfo
