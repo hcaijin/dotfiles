@@ -172,7 +172,11 @@ command! reload :write | restart
 
 " Pdf
 filextype *.pdf zathura %c %i &, apvlv %c, xpdf %c
-fileviewer *.pdf pdftotext -nopgbrk %c -
+" fileviewer *.pdf pdftotext -nopgbrk %c -
+fileviewer *.pdf
+    \ vifmimg pdfpreview %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
 
 " PostScript
 filextype *.ps,*.eps,*.ps.gz
@@ -208,9 +212,10 @@ filextype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
         \ {View using mplayer}
         \ mplayer %f,
 fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
-          \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
-          \*.as[fx]
-         \ ffprobe -pretty %c 2>&1
+    \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
+    \ vifmimg videopreview %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
 
 " Web
 filextype *.html,*.htm
@@ -237,8 +242,17 @@ filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
         \ gpicview %c,
         \ {View in shotwell}
         \ shotwell,
-fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
-         \ identify %f
+        \ {View in feh}
+        \ feh -FZ %d --start-at %d/%c 2>/dev/null
+fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.xpm
+    \ vifmimg draw %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
+fileviewer *.gif
+    \ vifmimg gifpreview %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
+
 
 " OpenRaster
 filextype *.ora
@@ -394,8 +408,19 @@ set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
 " ------------------------------------------------------------------------------
 
 " Sample mappings
+map > :!vifmimg inc<CR>
+map < :!vifmimg dec<CR>
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+map <C-o> <C-w>o
+map <C-s> <C-w>s
+map <C-v> <C-w>v
+map R :restart<CR>
 nnoremap q ZQ
 nnoremap <space> tj
+map x :!sxiv -ft * 2>/dev/null &<CR>
 map X :!ext %f &<CR>
 
 " Start shell in current directory
@@ -484,3 +509,12 @@ nnoremap <f8> :delete<cr>
 "     vifm --server-name "$VIFM_SERVER_NAME" --remote +"cd '$PWD'"
 "
 " let $VIFM_SERVER_NAME = v:servername
+
+fileviewer *.epub
+    \ vifmimg epubpreview %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
+fileviewer *.ico
+    \ vifmimg magickpreview %px %py %pw %ph %c
+    \ %pc
+    \ vifmimg clear
