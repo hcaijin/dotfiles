@@ -142,6 +142,7 @@ call plug#end()
 	nnoremap <leader>Q :qall<cr>
 	" save file
 	nnoremap <leader>w :w<cr>
+	nnoremap <leader>W :w!<cr>
 	" insert model save file
 	inoremap jj <esc>:w<cr>
 	" change insert model to format model

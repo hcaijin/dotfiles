@@ -5,13 +5,13 @@ function lock(){
 
 case "$1" in
     lock)
-        lock
+        lockwin
         ;;
     logout)
         swaymsg -q exit
         ;;
     suspend)
-        lock && systemctl suspend
+        lockwin && systemctl suspend
         ;;
     hibernate)
         systemctl hibernate

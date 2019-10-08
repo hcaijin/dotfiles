@@ -1,14 +1,23 @@
 #!/usr/bin/env sh
-#
+# ss-local proxy on port 1080
+
 ifinstalled ss-local || exit
 
-pkill -x ss-local || ss-local -c /etc/shadowsocks/config.json &
+stopmain() {
+    stat=$(pgrep -x ss-local)
+    if [ $stat  ]
+    then
+        pkill -x ss-local
+        notify-send "Stoped ss daemon."
+        return 1
+    else
+        return 0
+    fi
+}
 
-sleep 5
-
-pid=`pgrep -x ss-local`
-
-if [ $pid ]
+stopmain
+if [ $? -eq 0 ]
 then
+    ss-local -c /etc/shadowsocks/config.json &
     notify-send 'ss started and you can proxy'
 fi
