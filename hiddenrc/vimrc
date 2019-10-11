@@ -1,1 +1,506 @@
-../config/nvim/init.vim
+" vimrc configure
+let g:mapleader =";"
+let s:is_win = has('win32')
+let $v = $HOME.(s:is_win ? '\vimfiles' : '/.vim')
+
+" help: https://github.com/junegunn/vim-plug
+let s:plug_file = $v.'/autoload/plug.vim'
+if ! filereadable(expand(s:plug_file))
+	echo "Downloading junegunn/vim-plug to manage plugins..."
+	silent execute '!curl -fLo '.s:plug_file.' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	autocmd VimEnter * PlugInstall
+endif
+
+" Plug {{{1
+let s:bundle_dir = $v.'/bundle'
+call plug#begin(s:bundle_dir)
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+Plug 'vim-airline/vim-airline'
+Plug 'lilydjwg/fcitx.vim'
+Plug 'kshenoy/vim-signature'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+Plug 'Lokaltog/vim-easymotion'
+Plug 'gcmt/wildfire.vim'
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
+Plug 'majutsushi/tagbar',         {'on': 'TagbarToggle'}
+Plug 'mbbill/undotree',           {'on': 'UndotreeToggle'}
+Plug 'Shougo/denite.nvim'
+Plug 'raghur/fruzzy',             {'do': { -> fruzzy#install()}}
+Plug 'junegunn/vim-easy-align',   {'on': '<plug>(LiveEasyAlign)'}
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'dyng/ctrlsf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+call plug#end()
+
+" setting {{{1
+
+	syntax on
+	filetype plugin on
+	" 自适应不同语言的智能缩进
+	filetype indent on
+	" 关闭vi兼容模式
+	set nocompatible
+	" 将制表符扩展为空格
+	set expandtab
+	" 设置编辑时制表符占用空格数
+	set tabstop=4
+	" 设置格式化时制表符占用空格数
+	set shiftwidth=4
+	" 让 vim 把连续数量的空格视为一个制表符
+	set softtabstop=4
+	" backgroud: light|dark
+    set background=light
+	set go=a
+	" set mouse=v
+	" 禁止折行,可以使用:set wrap使用折行
+	set nowrap
+	" 高亮显示当前行/列
+	" set cursorline
+	" set cursorcolumn
+	" 可以与系统剪贴版通过y,p复制粘贴 h: clipboard-unnamedplus
+	set clipboard+=unnamedplus,unnamed
+	" 设置 gvim 显示字体
+	"set guifont=Inconsolata-g\ for\ Powerline\ 13
+	" Some basics:
+	set encoding=utf-8
+	set number relativenumber
+	" Splits open at the bottom and right, which is non-retarded, unlike vim defaults.
+	set splitbelow splitright
+	" 设置显示样式 :help :highlight | :h termguicolors
+	" set hilighlight
+	" 高亮显示搜索
+	set hlsearch
+	" 开启实时搜索功能
+	set incsearch
+	" 搜索时大小写不敏感
+	set ignorecase
+	" vim 自身命令行模式智能补全
+	" set wildmenu
+	" Enable autocompletion:
+	set wildmode=longest,list,full
+	" disable scanning included files
+	set complete-=i
+	" disable searching tags
+	" 设置备份,保存成功删除
+     set writebackup
+    " 设置显示文件全局路径
+    " set ls=2
+
+" }}}
+
+" :help mapping {{{1
+    nnoremap <leader>T        :split +terminal<cr>
+    tnoremap <A-e>            <nop>
+    tnoremap <esc>            <c-\><c-n>
+    tnoremap <C-d>            <C-\><C-N>ZQ
+    tnoremap <leader>q        <C-\><C-N>ZQ
+    tnoremap <C-h>            <C-\><C-N><C-w>h
+    tnoremap <C-j>            <C-\><C-N><C-w>j
+    tnoremap <C-k>            <C-\><C-N><C-w>k
+    tnoremap <C-l>            <C-\><C-N><C-w>l
+    if has('nvim')
+        autocmd TermOpen,BufEnter term://* startinsert
+    endif
+
+    " 禁用按键
+    " noremap <home> <nop>
+    " noremap <end> <nop>
+    " noremap <insert> <nop>
+    " noremap <delete> <nop>
+    " 是否切换目录
+    nnoremap <leader>a :set autochdir<cr>
+    nnoremap <leader>A :set noautochdir<cr>
+    " 保存快捷键
+    nnoremap <leader>ss :SaveSession!<cr>
+    " 恢复快捷键
+    nnoremap <leader>rs :OpenSession!<cr>
+    " vsplit | split
+    nnoremap <leader>v :vs<CR>
+    nnoremap <leader>b :sp<CR>
+    " buffers ls
+    " nnoremap <leader><leader> :ls<CR>:bu<space>
+    " <tab> move
+    nnoremap <TAB> <C-w>w
+    nnoremap <leader>tn :tabnew<CR>:edit<space>
+    nnoremap <A-TAB> :tabnext<CR>
+    nnoremap <S-TAB> :tabprevious<CR>
+	" shortcutting split navigation, saving a keypress:
+	nnoremap <c-h> <c-w>h
+	nnoremap <c-j> <c-w>j
+	nnoremap <c-k> <c-w>k
+	nnoremap <c-l> <c-w>l
+	" Spell-check set to <leader>o, 'o' for 'orthography':
+	nnoremap <leader>o :setlocal spell! spelllang=en_us<CR>
+	" quit file
+	nnoremap <leader>q :q<cr>
+	" !quit all file
+	nnoremap <leader>Q :qall<cr>
+	" save file
+	nnoremap <leader>w :w<cr>
+	nnoremap <leader>W :w!<cr>
+	" insert model save file
+	inoremap jj <esc>:w<cr>
+	" change insert model to format model
+	inoremap jk <esc>
+    " 插入模式禁用<ESC>
+    " inoremap <esc> <nop>
+	" save file as sudo on files that require root permission
+	cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+	" replace all is aliased to s.
+	nnoremap S :%s//g<left><left>
+	" 帮助查询
+	nnoremap <leader>h :helpgrep<space>
+	" vsplit ~/.vimrc
+	nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+	" source vimrc
+	nnoremap <leader>sv :source $MYVIMRC<cr>
+    " :help redraw!
+    nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
+    " 快速移动当前行 Example: 2]e
+    noremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
+    nnoremap ]e  :<c-u>execute 'move +'. v:count1<cr>
+    " 快速添加空行 Example: 5[<space>
+    nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
+    nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
+    " 快速编辑自定义宏 就是在一个新的命令行窗口中读取某一个寄存器:reg（默认为 *）。当你修改完成后，只需要按下 回车 即可让它生效。
+    nnoremap <leader>M  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+    " :h gv
+    xnoremap <  <gv
+    xnoremap >  >gv
+    " copy folder path to clipboard, foo/bar/foobar.c => foo/bar/
+    nnoremap <silent> <leader>y1 :let @*=fnamemodify(bufname('%'),":p:h")<CR>
+    " copy file name to clipboard, foo/bar/foobar.c => foobar.c
+    nnoremap <silent> <leader>y2 :let @*=fnamemodify(bufname('%'),":p:t")<CR>
+    " copy full path to clipboard, foo/bar/foobar.c => foo/bar/foobar.c
+    nnoremap <silent> <leader>y3 :let @*=fnamemodify(bufname('%'),":p")<CR>
+
+" }}}
+
+" plugin {{{1
+
+    " Plugin: airline {{{2
+    let g:airline_left_sep  = '>'
+    let g:airline_right_sep = '<'
+
+    " Plugin: surround {{{2
+    " -----------------------------------------------------------------------------
+    "  <  vim-surround Press cs"' (that's c, s, double quote, single quote) insidectags >
+    " -----------------------------------------------------------------------------
+
+    " Plugin: nerdtree {{{2
+    " -----------------------------------------------------------------------------
+	nnoremap <F1> :NERDTreeToggle<CR>
+	nnoremap <leader>gp :NERDTreeCWD<CR>
+	nnoremap <leader>gf :NERDTreeFind<CR>
+	inoremap <leader>gf <ESC>:NERDTreeFind<CR>
+    " 设置NERDTree子窗口宽度
+    let NERDTreeWinSize=32
+    " 设置NERDTree子窗口位置
+    let NERDTreeWinPos="right"
+    " 显示隐藏文件
+    let NERDTreeShowHidden=1
+    " NERDTree 子窗口中不显示冗余帮助信息
+    let NERDTreeMinimalUI=1
+    " 删除文件时自动删除文件对应 buffer
+    let NERDTreeAutoDeleteBuffer=1
+    " 在窗口里可以使用q退出
+	autocmd bufenter * if (winnr("$") == 1 && exists("b:nerdtree") && b:nerdtree.istabtree()) | q | endif
+
+    " Plugin: nerdcommenter {{{2
+    " -----------------------------------------------------------------------------
+    " Add spaces after comment delimiters by default
+    let g:NERDSpaceDelims = 1
+    " Use compact syntax for prettified multi-line comments
+    let g:NERDCompactSexyComs = 1
+    " Align line-wise comment delimiters flush left instead of following code indentation
+    let g:NERDDefaultAlign = 'left'
+    " Set a language to use its alternate delimiters by default
+    let g:NERDAltDelims_java = 1
+    " Add your own custom formats or override the defaults
+    let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+    " Allow commenting and inverting empty lines (useful when commenting a region)
+    let g:NERDCommentEmptyLines = 1
+    " Enable trimming of trailing whitespace when uncommenting
+    let g:NERDTrimTrailingWhitespace = 1
+    " Enable NERDCommenterToggle to check all selected lines is commented or not
+    let g:NERDToggleCheckAllLines = 1
+
+    " Plugin: tagbar {{{2
+    " -----------------------------------------------------------------------------
+    nnoremap <f2> :TagbarToggle<cr>
+
+    let g:tagbar_width     = 40
+    let g:tagbar_autoclose = 0
+    let g:tagbar_autofocus = 1
+    let g:tagbar_compact   = 1
+
+    " Plugin: undotree {{{2
+    " -----------------------------------------------------------------------------
+    nnoremap <f3>  :UndotreeToggle<cr>
+
+    " Plugin: wildfire.vim {{{2
+    " -----------------------------------------------------------------------------
+	" < wildfire.vim >快速编辑结对符
+    " -----------------------------------------------------------------------------
+    " 快捷键
+    map <C-SPACE> <Plug>(wildfire-fuel)
+    vmap <S-SPACE> <Plug>(wildfire-water)
+    " 适用于哪些结对符
+    let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "i>", "ip"]
+
+    " Plugin: vim-easymotion {{{2
+    " -----------------------------------------------------------------------------
+    " -----------------------------------------------------------------------------
+	" < vim-easymotion > 快速移动
+    " -----------------------------------------------------------------------------
+    " Disable default mappings
+    let g:EasyMotion_do_mapping = 0
+    " Turn on case-insensitive feature
+    let g:EasyMotion_smartcase = 1
+    " Jump to anywhere you want with minimal keystrokes, with just one key binding.
+    " `s{char}{label}`
+    " nmap s <Plug>(easymotion-overwin-f)
+    " or
+    " `s{char}{char}{label}`
+    " Need one more keystroke, but on average, it may be more comfortable.
+    nmap <silent><space> <Plug>(easymotion-overwin-f2)
+
+    " Plugin: vim-session {{{2
+    " -----------------------------------------------------------------------------
+	" < vim-session > 恢复工作台环境 安装依赖vim-misc
+    " -----------------------------------------------------------------------------
+    " :SaveSession!
+    " :OpenSession!
+
+    " Plugin: vim-easy-align {{{2
+    " -----------------------------------------------------------------------------
+    xmap <cr> <plug>(LiveEasyAlign)
+
+    if has('nvim') " {{{if
+        " Plugin: denite.vim {{{2
+        " -----------------------------------------------------------------------------
+        " Mapping
+        nnoremap <leader><leader> :Denite buffer<CR>
+        nnoremap <C-p> :Denite file/rec<CR>
+        nnoremap <leader>fs :DeniteProjectDir file/rec<CR>
+        nnoremap <leader>fw :DeniteCursorWord buffer<CR>
+        nnoremap <leader>fd :DeniteCursorWord file/rec<CR>
+        " Option
+        let s:denite_options = {
+              \ 'default' : {
+              \ 'winheight' : 15,
+              \ 'mode' : 'insert',
+              \ 'start_filter' : 1,
+              \ 'quit' : 1,
+              \ 'path' : getcwd(),
+              \ 'highlight_matched_char' : 'MoreMsg',
+              \ 'highlight_matched_range' : 'MoreMsg',
+              \ 'direction': 'rightbelow',
+              \ 'statusline' : has('patch-7.4.1154') ? v:false : 0,
+              \ 'max_dynamic_update_candidates': 100000,
+              \ }}
+
+        function! s:profile(opts) abort
+          for fname in keys(a:opts)
+            for dopt in keys(a:opts[fname])
+              call denite#custom#option(fname, dopt, a:opts[fname][dopt])
+            endfor
+          endfor
+        endfunction
+        call s:profile(s:denite_options)
+
+        " Define mappings
+        autocmd FileType denite call s:denite_my_settings()
+        function! s:denite_my_settings() abort
+          nnoremap <silent><buffer><expr> i
+                \ denite#do_map('open_filter_buffer')
+          nnoremap <silent><buffer><expr> '
+                \ denite#do_map('toggle_select').'j'
+          nnoremap <silent><buffer><expr> <ESC>
+                \ denite#do_map('quit')
+          nnoremap <silent><buffer><expr> <C-t>
+                \ denite#do_map('do_action', 'tabopen')
+          nnoremap <silent><buffer><expr> <C-v>
+                \ denite#do_map('do_action', 'vsplit')
+          nnoremap <silent><buffer><expr> <C-s>
+                \ denite#do_map('do_action', 'split')
+          nnoremap <silent><buffer><expr> <CR>
+                \ denite#do_map('do_action')
+          nnoremap <silent><buffer><expr> p
+                \ denite#do_map('do_action', 'preview')
+          nnoremap <silent><buffer><TAB> j
+          nnoremap <silent><buffer><S-TAB> k
+        endfunction
+
+        autocmd FileType denite-filter call s:denite_filter_my_settings()
+        function! s:denite_filter_my_settings() abort
+          imap <silent><buffer> <Esc> <Plug>(denite_filter_quit)
+        endfunction
+        " Change file/rec command.
+        call denite#custom#var('file/rec', 'command',
+        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+        " Ag command on grep source
+        call denite#custom#var('grep', 'command', ['rg'])
+        call denite#custom#var('grep', 'default_opts',
+            \ ['--vimgrep', '--no-heading'])
+        call denite#custom#var('grep', 'recursive_opts', [])
+        call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+        call denite#custom#var('grep', 'separator', ['--'])
+        call denite#custom#var('grep', 'final_opts', [])
+        " Specify multiple paths in grep source
+        "call denite#start([{'name': 'grep',
+        "      \ 'args': [['a.vim', 'b.vim'], '', 'pattern']}])
+
+        " buffer source
+        call denite#custom#var(
+              \ 'buffer',
+              \ 'date_format', '%m-%d-%Y %H:%M:%S')
+        " Define alias
+        call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+        call denite#custom#var('file/rec/git', 'command',
+              \ ['git', 'ls-files', '-co', '--exclude-standard'])
+        " Change ignore_globs
+        call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
+              \ [ '.git/', '.ropeproject/', '__pycache__/',
+              \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+
+        " tell denite to use this matcher by default for all sources
+        call denite#custom#source('_', 'matchers', ['matcher/fruzzy'])
+        " }}}2
+    else
+        nnoremap <leader><leader> :Buffers<cr>
+        nnoremap <C-p> :FZF<cr>
+    endif " }}}if
+
+    " Plugin: fzf {{{2
+    set runtimepath+=~/.fzf
+    let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+    nnoremap <leader>C :Colorschemes<cr>
+    nnoremap <leader>P :Plugins<cr>
+
+    function! s:buflist()
+      return map(filter(range(1, bufnr('$')),
+            \ 'buflisted(v:val)'), 'printf("%s: %s", v:val, bufname(v:val))')
+    endfunction
+
+    function! s:bufopen(lines)
+      if len(a:lines) < 2 | return | endif
+      let cmd = get({
+        \ 'ctrl-s': 'split',
+        \ 'ctrl-v': 'vsplit',
+        \ 'ctrl-t': 'tabedit'
+        \ }, a:lines[0], 'edit')
+      execute cmd '+b'.matchstr(a:lines[1], '^\d\+')
+    endfunction
+
+    function! s:plugopen(entry)
+      execute 'NERDTree' expand(s:bundle_dir) .'/'. a:entry
+    endfunction
+
+    command! Buffers let bl = reverse(s:buflist()) | call fzf#run({
+          \ 'source':  bl,
+          \ 'sink*':   function('<sid>bufopen'),
+          \ 'options': '+m --expect=ctrl-s,ctrl-v,ctrl-t',
+          \ 'down':    '~30%',
+          \ }) | unlet bl
+
+    command! Plugins call fzf#run({
+          \ 'source':  reverse(sort(map(globpath(s:bundle_dir, '*', 0, 1), 'fnamemodify(v:val, ":t")'))),
+          \ 'sink':    function('<sid>plugopen'),
+          \ 'options': '+m',
+          \ 'left':    30
+          \ })
+
+    command! Colorschemes call fzf#run({
+          \ 'source':  reverse(sort(map(globpath(&rtp, 'colors/*.vim', 0, 1), 'fnamemodify(v:val, ":t:r")'))),
+          \ 'sink':    'colorscheme',
+          \ 'options': '+m',
+          \ 'left':    30
+          \ })
+
+" }}}
+
+
+    " Plugin: fruzzz {{{2
+    " -----------------------------------------------------------------------------
+    " Mapping
+    let g:fruzzy#usenative = 1
+    let g:fruzzy#sortonempty = 1
+
+    " Plugin: vim-signature {{{2
+    " -----------------------------------------------------------------------------
+    let g:SignatureMap = {
+        \ 'Leader'             :  "m",
+        \ 'PlaceNextMark'      :  "m,",
+        \ 'ToggleMarkAtLine'   :  "m.",
+        \ 'PurgeMarksAtLine'   :  "m-",
+        \ 'DeleteMark'         :  "dm",
+        \ 'PurgeMarks'         :  "m<Space>",
+        \ 'PurgeMarkers'       :  "m<BS>",
+        \ 'GotoNextLineAlpha'  :  "']",
+        \ 'GotoPrevLineAlpha'  :  "'[",
+        \ 'GotoNextSpotAlpha'  :  "`]",
+        \ 'GotoPrevSpotAlpha'  :  "`[",
+        \ 'GotoNextLineByPos'  :  "]'",
+        \ 'GotoPrevLineByPos'  :  "['",
+        \ 'GotoNextSpotByPos'  :  "]`",
+        \ 'GotoPrevSpotByPos'  :  "[`",
+        \ 'GotoNextMarker'     :  "]-",
+        \ 'GotoPrevMarker'     :  "[-",
+        \ 'GotoNextMarkerAny'  :  "]=",
+        \ 'GotoPrevMarkerAny'  :  "[=",
+        \ 'ListBufferMarks'    :  "m/",
+        \ 'ListBufferMarkers'  :  "m?"
+        \ }
+
+    " Plugin: vim-signature {{{2
+    " help multiple-cursors-mappings
+
+    " Plugin: ultisnips and vim-snippets {{{2
+    " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+    let g:UltiSnipsExpandTrigger="<leader><tab>"
+    let g:UltiSnipsJumpForwardTrigger="<c-b>"
+    let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+    " If you want :UltiSnipsEdit to split your window.
+    let g:UltiSnipsEditSplit="vertical"
+
+    " Plugin: ctrlsf.vim {{{2
+    " Preferred order is 'ag' > 'ack' > 'rg' > 'pt' > 'ack-grep'. You can also explicitly set it by
+    let g:ctrlsf_ackprg = '/bin/ag'
+    let g:ctrlsf_winsize = '30%'
+    nnoremap <leader>ff :CtrlSF<CR>
+    nmap     <leader>f <Plug>CtrlSFPrompt
+    vmap     <leader>f <Plug>CtrlSFVwordPath
+    vmap     <leader>F <Plug>CtrlSFVwordExec
+    nmap     <leader>fn <Plug>CtrlSFCwordPath
+    nmap     <leader>fp <Plug>CtrlSFPwordPath
+    nnoremap <leader>fo :CtrlSFOpen<CR>
+    nnoremap <leader>ft :CtrlSFToggle<CR>
+    inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
+
+" autocommand {{{1
+
+	" Disables automatic commenting on newline:
+	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+	" automatically deletes all trailing whitespace on save.
+	autocmd bufwritepre * %s/\s\+$//e
+	" 让配置变更立即生效 echo 'export MYVIMRC="$HOME/.vimrc"' >> ~/.zshrc
+	" autocmd BufWritePost $MYVIMRC source $MYVIMRC
+	" 打开文件时恢复光标位置
+	autocmd BufReadPost *
+	    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+	    \   exe "normal! g`\"" |
+	    \ endif
+    " 智能当前行高亮
+    " autocmd InsertLeave,WinEnter * set cursorline
+    " autocmd InsertEnter,WinLeave * set nocursorline
+
+    au BufEnter * if isdirectory(expand('<afile>')) | set nobuflisted | endif
+
+" }}}

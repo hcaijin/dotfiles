@@ -73,11 +73,7 @@
 [[layers]]
     name = 'lang#vim'
 [[layers]]
-    name = 'lang#c'
-[[layers]]
-    name = 'lang#goby'
-[[layers]]
-    name = 'lang#lua'
+    name = 'lang#java'
 [[layers]]
     name = 'lang#sh'
     bash-file-head = [
@@ -86,15 +82,11 @@
         ''
     ]
 [[layers]]
-    name = 'lang#racket'
-[[layers]]
     name = 'lang#xml'
 [[layers]]
     name = 'tmux'
 [[layers]]
     name = 'debug'
-[[layers]]
-    name = 'lang#toml'
 [[layers]]
     name = 'colorscheme'
 [[layers]]
