@@ -3,21 +3,12 @@
 
 ifinstalled ss-local || exit
 
-stopmain() {
-    stat=$(pgrep -x ss-local)
-    if [ $stat  ]
-    then
-        pkill -x ss-local
-        notify-send "Stoped ss daemon."
-        return 1
-    else
-        return 0
-    fi
-}
-
-stopmain
-if [ $? -eq 0 ]
+stat=$(pgrep -x ss-local)
+if [ $stat  ]
 then
-    ss-local -c /etc/shadowsocks/config.json &
-    notify-send 'ss started and you can proxy'
+  pkill -x ss-local
+  notify-send "Stoped ss daemon."
+else
+  ss-local -c /etc/shadowsocks/config.json &
+  notify-send 'ss started and you can proxy'
 fi

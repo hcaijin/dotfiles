@@ -4,26 +4,18 @@
 
 ifinstalled bluetoothctl || exit
 
-stopmain() {
-    stat=$(pgrep -f bluetoothd)
-    if [ $stat  ]
-    then
-        sudo -A systemctl stop bluetooth 2>/dev/null
-        notify-send "Stoped bluetooth daemon."
-        return 1
-    else
-        return 0
-    fi
-}
-
-stopmain
-if [ $? -eq 0 ]
+stat=$(pgrep -f bluetoothd)
+if [ $stat  ]
 then
-    sudo -A systemctl restart bluetooth 2>/dev/null || exit
-    notify-send "Starting bluetooth daemon..." && sleep 5
-    res=$(pgrep -x bluetoothctl)
-    if [ ! $res ]
-    then
-        $TERMINAL -t title_for_bluetooth -e bluetoothctl
-    fi
+  sudo -A systemctl stop bluetooth 2>/dev/null
+  notify-send "Stoped bluetooth daemon." && sleep 3
+  pkill -x bluetoothctl
+else
+  sudo -A systemctl restart bluetooth 2>/dev/null || exit
+  notify-send "Starting bluetooth daemon..." && sleep 5
+  res=$(pgrep -x bluetoothctl)
+  if [ ! $res ]
+  then
+    $TERMINAL -t title_for_bluetooth -e bluetoothctl
+  fi
 fi
