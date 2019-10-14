@@ -21,7 +21,7 @@
     # enable_cursorline = false
     # Disable statusline separator, if you want to use other value, please
     # install nerd fonts
-    statusline_separator = "nil"
+    statusline_separator = "slant"
     statusline_inactive_separator = "bar"
     buffer_index_type = 4
     windows_index_type = 3

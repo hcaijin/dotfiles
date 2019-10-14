@@ -20,7 +20,7 @@ function! myspacevim#before() abort
 	" quit file
 	" nnoremap <silent><leader>q :q<cr>
 	" !quit all file
-	nnoremap <silent><leader>Q :qall<cr>
+	nnoremap <silent><leader>Q :qall!<cr>
 	" save file
 	nnoremap <silent><leader>w :w<cr>
 	nnoremap <silent><leader>W :w!<cr>

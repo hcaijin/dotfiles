@@ -10,7 +10,7 @@
 
 ifinstalled transmission-daemon || exit
 
-# Todo
+# Todo: visudo add transmission user
 killall transmission-daemon 2> /dev/null
 sudo -u transmission /usr/bin/transmission-daemon --foreground --log-info 2>&1 | while read line; do
 	echo $line |
