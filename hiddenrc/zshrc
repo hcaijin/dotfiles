@@ -151,3 +151,4 @@ sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # Use ~~ as the trigger sequence instead of the default **
 export FZF_COMPLETION_TRIGGER='~~'
+export GTAGSLABEL=pygments

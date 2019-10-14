@@ -51,6 +51,10 @@
     # guifont = 'SauceCodePro Nerd Font:h11:cANSI:qDRAFT'
     # guifont = 'Inconsolata-g for Powerline 13'
     enable_statusline_tag = false
+    bootstrap_before = "myspacevim#before"
+    bootstrap_after  = "myspacevim#after"
+    windows_smartclose = "<esc>"
+    enable_language_specific_leader = false
 # }}}
 
 # SpaceVim layer config {{{
@@ -72,6 +76,10 @@
     name = 'VersionControl'
 [[layers]]
     name = 'lang#vim'
+[[layers]]
+    name = 'lang#php'
+[[layers]]
+    name = 'lang#python'
 [[layers]]
     name = 'lang#java'
 [[layers]]
@@ -108,3 +116,5 @@
     name = 'shell'
     default_position = 'top'
     default_height = 30
+# }}}
+

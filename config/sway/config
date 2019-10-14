@@ -212,7 +212,7 @@ bar {
   # font DejaVu Sans Mono for Powerline
   # font Inconsolata-g for Powerline 15
   font SauceCodePro Nerd Font
-  separator_symbol "  "
+  separator_symbol ""
   mode dock
   colors {
     background         $bg-color
