@@ -161,12 +161,12 @@ function listpackbydate() {
 dclean() {
     processes=`docker ps -q -f status=exited`
     if [ -n "$processes" ]; then
-      docker rm $processes
+      echo $processes | xargs docker rm
     fi
 
     images=`docker images -q -f dangling=true`
     if [ -n "$images" ]; then
-      docker rmi $images
+      echo $images | xargs docker rmi
     fi
 }
 
