@@ -21,6 +21,10 @@ function! myspacevim#before() abort
 	" nnoremap <silent><leader>q :q<cr>
 	" !quit all file
 	nnoremap <silent><leader>Q :qall!<cr>
+	" save file as sudo on files that require root permission
+	cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+	" replace all is aliased to s.
+	nnoremap S :%s//g<left><left>
 	" save file
 	nnoremap <silent><leader>w :w<cr>
 	nnoremap <silent><leader>W :w!<cr>
