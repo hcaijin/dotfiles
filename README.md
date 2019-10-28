@@ -24,7 +24,7 @@ A list of applications that I use:
 
 ## Screenshots
 
-![SpaceVim](https://github.com/hcaijin/DotFiles/raw/master/2018-05-03-234249_swaygrab.png)
+![SpaceVim](screenshots/screenshot-2019-10-28-164408.png)
 
-![Chromium](https://raw.githubusercontent.com/hcaijin/DotFiles/master/2018-05-04-011102_swaygrab.png)
+![Chromium](screenshots/screenshot-2019-10-28-164518.png)
 
