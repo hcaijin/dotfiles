@@ -53,6 +53,9 @@ main() {
   if [ ! -d "$HOME/.config" ];then
     mkdir ~/.config
   fi
+  if [ ! -d "$HOME/.local/sbin" ];then
+    mkdir ~/.local/sbin
+  fi
   # mail
   if [ ! -f ~/.msmtprc ];
   then
@@ -63,7 +66,7 @@ main() {
   fi
   # Install folder to config or local
   linkFolder config
-  linkFolder local
+  linkFolder local/sbin
   linkFolder local/share
   # Install hidden file to ~
   linkHiddenFile
@@ -84,6 +87,7 @@ main() {
   else
     printf "$Cyan Downloading  tmux -> $Blue$HOME/.tmux$Color_off\n"
     git clone --depth 1 https://github.com/tony/tmux-config.git ~/tmux-config
+    sed -i '/tmux-mem-cpu-load/d' ~/tmux-config/install.sh
     ~/tmux-config/install.sh
     rm -rf ~/tmux-config
     # cat $PWD/tmux_custom.conf >> ~/.tmux/.tmux.conf

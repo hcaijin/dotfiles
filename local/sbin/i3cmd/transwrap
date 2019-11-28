@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+#
+# help: https://wiki.archlinux.org/index.php/Transmission
+#
+# sudo -A systemctl restart transmissioon 2>/dev/null || exit 2
+#
+# notify-send "Starting torrent daemon..." && sleep 5
+#
+# $BROWSER http://localhost:9091
+
+ifinstalled transmission-daemon || exit
+
+# Todo: visudo add transmission user
+killall transmission-daemon 2> /dev/null
+sudo -u transmission /usr/bin/transmission-daemon --foreground --log-info 2>&1 | while read line; do
+	echo $line |
+		grep -v "announcer.c:\|platform.c:\|announce done (tr-dht.c:" |
+		grep -v "Saved.*variant.c:" |
+		while read line; do
+			echo $line | grep -q "Queued for verification (verify.c:" &&
+				notify-send --app-name="Transmission Started" "${line#* * }"
+			echo $line | grep -q "changed from .Incomplete. to .Complete." &&
+				notify-send --app-name="Transmission Complete" "${line#* * }"
+			echo $line | systemd-cat --identifier="TransWrap" --priority=5
+		done 2>&1 > /dev/null
+	done&disown

@@ -51,6 +51,10 @@ domain() {
   if [ -e ~/.fzf ]
   then
     ~/.fzf/uninstall
+    if [ -e ~/.fzf.orig ]
+    then
+      rm -rf ~/.fzf.orig
+    fi
     mv ~/.fzf ~/.fzf.orig
   fi
   if [ -e ~/.tmux ]

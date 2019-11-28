@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Help: https://wiki.archlinux.org/index.php/Sway#Screen_capture
+#Screen capture
+#Capturing the screen can be done using grim or swayshotAUR for screenshots and wf-recorder-gitAUR for video. Optionally, slurp can be used to select the part of the screen to capture.
+# To stop recording
+# PID=`ps -ef | grep 'wf-recorder' | awk '{print $2}'`
+# kill -2 $PID 2>&1 > /dev/null
+
+killall -s 2 wf-recorder 2>&1 > /dev/null
+
+FILE=$HOME/screenshot/screenshot-`date +%F-%H%M%S`.png
+VFILE=$HOME/screenshot/recorder-`date +%F-%H%M%S`.mp4
+
+case "$1" in
+  sw)
+    grim - | tee $FILE 2>&1 > /dev/null
+    ;;
+  sp)
+    grim -g "$(slurp)" - | tee $FILE 2>&1 > /dev/null 
+    ;;
+  rw)
+    wf-recorder -f $VFILE
+    ;;
+  raw)
+    wf-recorder -a -f $VFILE
+    ;;
+  rp)
+    wf-recorder -g "$(slurp)" -f $VFILE
+    ;;
+  *)
+    echo "Usage: $0 {sw|sp|rw|raw|rp}"
+    exit 2
+esac
+
+exit 0

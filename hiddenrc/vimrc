@@ -137,7 +137,7 @@ call plug#end()
 	" Spell-check set to <leader>o, 'o' for 'orthography':
 	nnoremap <leader>o :setlocal spell! spelllang=en_us<CR>
 	" quit file
-	nnoremap <leader>q :q<cr>
+	nnoremap <esc><esc> :q<cr>
 	" !quit all file
 	nnoremap <leader>Q :qall<cr>
 	" save file
