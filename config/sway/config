@@ -206,15 +206,10 @@ assign [class="VirtualBox Manager" instance="VirtualBox Manager"] $WS9
 
 
 bar {
-  status_command i3status
+  status_command i3blocks
+  # status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
   position top
-  # font  Monaco,Bold 13px
-  # font DejaVu Sans Mono for Powerline
-  # font Inconsolata-g for Powerline 15
   font SauceCodePro Nerd Font
-  # separator_symbol ""
-  # separator_symbol ""
-  mode dock
   colors {
     background         $bg-color
     separator          #757575
@@ -223,10 +218,5 @@ bar {
     urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
     }
 }
-# bar {
-	# font pango:mono 10
-	# status_command i3blocks
-	# position top
-	# mode dock
-# }
+
 include $HOME/.config/sway/config.d/*

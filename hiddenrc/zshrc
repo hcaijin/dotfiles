@@ -149,4 +149,5 @@ sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
 
 
 
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

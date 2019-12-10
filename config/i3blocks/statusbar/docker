@@ -1,0 +1,17 @@
+#!/bin/bash
+# dependence for docker
+command -v docker > /dev/null 2>&1  || exit
+
+# check docker daemon running
+docker ps > /dev/null 2>&1 || (echo "$LABEL 0" && exit)
+
+# Number of docker containers running
+count=$(docker ps -q | wc -l | sed -r 's/^0$//g')
+# Recent docker container IP
+recent_ip=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q))
+
+case $BLOCK_BUTTON in
+	1) pgrep -x dunst >/dev/null && notify-send "Show Docker IP" "$recent_ip" ;;
+esac
+
+echo "$LABEL $count"

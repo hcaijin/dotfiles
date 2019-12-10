@@ -7,13 +7,14 @@
 # If the above line is not correctly displayed, fix your editor first!
 
 general {
+    output_format = i3bar
     colors = true
     interval = 5
 }
 
 #order += "ipv6"
 order += "disk /"
-order += "cpu_usage"
+# order += "cpu_usage"
 order += "cpu_temperature 0"
 order += "memory"
 #order += "run_watch DHCP"
@@ -25,12 +26,12 @@ order += "battery 0"
 order += "volume master"
 order += "tztime local"
 wireless _first_ {
-    format_up = "%quality "
+    format_up = "%quality"
     format_down = " down"
 }
 
 memory {
-    format = "%used"
+    format = "%used(%percentage_used)"
     threshold_degraded = "10%"
     format_degraded = "MEMORY: %free"
 }
@@ -50,9 +51,9 @@ battery 0 {
     status_chr = ""
     status_bat = ""
     status_full = ""
-    status_unk = ""
+    status_unk = "?"
     path = "/sys/class/power_supply/BAT%d/uevent"
-    low_threshold = 10
+    low_threshold = 20
 }
 
 run_watch DHCP {

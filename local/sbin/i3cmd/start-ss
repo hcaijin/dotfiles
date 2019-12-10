@@ -3,6 +3,14 @@
 
 ifinstalled ss-local || exit
 
+if [[ "$1" == "restart" ]]
+then
+  pkill -x ss-local
+  ss-local -c /etc/shadowsocks/config.json &
+  notify-send 'ss restarted and you can proxy'
+  exit
+fi
+
 stat=$(pgrep -x ss-local)
 if [ $stat  ]
 then
@@ -17,6 +25,7 @@ else
     ss-local -c /etc/shadowsocks/config.json &
     notify-send 'ss started and you can proxy'
   else
-    notify-send 'ss start failed,you can check ssshare web is online.'
+    ss-local -c /etc/shadowsocks/config.json &
+    notify-send 'ss started, but maybe can not proxy'
   fi
 fi
