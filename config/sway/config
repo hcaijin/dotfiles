@@ -210,6 +210,7 @@ bar {
   # status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
   position top
   font SauceCodePro Nerd Font
+  separator_symbol ""
   colors {
     background         $bg-color
     separator          #757575

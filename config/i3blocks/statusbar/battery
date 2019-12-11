@@ -6,113 +6,149 @@
 # A battery indicator blocklet script for i3blocks
 
 import re
-from subprocess import check_output
+import os
+from subprocess import check_output, call
+
+# stands for charging
+FA_LIGHTNING = "\uf0e7"
+
+# stands for plugged in
+FA_PLUG = "\uf1e6"
+
+# stands for using battery
+FA_BATTERY = "\uf240"
+
+# stands for unknown status of battery
+FA_QUESTION = "\uf128"
+
+block_button = os.environ['BLOCK_BUTTON'] if 'BLOCK_BUTTON' in os.environ else None
+block_button = int(block_button) if block_button else None
+
+def color(percent):
+    if percent < 10:
+        # exit code 33 will turn background red
+        return "#FF0000"
+    if percent < 20:
+        return "#FF3300"
+    if percent < 30:
+        return "#FF6600"
+    if percent < 40:
+        return "#FF9900"
+    if percent < 50:
+        return "#FFCC00"
+    if percent < 60:
+        return "#FFFF00"
+    if percent < 70:
+        return "#FFFF33"
+    if percent < 80:
+        return "#FFFF66"
+    return "#FFFFFF"
+
+def getLabel(percent):
+    if percent< 5:
+        #  print ' ';
+        return "\uf244"
+    if percent< 25:
+        #  print ' ';
+        return "\uf243"
+    if percent< 50:
+        #  print ' ';
+        return "\uf242"
+    if percent< 75:
+        #  print ' ';
+        return "\uf241"
+    if percent< 100:
+        #  print ' ';
+        return "\uf240"
+
+def getFull(status):
+    if not status:
+        state = "StatusFails"
+        percentleft = 100
+        timeleft = ""
+    else:
+        # if there is more than one battery in one laptop, the percentage left is 
+        # available for each battery separately, although state and remaining 
+        # time for overall block is shown in the status of the first battery 
+        batteries = status.split("\n")
+        state_batteries=[]
+        commasplitstatus_batteries=[]
+        percentleft_batteries=[]
+        time = ""
+
+        def getTimeLeft(time):
+            # check if it matches a time
+            time = re.match(r"(\d+):(\d+)", time)
+            if time:
+                #  time = ":".join(time.groups())
+                hour = time.groups()[0]
+                minute = time.groups()[1]
+                if hour == '00':
+                    timeleft = "{} minutes".format(minute)
+                else:
+                    if hour[0] == '0':
+                        timeleft = "{} hours".format(hour[1])
+                    else:
+                        timeleft = "{} hours".format(hour)
+            else:
+                timeleft = ""
+            return timeleft
+
+        for battery in batteries:
+            if battery!='':
+                state_batteries.append(battery.split(": ")[1].split(", ")[0])
+                commasplitstatus = battery.split(", ")
+                if not time:
+                    timeleft = getTimeLeft(commasplitstatus[-1].strip())
+
+                p = int(commasplitstatus[1].rstrip("%\n"))
+                if p>0:
+                    percentleft_batteries.append(p)
+                commasplitstatus_batteries.append(commasplitstatus)
+        state = state_batteries[0]
+        commasplitstatus = commasplitstatus_batteries[0]
+        if percentleft_batteries:
+            percentleft = int(sum(percentleft_batteries)/len(percentleft_batteries))
+        else:
+            percentleft = 0
+    return state, percentleft, timeleft
 
 status = check_output(['acpi'], universal_newlines=True)
+state, percentleft, timeleft = getFull(status)
 
-if not status:
+if state == "Discharging":
+    if block_button == 1:
+        call(['notify-send', 'Not Charging', 'About %s more!' % (timeleft)])
+
+    fulltext = getLabel(percentleft) + ""
+elif state == "Full":
+    fulltext = FA_PLUG + ""
+    timeleft = ""
+elif state == "Unknown":
+    fulltext = FA_QUESTION + "" + FA_BATTERY + ""
+    timeleft = ""
+elif state == "StatusFails":
     # stands for no battery found
-    fulltext = "<span color='red'><span font='FontAwesome'>\uf00d \uf240</span></span>"
-    percentleft = 100
+    fulltext = "\uf00d \uf240"
+    timeleft = ""
 else:
-    # if there is more than one battery in one laptop, the percentage left is 
-    # available for each battery separately, although state and remaining 
-    # time for overall block is shown in the status of the first battery 
-    batteries = status.split("\n")
-    state_batteries=[]
-    commasplitstatus_batteries=[]
-    percentleft_batteries=[]
-    time = ""
-    for battery in batteries:
-        if battery!='':
-            state_batteries.append(battery.split(": ")[1].split(", ")[0])
-            commasplitstatus = battery.split(", ")
-            if not time:
-                time = commasplitstatus[-1].strip()
-                # check if it matches a time
-                time = re.match(r"(\d+):(\d+)", time)
-                if time:
-                    time = ":".join(time.groups())
-                    timeleft = " ({})".format(time)
-                else:
-                    timeleft = ""
+    fulltext = FA_LIGHTNING + "" + FA_PLUG + ""
 
-            p = int(commasplitstatus[1].rstrip("%\n"))
-            if p>0:
-                percentleft_batteries.append(p)
-            commasplitstatus_batteries.append(commasplitstatus)
-    state = state_batteries[0]
-    commasplitstatus = commasplitstatus_batteries[0]
-    if percentleft_batteries:
-        percentleft = int(sum(percentleft_batteries)/len(percentleft_batteries))
-    else:
-        percentleft = 0
+msg = '''
+{}: stands for charging
+{}: stands for plugged in
+{}: stands for using battery
+{}: stands for unknown status of battery
+'''
 
-    # stands for charging
-    FA_LIGHTNING = "<span color='yellow'><span font='FontAwesome'>\uf0e7</span></span>"
+if block_button == 3:
+    call(['notify-send', "🔋 Battery module", msg.format(FA_LIGHTNING, FA_PLUG, FA_BATTERY, FA_QUESTION)])
 
-    # stands for plugged in
-    FA_PLUG = "<span font='FontAwesome'>\uf1e6</span>"
+#  form =  '<span color="{}">{}%</span>'
+form =  '{}%'
+fulltext += form.format(percentleft)
 
-    # stands for using battery
-    FA_BATTERY = "<span font='FontAwesome'>\uf240</span>"
-
-    # stands for unknown status of battery
-    FA_QUESTION = "<span font='FontAwesome'>\uf128</span>"
-
-    def getLabel(percent):
-        if percent< 5:
-            #  print ' ';
-            return "<span font='FontAwesome'>\uf244</span>"
-        if percent< 25:
-            #  print ' ';
-            return "<span font='FontAwesome'>\uf243</span>"
-        if percent< 50:
-            #  print ' ';
-            return "<span font='FontAwesome'>\uf242</span>"
-        if percent< 75:
-            #  print ' ';
-            return "<span font='FontAwesome'>\uf241</span>"
-        if percent< 100:
-            #  print ' ';
-            return "<span font='FontAwesome'>\uf240</span>"
-
-    if state == "Discharging":
-        fulltext = getLabel(percentleft) + " "
-    elif state == "Full":
-        fulltext = FA_PLUG + " "
-        timeleft = ""
-    elif state == "Unknown":
-        fulltext = FA_QUESTION + " " + FA_BATTERY + " "
-        timeleft = ""
-    else:
-        fulltext = FA_LIGHTNING + " " + FA_PLUG + " "
-
-    def color(percent):
-        if percent < 10:
-            # exit code 33 will turn background red
-            return "#FFFFFF"
-        if percent < 20:
-            return "#FF3300"
-        if percent < 30:
-            return "#FF6600"
-        if percent < 40:
-            return "#FF9900"
-        if percent < 50:
-            return "#FFCC00"
-        if percent < 60:
-            return "#FFFF00"
-        if percent < 70:
-            return "#FFFF33"
-        if percent < 80:
-            return "#FFFF66"
-        return "#FFFFFF"
-
-    form =  '<span color="{}">{}%</span>'
-    fulltext += form.format(color(percentleft), percentleft)
-    fulltext += timeleft
 
 print(fulltext)
 print(fulltext)
-if percentleft < 10:
-    exit(33)
+print(color(percentleft))

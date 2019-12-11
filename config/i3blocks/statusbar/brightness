@@ -8,15 +8,17 @@
 case $BLOCK_BUTTON in
 	# right click
 	# set to 50%
-	3) light -S 50 ;;
-
+	2) light -S 50 ;;
 	# scroll up
 	# raise brightness
 	4) light -A 10 ;;
-
 	# scroll down
 	# lower brightness
 	5) light -U 10 ;;
+  # show help
+	3) pgrep -x dunst >/dev/null && notify-send "🌗 Brightness Module" "\n\- Shows brightness percentage.
+- Middle click to set 50%.
+- Scroll to change."
 esac
 
 perc_num=$(light -G | cut -d"." -f1)

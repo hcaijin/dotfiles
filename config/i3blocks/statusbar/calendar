@@ -1,9 +1,13 @@
-#! /bin/sh
+#!/usr/bin/env sh
+#
+# dependencies:
+#   - swaymsg
+#   - yad
 
 WIDTH=${WIDTH:-200}
 HEIGHT=${HEIGHT:-200}
-DATEFMT=${DATEFMT:-"+%a %d.%m.%Y %H:%M:%S"}
-SHORTFMT=${SHORTFMT:-"+%H:%M:%S"}
+DATEFMT=${DATEFMT:-"+%a %d %b  %H:%M"}
+SHORTFMT=${SHORTFMT:-"+%H:%M"}
 
 OPTIND=1
 while getopts ":f:W:H:" opt; do
@@ -29,7 +33,7 @@ case "$BLOCK_BUTTON" in
 	posX=$(($BLOCK_X - $WIDTH / 2))
 	posY=$(($BLOCK_Y - $HEIGHT))
 
-	i3-msg -q "exec yad --calendar \
+	swaymsg -q "exec yad --calendar \
         --width=$WIDTH --height=$HEIGHT \
 	    --undecorated --fixed \
 	    --close-on-unfocus --no-buttons \

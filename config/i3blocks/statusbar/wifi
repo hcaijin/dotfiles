@@ -16,7 +16,10 @@
 
 #------------------------------------------------------------------------
 if [[ -z "$INTERFACE" ]] ; then
-    INTERFACE="${BLOCK_INSTANCE:-wlan0}"
+    INTERFACE="${BLOCK_INSTANCE:-wlp5s0}"
+fi
+if [[ -z "$LABEL" ]] ; then
+    LABEL="${BLOCK_LABEL:-}"
 fi
 #------------------------------------------------------------------------
 
@@ -26,28 +29,38 @@ fi
 
 # If the wifi interface exists but no connection is active, "down" shall be displayed.
 if [[ "$(cat /sys/class/net/$INTERFACE/operstate)" = 'down' ]]; then
-    echo "down"
-    echo "down"
-    echo "#FF0000"
-    exit
-fi
-
-#------------------------------------------------------------------------
-
-QUALITY=$(grep $INTERFACE /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')
-
-#------------------------------------------------------------------------
-
-echo $QUALITY% # full text
-echo $QUALITY% # short text
-
-# color
-if [[ $QUALITY -ge 80 ]]; then
-    echo "#00FF00"
-elif [[ $QUALITY -ge 60 ]]; then
-    echo "#FFF600"
-elif [[ $QUALITY -ge 40 ]]; then
-    echo "#FFAE00"
+  FULL_TEXT="❎ down"
+  COLOR="#FF0000"
 else
-    echo "#FF0000"
+  QUALITY=$(grep $INTERFACE /proc/net/wireless | awk '{ print int($3 * 100 / 70) }')
+  # color
+  if [[ $QUALITY -ge 80 ]]; then
+      COLOR="#00FF00"
+  elif [[ $QUALITY -ge 60 ]]; then
+      COLOR="#FFF600"
+  elif [[ $QUALITY -ge 40 ]]; then
+      COLOR="#FFAE00"
+  else
+      COLOR="#FF0000"
+  fi
+  FULL_TEXT="$LABEL$QUALITY%" # full text
 fi
+
+case $BLOCK_BUTTON in
+  1)
+    ss -tlnp | grep '127.0.0.1:1080' 2>&1 >/dev/null && proxy="--socks5 127.0.0.1:1080"
+    ip=$(ip address show $INTERFACE | grep 'inet ' | awk '{print $2}')
+    pubip=$(curl ${proxy} myip.ipip.net 2>/dev/null)
+    pgrep -x dunst >/dev/null && notify-send "🌐 Show IP Address" "\n\- Local IP:
+${ip}
+- Public IP:
+${pubip}" ;;
+  2) sudo -A systemctl restart NetworkManager ;;
+  3) pgrep -x dunst >/dev/null && notify-send "📶 Network Module" "\n\- Left click for show ip address.
+- Middle click to restart Network." ;;
+esac
+
+printf "%s\n" "$FULL_TEXT" # full text
+printf "%s\n" "$FULL_TEXT" # full text
+echo $COLOR
+

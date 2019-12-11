@@ -29,8 +29,8 @@
 command=~/.config/i3blocks/statusbar/$BLOCK_NAME
 separator_block_width=5
 markup=none
-full_text=
-separator=false
+# full_text=
+# separator=false
 color=#666666
 # align=right
 
@@ -40,17 +40,24 @@ color=#666666
 [pacpackages]
 label=📦
 interval=once
-signal=8
+signal=43200
 color=#FFFFFF
 
-[separator]
+# [aur-update]
+# label=📦
+# markup=pango
+# interval=43200
+# UPDATE_COLOR=red
+# QUIET=1
+# IGNORE=root
+# color=#FFFFFF
 
 # docker
 #
 #Show the number of running `Docker` containers and latest created container IP address.
 [docker]
 color=#0db7ed
-interval=10
+interval=60
 LABEL=🐳
 
 # email
@@ -65,8 +72,6 @@ LABEL=🐳
 # label=📬
 # color=#FFFFFF
 #
-[separator]
-
 
 # Disk usage
 #
@@ -93,14 +98,10 @@ LABEL=🐳
 # separator=false
 # interval=30
 
-# [separator]
-
 [weather]
 interval=18000
 signal=5
 color=#FFFFFF
-
-[separator]
 
 # Network interface monitoring
 #
@@ -114,16 +115,15 @@ color=#FFFFFF
 
 [wifi]
 INTERFACE=wlp5s0
-label=
+# label=
 interval=10
 color=#FFFFFF
+separator=false
 
 [bandwidth]
 #INTERFACE=eth0
 interval=5
 color=#FFFFFF
-
-[separator]
 
 # CPU usage
 # [cpu_usage2]
@@ -136,41 +136,6 @@ color=#FFFFFF
 # WARN_PERCENT=50
 # CRIT_PERCENT=80
 # DECIMALS=2
-
-# [load_average]
-# label=
-# interval=10
-
-# Calendar
-#
-# Shows the current date and time. When clicked, a calendar popup is created.
-# [calendar]
-# interval=1
-# LABEL=
-# DATEFMT=+%H:%M:%S
-# SHORTFMT=+%H:%M:%S
-# HEIGHT=180
-# WIDTH=220
-
-# Date Time
-#
-# [time]
-# command=date '+%H:%M'
-# interval=60
-
-[date]
-command=echo " `date +'%a %d %b'`"; [[ -z "${BLOCK_BUTTON}" ]] || gsimplecal &
-interval=3600
-label=
-color=#FFFFFF
-
-[time]
-command=echo " `date +'%H:%M'`"
-interval=60
-label=
-color=#FFFFFF
-
-[separator]
 
 # Generic media player support
 #
@@ -198,8 +163,16 @@ label=
 command=echo $(sensors coretemp-isa-0000 | awk '/Core/ { print $3; exit }')
 color=#FFFFFF
 interval=3
+separator=false
 
-[separator]
+# Battery indicator
+#
+# The battery instance defaults to 0.
+[battery]
+markup=pango
+interval=30
+color=#FFFFFF
+separator=false
 
 # Key indicators
 #
@@ -224,8 +197,7 @@ interval=3
 color=#FFFFFF
 interval=once
 signal=12
-
-[separator]
+separator=false
 
 # Volume indicator
 #
@@ -239,14 +211,24 @@ signal=10
 STEP=5%
 color=#FFFFFF
 
-[separator]
-
-# Battery indicator
+# [load_average]
+# label=
+# interval=10
 #
-# The battery instance defaults to 0.
-[battery]
-markup=pango
+
+# Calendar
+# #
+# Shows the current date and time. When clicked, a calendar popup is created.
+# [calendar]
+# interval=60
+# LABEL=
+# # DATEFMT=+%H:%M:%S
+# # SHORTFMT=+%H:%M:%S
+# HEIGHT=180
+# WIDTH=220
+# color=#FFFFFF
+
+[clock]
+label= 
 interval=30
 color=#FFFFFF
-
-[separator]
