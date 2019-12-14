@@ -51,13 +51,17 @@ case $BLOCK_BUTTON in
     ss -tlnp | grep '127.0.0.1:1080' 2>&1 >/dev/null && proxy="--socks5 127.0.0.1:1080"
     ip=$(ip address show $INTERFACE | grep 'inet ' | awk '{print $2}')
     pubip=$(curl ${proxy} myip.ipip.net 2>/dev/null)
-    pgrep -x dunst >/dev/null && notify-send "🌐 Show IP Address" "\n\- Local IP:
+    if [ $? != 0 ]
+    then
+      notify-send "Show IP Error!"
+    else
+      notify-check-send "🌐 Show IP Address" "\n\- Local IP:
 ${ip}
 - Public IP:
-${pubip}" ;;
+${pubip}"
+    fi ;;
   2) sudo -A systemctl restart NetworkManager ;;
-  3) pgrep -x dunst >/dev/null && notify-send "📶 Network Module" "\n\- Left click for show ip address.
-- Middle click to restart Network." ;;
+  3) notify-check-send "📶 Network Module" "\n- Left click for show ip address. \n- Middle click to restart Network." ;;
 esac
 
 printf "%s\n" "$FULL_TEXT" # full text

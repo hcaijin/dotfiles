@@ -1,51 +1,52 @@
 #!/usr/bin/env sh
 
-WIDTH=${WIDTH:-900}
-HEIGHT=${HEIGHT:-550}
+if [[ -z "$LOCALTION" ]] ; then
+  localt=$(file /etc/localtime 2>/dev/null | awk -F'/' '{print $NF}')
+  [ ! -z "$localt" ] || localt="Shanghai"
+  LOCALTION="${BLOCK_INSTANCE:-$localt}"
+fi
+
 report=$HOME/.local/share/weatherreport
-pic=$HOME/.local/share/weatherreport.png
+full_report=$HOME/.local/share/weatherreport.full
 
-location="$1"; [ -z "$location" ] || { location="$location+" && rm -f "$report" ;}
+[ -z "$1" ] || { LOCALTION="$1" && rm -f "$report" "$full_report";}
 
-localt=$(file /etc/localtime 2>/dev/null | awk -F'/' '{print $NF}')
-location=${location:-"$localt"}
-
-getforecast() {
-  ping -q -c 1 1.1.1.1 >/dev/null || exit 1
-  # curl -s "wttr.in/$location" > "$report" || exit 1
-  curl -s "wttr.in/${location}?format=4" > "$report" || exit 1
-  curl -s "wttr.in/${location}_tpq.png --output $pic" > /dev/null || exit 1
+getweather() {
+  # curl -s "wttr.in/$LOCALTION" > "$report" || exit 1
+  checkping || exit 1
+  # echo "wttr.in/{$LOCALTION}?format=4"
+  # exit 0
+  curl -s "wttr.in/{$LOCALTION}?format=4" > "$report" || exit 1
+  # curl -s "wttr.in/${LOCALTION}_tpq.png --output $pic" > /dev/null || exit 1
 }
 
-text=$(awk -F':' '{print $NF}' $report)
-
-showweather() {
+showeather() {
+  text=$(awk -F':' '{print $NF}' $report)
   echo $text | awk '{print $1$2}'
 }
 
-full_text=$(cat $report | awk '{print "Localtion "$1"\n", $2"\n", $3"\n", $4" "$5"\n"}')
-
-# showweather() {
-  # printf "%s" "$(sed '16q;d' "$report" | grep -wo "[0-9]*%" | sort -n | sed -e '$!d' | sed -e "s/^/☔ /g" | tr -d '\n')"
-  # sed '13q;d' "$report" | grep -o "m\\(-\\)*[0-9]\\+" | sort -n -t 'm' -k 2n | sed -e 1b -e '$!d' | tr '\n|m' ' ' | awk '{print " ❄️",$1 "°","🌞",$2 "°"}' ;
-# }
+showfullweather() {
+  awk '{print "Localtion "$1"\n", $2"\n", $3"\n", $4" "$5"\n"}' $report
+}
 
 case $BLOCK_BUTTON in
     1)
-      swaymsg -q "exec yad --picture --filename=$pic \
-      --width=$WIDTH --height=$HEIGHT \
-	    --undecorated --fixed \
-	    --close-on-unfocus --no-buttons \
-	    > /dev/null" ;;
-    2) getforecast && showweather ;;
-    3) pgrep -x dunst >/dev/null && notify-send "🌈 Weather module" "\n\- Left click for full forecast.
-- Middle click to update forecast.
-- ${full_text}" ;;
+      if [ "$(stat -c %y "$full_report" 2>/dev/null | awk '{print $1}')" != "$(date '+%Y-%m-%d')" ]
+      then
+        curl -s "wttr.in/{$LOCALTION}" > "$full_report" || exit 1
+      fi
+      swaymsg -q "exec $TERMINAL -e \"less -S $full_report\"" ;;
+    2) getweather && showeather ;;
+    3)
+      notify-check-send "🌈 Weather module" "\n\- Left click for full forecast.
+\- Middle click to update forecast.
+\- $(showfullweather) " ;;
 esac
 
 if [ "$(stat -c %y "$report" 2>/dev/null | awk '{print $1}')" != "$(date '+%Y-%m-%d')" ]
 then
-  getforecast && showweather
+  getweather && showeather
 else
-  showweather
+  # showfullweather
+  showeather
 fi

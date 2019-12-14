@@ -42,6 +42,7 @@ label=📦
 interval=once
 signal=43200
 color=#FFFFFF
+signal=8
 
 # [aur-update]
 # label=📦
@@ -100,6 +101,7 @@ LABEL=🐳
 
 [weather]
 interval=18000
+instance=Shanghai,Hong_Kong,London
 signal=5
 color=#FFFFFF
 
