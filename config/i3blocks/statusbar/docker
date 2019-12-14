@@ -12,8 +12,8 @@ recent_ip=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAdd
 
 case $BLOCK_BUTTON in
 	1) pgrep -x dunst >/dev/null && notify-send "Show Docker IP" "$recent_ip" ;;
-	3) pgrep -x dunst >/dev/null && notify-send "🐳 Docker Module" "\n\- Show docker ip list if started.
+	3) pgrep -x dunst >/dev/null && notify-send "🐳 Docker Module" "<b><span color=\"green\">Usage >>></span></b>
 - Left click: show list." ;;
 esac
 
-echo "$LABEL $count"
+echo "$LABEL$count"

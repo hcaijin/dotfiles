@@ -44,14 +44,17 @@ signal=43200
 color=#FFFFFF
 signal=8
 
-# [aur-update]
-# label=📦
-# markup=pango
-# interval=43200
-# UPDATE_COLOR=red
-# QUIET=1
-# IGNORE=root
-# color=#FFFFFF
+# email
+#
+# Show the count of new messages in your
+# email box using IMAP.
+# Left button mouse click opens custom URL.
+[email]
+instance=graz_mailbox_config
+interval=60
+# min_width=messages: 99
+label=📬
+color=#FFFFFF
 
 # docker
 #
@@ -60,19 +63,6 @@ signal=8
 color=#0db7ed
 interval=60
 LABEL=🐳
-
-# email
-#
-# Show the count of new messages in your
-# email box using IMAP.
-# Left button mouse click opens custom URL.
-# [email]
-# instance=graz_mailbox_config
-# interval=60
-# # min_width=messages: 99
-# label=📬
-# color=#FFFFFF
-#
 
 # Disk usage
 #
@@ -126,18 +116,6 @@ separator=false
 #INTERFACE=eth0
 interval=5
 color=#FFFFFF
-
-# CPU usage
-# [cpu_usage2]
-# command=~/.config/i3blocks/statusbar/cpu_usage2/cpu_usage2
-# markup=pango
-# interval=persist
-# min_width=CPU 100.00%
-# REFRESH_TIME=1
-# LABEL=🖥
-# WARN_PERCENT=50
-# CRIT_PERCENT=80
-# DECIMALS=2
 
 # Generic media player support
 #
@@ -217,18 +195,6 @@ color=#FFFFFF
 # label=
 # interval=10
 #
-
-# Calendar
-# #
-# Shows the current date and time. When clicked, a calendar popup is created.
-# [calendar]
-# interval=60
-# LABEL=
-# # DATEFMT=+%H:%M:%S
-# # SHORTFMT=+%H:%M:%S
-# HEIGHT=180
-# WIDTH=220
-# color=#FFFFFF
 
 [clock]
 label= 

@@ -134,7 +134,7 @@ elif state == "StatusFails":
 else:
     fulltext = FA_LIGHTNING + "" + FA_PLUG + ""
 
-msg = '''
+msg = '''<b><span color=\"green\">Usage >>></span></b>
 {}: stands for charging
 {}: stands for plugged in
 {}: stands for using battery

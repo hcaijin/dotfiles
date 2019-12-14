@@ -109,6 +109,12 @@ def block_event():
         NULL = open(os.devnull, 'w')
         #  subprocess.Popen(['xdg-open', config['URL']], stdout=NULL)
         subprocess.Popen(['/usr/bin/termite', '-e', 'mutt'], stdout=NULL)
+    if event == '3':
+        msg = '''<b><span color=\"green\">Usage >>></span></b>
+- Left click open mutt.
+- Right click for help.
+'''
+        subprocess.call(['notify-send', "📬 Mail Module", msg])
 
 
 def serf():
