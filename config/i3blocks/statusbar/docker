@@ -1,9 +1,9 @@
 #!/bin/bash
 # dependence for docker
-command -v docker > /dev/null 2>&1  || exit 1
+command -v docker > /dev/null 2>&1  || exit 0
 
 # check docker daemon running
-docker ps >/dev/null 2>&1 || exit 2
+docker ps >/dev/null 2>&1 || exit 0
 
 # Number of docker containers running
 count=$(docker ps -q | wc -l | sed -r 's/^0$//g')

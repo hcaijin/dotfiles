@@ -51,13 +51,15 @@ fi
 case $BLOCK_BUTTON in
   1)
     show_ip_str="<b><span color=\"green\">Show IP Address >>></span></b>"
-    ip=$(ip address show $INTERFACE | grep 'inet ' | awk '{print $2}'); [ $? == 0 ] || ip="Pls check your NetworkManager."
+    ip=$(ip address show $INTERFACE | grep 'inet ' | awk '{print $2}'); [ $? == 0 ] || ip="Pls check your network."
     if [ $ip == "Pls check your NetworkManager." ]
     then
       show_ip_str+="\n- Local IP:\n${ip}"
     else
       ss -tlnp | grep '127.0.0.1:1080' >/dev/null && proxy="--socks5 127.0.0.1:1080"
-      pubip=$(curl ${proxy} myip.ipip.net 2>/dev/null); [ $? == 0 ] || pubip="Pls check your NetworkManager."
+      pubip=$(curl ${proxy} myip.ipip.net 2>/dev/null); [ $? == 0 ] || {
+        pubip=$(curl myip.ipip.net 2>/dev/null); [ $? == 0 ] || pubip="Pls check your proxy network."
+      }
       show_ip_str+="\n- Local IP:\n${ip}\n- Public IP:\n${pubip}"
     fi
     notify-check-send "$SEND_HEADER" "$show_ip_str" ;;

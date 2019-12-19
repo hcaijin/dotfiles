@@ -12,17 +12,22 @@ full_report=$HOME/.local/share/weatherreport.full
 [ -z "$1" ] || { LOCALTION="$1" && rm -f "$report" "$full_report";}
 
 getweather() {
-  # curl -s "wttr.in/$LOCALTION" > "$report" || exit 1
-  checkping || exit 1
+  # curl -s "wttr.in/$LOCALTION" > "$report" || exit
+  checkping || exit
   # echo "wttr.in/{$LOCALTION}?format=4"
   # exit 0
-  curl -s "wttr.in/{$LOCALTION}?format=4" > "$report" || exit 1
-  # curl -s "wttr.in/${LOCALTION}_tpq.png --output $pic" > /dev/null || exit 1
+  curl -s "wttr.in/{$LOCALTION}?format=4" > "$report" || exit
+  # curl -s "wttr.in/${LOCALTION}_tpq.png --output $pic" > /dev/null || exit
 }
 
 showeather() {
   text=$(awk -F':' '{print $NF}' $report)
-  echo $text | awk '{print $1$2}'
+  if [ "$text" != "" ]
+  then
+    echo $text | awk '{print $1$2}'
+  else
+    getweather && showeather
+  fi
 }
 
 showfullweather() {
@@ -33,7 +38,7 @@ case $BLOCK_BUTTON in
     1)
       if [ "$(stat -c %y "$full_report" 2>/dev/null | awk '{print $1}')" != "$(date '+%Y-%m-%d')" ]
       then
-        curl -s "wttr.in/{$LOCALTION}" > "$full_report" || exit 1
+        curl -s "wttr.in/{$LOCALTION}" > "$full_report" || exit
       fi
       swaymsg -q "exec $TERMINAL -e \"less -S $full_report\"" ;;
     2) getweather && showeather ;;

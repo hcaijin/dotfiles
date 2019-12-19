@@ -49,12 +49,12 @@ signal=8
 # Show the count of new messages in your
 # email box using IMAP.
 # Left button mouse click opens custom URL.
-[email]
-instance=graz_mailbox_config
-interval=60
-# min_width=messages: 99
-label=📬
-color=#FFFFFF
+# [email]
+# instance=graz_mailbox_config
+# interval=180
+# # min_width=messages: 99
+# label=📬
+# color=#FFFFFF
 
 # docker
 #
