@@ -21,6 +21,9 @@ fi
 if [[ -z "$LABEL" ]] ; then
     LABEL="${BLOCK_LABEL:-}"
 fi
+
+MYIPFILE=/tmp/myip.txt
+MYPIPFILE=/tmp/myproxyip.txt
 #------------------------------------------------------------------------
 
 # As per #36 -- It is transparent: e.g. if the machine has no battery or wireless
@@ -51,16 +54,39 @@ fi
 case $BLOCK_BUTTON in
   1)
     show_ip_str="<b><span color=\"green\">Show IP Address >>></span></b>"
-    ip=$(ip address show $INTERFACE | grep 'inet ' | awk '{print $2}'); [ $? == 0 ] || ip="Pls check your network."
-    if [ $ip == "Pls check your NetworkManager." ]
+    ip=$(ip address show $INTERFACE | grep 'inet ' | awk '{print $2}'); [ $? == 0 ] || {
+      ip="Pls check your network."
+      rm ${MYIPFILE} >/dev/null
+      rm ${MYPIPFILE} >/dev/null
+    }
+    show_ip_str+="\n- Local IP:\n${ip}"
+    if [ $ip != "Pls check your NetworkManager." ]
     then
-      show_ip_str+="\n- Local IP:\n${ip}"
-    else
+      pubip=$(cat ${MYIPFILE} 2>/dev/null)
+      if [ "$pubip" != "" ]
+      then
+        show_ip_str+="\n-Public IP:\n${pubip}"
+      else
+        curl myip.ipip.net 1>${MYIPFILE} 2>/dev/null; [ $? == 0 ] || rm ${MYIPFILE} >/dev/null
+        pubip=$(cat ${MYIPFILE} 2>/dev/null)
+        show_ip_str+="\n-Public IP:\n${pubip:-Pls check your public network.}"
+      fi
       ss -tlnp | grep '127.0.0.1:1080' >/dev/null && proxy="--socks5 127.0.0.1:1080"
-      pubip=$(curl ${proxy} myip.ipip.net 2>/dev/null); [ $? == 0 ] || {
-        pubip=$(curl myip.ipip.net 2>/dev/null); [ $? == 0 ] || pubip="Pls check your proxy network."
-      }
-      show_ip_str+="\n- Local IP:\n${ip}\n- Public IP:\n${pubip}"
+      if [ -z "$proxy" ]
+      then
+        rm ${MYPIPFILE} >/dev/null
+        # show_ip_str+="\n-Proxy IP:\nPls check your proxy network."
+      else
+        proxyip=$(cat ${MYPIPFILE} 2>/dev/null)
+        if [ "$proxyip" != "" ]
+        then
+          show_ip_str+="\n-Proxy IP:\n${proxyip}"
+        else
+          curl ${proxy} myip.ipip.net 1>${MYPIPFILE} 2>/dev/null; [ $? == 0 ] || rm ${MYPIPFILE} >/dev/null
+          proxyip=$(cat ${MYPIPFILE} 2>/dev/null)
+          show_ip_str+="\n-Proxy IP:\n${proxyip:-Pls check your proxy network.}"
+        fi
+      fi
     fi
     notify-check-send "$SEND_HEADER" "$show_ip_str" ;;
   2) sudo -A systemctl restart NetworkManager ;;
