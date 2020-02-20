@@ -88,7 +88,7 @@ fi
 
 export NODE_PATH="$HOME/.npm-packages/lib/node_modules"
 export ANDROID_HOME="$HOME/Tools/android-sdk-linux"
-export PATH="$(du $HOME/.local/sbin/* | cut -f2 | tr '\n' ':')$HOME/.npm-packages/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$HOME/.local/bin:$PATH"
+export PATH="$(du $HOME/.local/bin/* | cut -f2 | tr '\n' ':')$HOME/.npm-packages/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$HOME/.local/bin:$PATH"
 
 export TERMINAL="termite"
 export BROWSER="chromium"
@@ -147,7 +147,3 @@ fi
 
 # sway sock
 export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock
-
-sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
