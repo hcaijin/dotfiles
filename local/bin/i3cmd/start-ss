@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+# ss-local proxy on port 1080
+
+MYPIPFILE=/tmp/myproxyip.txt
+ifinstalled ss-local || exit
+
+rm ${MYPIPFILE} >/dev/null
+
+if [[ "$1" == "restart" ]]
+then
+  pkill -x ss-local
+  ss-local -c /etc/shadowsocks/config.json &
+  notify-send 'ss restarted and you can proxy'
+  exit
+fi
+
+stat=$(pgrep -x ss-local)
+if [ $stat  ]
+then
+  pkill -x ss-local
+  notify-send "Stoped ss daemon."
+else
+  content=$(curl http://127.0.0.1:5000/setting)
+  sta=$(echo $content | jq -r '.status')
+  if [[ $sta == 0 ]]
+  then
+    echo $content | jq -r '.data' | tee /etc/shadowsocks/config.json
+    ss-local -c /etc/shadowsocks/config.json &
+    notify-send 'ss started and you can proxy'
+  else
+    ss-local -c /etc/shadowsocks/config.json &
+    notify-send 'ss started, but maybe can not proxy'
+  fi
+fi

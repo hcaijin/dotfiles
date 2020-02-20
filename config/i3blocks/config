@@ -137,13 +137,13 @@ color=#FFFFFF
 # Support multiple chips, though lm-sensors.
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
-[temperature]
-# instance=Core
-label=
-command=echo $(sensors coretemp-isa-0000 | awk '/Core/ { print $3; exit }')
-color=#FFFFFF
-interval=3
-separator=false
+# [temperature]
+# # instance=Core
+# label=
+# command=echo $(sensors coretemp-isa-0000 | awk '/Core/ { print $3; exit }')
+# color=#FFFFFF
+# interval=3
+# separator=false
 
 # Battery indicator
 #

@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-# shell script to prepend i3status with more stuff
-
-i3status | wrapper.py | check-mail.py

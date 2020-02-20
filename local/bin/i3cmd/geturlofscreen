@@ -1,0 +1,16 @@
+#!/bin/bash
+# Must have wl-clipboard-git installed to upload remote server and get img url to wl-copy
+which wl-paste 2>&1 >/dev/null || exit
+
+echo "$(wl-paste -l)" | grep -n 'image/png' 2>&1 >/dev/null
+[ $? == 0 ] || exit
+
+img=$(mktemp -d)/img.png
+wl-paste > $img || exit
+# Todo: upload remote server
+# url=$(curl -s -F c=@${img} https://img.vim-cn.com/)
+# echo $url
+# echo $img
+# echo ${url} | wl-copy --primary
+echo ${img} | wl-copy
+feh ${img}

@@ -19,7 +19,7 @@ $resizepx 30px
 $movepx 60px
 # Your preferred terminal emulator
 ## choose termite, xterm, urxvt
-$term $TERMINAL
+$term $TERMINAL --display $DISPLAY
 # replay to rofi
 #$menu dmenu_path | dmenu | xargs swaymsg exec
 
@@ -47,7 +47,7 @@ $WS6 " "
 $WS7 " "
 $WS8 " "
 $WS9 " "
-$WS10 ""
+$WS10 " "
 
 
 ######grouping workspaces+name####
@@ -75,6 +75,7 @@ $inactive-text-color	#676E7D
 $urgent-bg-color		#5294e2
 
 $setwinsize resize set 600 350;
+$setwinhalf resize set 960 1070;
 }
 #
 

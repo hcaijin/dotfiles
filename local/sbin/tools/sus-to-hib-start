@@ -1,8 +1,0 @@
-#!/bin/sh
-
-WAKEALARM=/sys/class/rtc/rtc0/wakealarm
-# SLEEPLENGTH=+1minutes
-
-minutes=$(date +%s -d+1minutes)
-echo -n "alarm set for $minutes"
-echo $minutes > $WAKEALARM

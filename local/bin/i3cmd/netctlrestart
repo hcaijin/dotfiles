@@ -1,0 +1,12 @@
+#!/bin/bash
+# Restart netctl default network
+
+ifinstalled netctl || exit
+
+netlist=$(netctl list | grep '*' | awk '{print $NF}')
+
+for net in ${netlist}
+do
+  sudo -A netctl restart $net
+  notify-send "Restarting ${net} network..."
+done

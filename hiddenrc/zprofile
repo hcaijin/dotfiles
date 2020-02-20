@@ -184,3 +184,11 @@ dcleanlaradock() {
 
 	echo 'dcleanlaradock completed'
 }
+
+wttr()
+{
+  local localt=$(file /etc/localtime 2>/dev/null | awk -F'/' '{print $NF}')
+  local request="wttr.in/${localt:-Shanghai}"
+  [ "$(tput cols)" -lt 125 ] && request+='?0qnmMA'
+  curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
+}

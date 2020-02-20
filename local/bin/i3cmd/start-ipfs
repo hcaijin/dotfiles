@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+# See https://wiki.archlinux.org/index.php/Systemd/User
+# See https://wiki.archlinux.org/index.php/IPFS
+
+ifinstalled ipfs || exit
+
+stat=$(pgrep -f "ipfs daemon")
+if [ $stat  ]
+then
+  systemctl --user stop ipfs 2>/dev/null
+  notify-send "Stoped ipfs daemon."
+else
+  systemctl --user restart ipfs 2>/dev/null || exit
+  notify-send "Starting ipfs daemon..." && sleep 5
+  $BROWSER http://localhost:5001/webui
+fi

@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+#
+# See man 1 swayidle
+
+ifinstalled swayidle || exit
+
+stat=$(pgrep -x swayidle)
+if [ $stat  ]
+then
+  pkill -x swayidle
+  notify-send "Stoped swayidle shell command."
+else
+  swayidle -w \
+      timeout 300 'lockwin' \
+      timeout 600 'swaymsg "output * dpms off"' \
+      resume 'swaymsg "output * dpms on"' \
+      before-sleep 'swaylock -f -c 000000' & 2>/dev/null
+  notify-send "Starting swayidle shell command."
+fi

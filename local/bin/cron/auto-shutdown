@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+pgrep -x dunst >/dev/null || exit
+
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus &&
+notify-send " Battery Module" "\nThis will be suspended by 1 min.You can enter Win+Delete stop it."
+
+# echo "You can enter Ctrl+c to stop running this script."
+sleep 60
+
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus &&
+notify-send " Battery Module" "\nShow when 60s later"
+# /bin/sh $HOME/.local/sbin/i3cmd/lockwin

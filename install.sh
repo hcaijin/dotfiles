@@ -13,7 +13,7 @@ LOCKFILE=$PWD/dotfiles.lock
 
 # Symlinks the configs
 symlink () {
-  grep "$1" $LOCKFILE 2>&1 >/dev/null
+  grep "$1" $LOCKFILE 2>/dev/null
   if [ $? != 0 ]
   then
     echo $1 >> $LOCKFILE
@@ -66,7 +66,7 @@ main() {
   fi
   # Install folder to config or local
   linkFolder config
-  linkFolder local/sbin
+  linkFolder local/bin
   linkFolder local/share
   # Install hidden file to ~
   linkHiddenFile
@@ -79,19 +79,6 @@ main() {
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
     printf "$Blue Finished Installing fzf$Color_off\n"
-  fi
-  # Install tmux
-  if [ -e ~/.tmux ]
-  then
-    printf "Installed $Red~/.tmux$Color_off\n"
-  else
-    printf "$Cyan Downloading  tmux -> $Blue$HOME/.tmux$Color_off\n"
-    git clone --depth 1 https://github.com/tony/tmux-config.git ~/tmux-config
-    sed -i '/tmux-mem-cpu-load/d' ~/tmux-config/install.sh
-    ~/tmux-config/install.sh
-    rm -rf ~/tmux-config
-    # cat $PWD/tmux_custom.conf >> ~/.tmux/.tmux.conf
-    printf "$Blue Finished Installing tmux$Color_off\n"
   fi
 }
 

@@ -16,7 +16,7 @@ getweather() {
   checkping || exit
   # echo "wttr.in/{$LOCALTION}?format=4"
   # exit 0
-  curl -s "wttr.in/{$LOCALTION}?format=4" > "$report" || exit
+  curl -s "wttr.in/{$LOCALTION}?0qm&format=%l:+%c+%t" > "$report" || exit
   # curl -s "wttr.in/${LOCALTION}_tpq.png --output $pic" > /dev/null || exit
 }
 
@@ -24,21 +24,23 @@ showeather() {
   text=$(awk -F':' '{print $NF}' $report)
   if [ "$text" != "" ]
   then
-    echo $text | awk '{print $1$2}'
+    res=$(echo $text | awk '{print $1$2}')
+    [[ "$res" != "Unknowlocation" ]] || exit 3
+    echo $res
   else
     getweather && showeather
   fi
 }
 
 showfullweather() {
-  awk '{print "Localtion "$1"\n", $2"\n", $3"\n", $4" "$5"\n"}' $report
+  awk '{print "Localtion "$1"\n"$2" "$3}' $report
 }
 
 case $BLOCK_BUTTON in
     1)
       if [ "$(stat -c %y "$full_report" 2>/dev/null | awk '{print $1}')" != "$(date '+%Y-%m-%d')" ]
       then
-        curl -s "wttr.in/{$LOCALTION}" > "$full_report" || exit
+        curl -s "wttr.in/{$LOCALTION}?2qnmFM" > "$full_report" || exit
       fi
       swaymsg -q "exec $TERMINAL -e \"less -S $full_report\"" ;;
     2) getweather && showeather ;;

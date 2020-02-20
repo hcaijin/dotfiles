@@ -57,15 +57,6 @@ domain() {
     fi
     mv ~/.fzf ~/.fzf.orig
   fi
-  if [ -e ~/.tmux ]
-  then
-    if [ -e ~/.tmux.orig ]
-    then
-      rm -rf ~/.tmux.orig
-    fi
-    mv ~/.tmux ~/.tmux.orig
-    rm ~/.tmux.conf
-  fi
   for file in `cat $LOCKFILE | sort -n | uniq`;
   do
     delink $file
