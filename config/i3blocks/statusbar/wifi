@@ -24,6 +24,7 @@ fi
 
 MYIPFILE=/tmp/myip.txt
 MYPIPFILE=/tmp/myproxyip.txt
+show_ip_str="<b><span color=\"green\">Show IP Address >>></span></b>"
 #------------------------------------------------------------------------
 
 # As per #36 -- It is transparent: e.g. if the machine has no battery or wireless
@@ -51,50 +52,66 @@ else
   FULL_TEXT="$LABEL$QUALITY%" # full text
 fi
 
-case $BLOCK_BUTTON in
-  1)
-    ESSID=$(/sbin/iwconfig $INTERFACE | perl -n -e'/ESSID:"(.*?)"/ && print $1')
-    show_ip_str="<b><span color=\"green\">Show IP Address >>></span></b>"
-    show_ip_str+="\n- ESSID:\n${ESSID}"
-    ip=$(ip address show $INTERFACE | grep 'inet ' | awk '{print $2}'); [ $? == 0 ] || {
-      ip="Pls check your network."
-      rm ${MYIPFILE} >/dev/null
-      rm ${MYPIPFILE} >/dev/null
-    }
-    show_ip_str+="\n- Local IP:\n${ip}"
-    if [ $ip != "Pls check your NetworkManager." ]
+function getIpStr(){
+  ESSID=$(/sbin/iwconfig $INTERFACE | perl -n -e'/ESSID:"(.*?)"/ && print $1')
+  show_ip_str+="\n- ESSID:\n${ESSID}"
+  ip=$(ip address show $INTERFACE | grep 'inet ' | awk '{print $2}'); [ $? == 0 ] || {
+    ip="Pls check your network."
+    rm ${MYIPFILE} >/dev/null
+    rm ${MYPIPFILE} >/dev/null
+  }
+  show_ip_str+="\n- Local IP:\n${ip}"
+  if [ $ip != "Pls check your NetworkManager." ]
+  then
+    pubip=$(cat ${MYIPFILE} 2>/dev/null)
+    if [ "$pubip" != "" ]
     then
+      show_ip_str+="\n- Public IP:\n${pubip}"
+    else
+      curl myip.ipip.net 1>${MYIPFILE} 2>/dev/null; [ $? == 0 ] || rm ${MYIPFILE} >/dev/null
       pubip=$(cat ${MYIPFILE} 2>/dev/null)
-      if [ "$pubip" != "" ]
-      then
-        show_ip_str+="\n- Public IP:\n${pubip}"
-      else
-        curl myip.ipip.net 1>${MYIPFILE} 2>/dev/null; [ $? == 0 ] || rm ${MYIPFILE} >/dev/null
-        pubip=$(cat ${MYIPFILE} 2>/dev/null)
-        show_ip_str+="\n- Public IP:\n${pubip:-Pls check your public network.}"
-      fi
+      show_ip_str+="\n- Public IP:\n${pubip:-Pls check your public network.}"
+    fi
+    proxyip=$(cat ${MYPIPFILE} 2>/dev/null)
+    if [ "$proxyip" != "" ]
+    then
+      show_ip_str+="\n- Proxy IP:\n${proxyip}"
+    else
       ss -tlnp | grep '127.0.0.1:1080' >/dev/null && proxy="--socks5 127.0.0.1:1080"
       if [ -z "$proxy" ]
       then
-        rm ${MYPIPFILE} >/dev/null
-        # show_ip_str+="\n-Proxy IP:\nPls check your proxy network."
-      else
-        proxyip=$(cat ${MYPIPFILE} 2>/dev/null)
-        if [ "$proxyip" != "" ]
-        then
-          show_ip_str+="\n- Proxy IP:\n${proxyip}"
-        else
-          curl -s ${proxy} myip.ipip.net 1>${MYPIPFILE} 2>/dev/null; [ $? == 0 ] || rm ${MYPIPFILE} >/dev/null
+        ipinfo=$(curl  -H "Accept: application/json" ipinfo.io/json 2>/dev/null)
+        if [[ $? == 0 ]]; then
+          ip=$(echo $ipinfo | jq -r ".ip")
+          city=$(echo $ipinfo | jq -r ".city")
+          country=$(echo $ipinfo | jq -r ".country")
+          echo "当前 IP：${ip}  来自于：${country} ${city}    " > ${MYPIPFILE} 2>/dev/null
           proxyip=$(cat ${MYPIPFILE} 2>/dev/null)
           show_ip_str+="\n- Proxy IP:\n${proxyip:-Pls check your proxy network.}"
+        else
+          rm ${MYPIPFILE} >/dev/null
         fi
+      else
+        curl -s ${proxy} myip.ipip.net 1>${MYPIPFILE} 2>/dev/null; [ $? == 0 ] || rm ${MYPIPFILE} >/dev/null
+        proxyip=$(cat ${MYPIPFILE} 2>/dev/null)
+        show_ip_str+="\n- Proxy IP:\n${proxyip:-Pls check your proxy network.}"
       fi
     fi
+  fi
+}
+
+case $BLOCK_BUTTON in
+  1)
+    getIpStr
     notify-check-send "$SEND_HEADER" "$show_ip_str" ;;
-  2) sudo -A systemctl restart NetworkManager ;;
+  2)
+    rm ${MYIPFILE} >/dev/null
+    rm ${MYPIPFILE} >/dev/null
+    getIpStr
+    notify-check-send "$SEND_HEADER" "$show_ip_str" ;;
   3) notify-check-send "$SEND_HEADER" "<b><span color=\"green\">Usage >>></span></b>
 - Left click for show ip address.
-- Middle click to restart Network." ;;
+- Middle click to reshow ip address." ;;
 esac
 
 printf "%s\n" "$FULL_TEXT" # full text

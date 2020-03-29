@@ -59,7 +59,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(archlinux sudo man git git-extras vi-mode virtualenvwrapper fzf docker-compose)
+plugins=( z zsh-syntax-highlighting zsh-autosuggestions zsh-completions archlinux sudo man git git-extras vi-mode virtualenvwrapper fzf docker-compose)
 autoload -U compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
@@ -103,7 +103,7 @@ if [ -f '/home/graz/Source/google-cloud-sdk/path.zsh.inc' ]; then . '/home/graz/
 if [ -f '/home/graz/Source/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/graz/Source/google-cloud-sdk/completion.zsh.inc'; fi
 
 # keychain start
-eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_rsa)"
+eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_ecdsa)"
 
 # diable zsh no match notify
 setopt nonomatch
@@ -147,3 +147,7 @@ fi
 
 # sway sock
 export SWAYSOCK=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock
+
+sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -40,4 +40,5 @@ export XMODIFIERS=@im=fcitx
 
 
 
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -3,8 +3,13 @@
 
 ifinstalled netctl || exit
 
+MYIPFILE=/tmp/myip.txt
+MYPIPFILE=/tmp/myproxyip.txt
+
 netlist=$(netctl list | grep '*' | awk '{print $NF}')
 
+rm -rf $MYIPFILE
+rm -rf $MYPIPFILE
 for net in ${netlist}
 do
   sudo -A netctl restart $net
