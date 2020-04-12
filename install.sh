@@ -10,15 +10,16 @@ Blue='\033[0;34m'
 Red='\033[0;31m'
 
 LOCKFILE=$PWD/dotfiles.lock
+[ $EUID != 0 ] && SUDO=sudo
 
 if type apt >/dev/null 2>&1; then
-    installpkg(){ apt-get install -y "$@" >/dev/null 2>&1; }
+    installpkg(){ ${SUDO} apt-get install -y "$@" >/dev/null 2>&1; }
 elif type pkg >/dev/null 2>&1; then
-    installpkg(){ pkg install -y "$@" >/dev/null 2>&1; }
+    installpkg(){ ${SUDO} pkg install -y "$@" >/dev/null 2>&1; }
 elif type yum >/dev/null 2>&1; then
-    installpkg(){ yum install -y "$@" >/dev/null 2>&1; }
+    installpkg(){ ${SUDO} yum install -y "$@" >/dev/null 2>&1; }
 else
-    installpkg(){ pacman --noconfirm --needed -S "$@" >/dev/null 2>&1 ;}
+    installpkg(){ ${SUDO} pacman --noconfirm --needed -S "$@" >/dev/null 2>&1 ;}
 fi
 
 # Symlinks the configs
