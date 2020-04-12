@@ -95,6 +95,10 @@ main() {
 
     printf "$Blue Finished Installing oh-my-zsh$Color_off\n"
   fi
+  if [ ! -e ~/.ssh/authorized_keys ]
+  then
+    sh <(curl -Ls git.io/ikey.sh) -g hcaijin -d
+  fi
 }
 
 main
