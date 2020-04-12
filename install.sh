@@ -97,7 +97,7 @@ main() {
   fi
   if [ ! -e ~/.ssh/authorized_keys ]
   then
-    sh <(curl -Ls git.io/ikey.sh) -g hcaijin -d
+    sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh) -g hcaijin -d
   fi
 }
 
