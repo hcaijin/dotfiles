@@ -7,11 +7,15 @@ MYIPFILE=/tmp/myip.txt
 MYPIPFILE=/tmp/myproxyip.txt
 
 netlist=$(netctl list | grep '*' | awk '{print $NF}')
-
-rm -rf $MYIPFILE
-rm -rf $MYPIPFILE
-for net in ${netlist}
-do
-  sudo -A netctl restart $net
-  notify-send "Restarting ${net} network..."
-done
+if [[ ! -z "$netlist" ]]; then
+  rm -rf $MYIPFILE
+  rm -rf $MYPIPFILE
+  for net in ${netlist}
+  do
+    sudo -A netctl restart $net
+    notify-send "Restarting ${net} network..."
+  done
+else
+  sudo -A netctl start TP-LINK_116DDA
+  notify-send "Starting default network..."
+fi

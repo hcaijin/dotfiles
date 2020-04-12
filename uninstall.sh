@@ -57,6 +57,14 @@ domain() {
     fi
     mv ~/.fzf ~/.fzf.orig
   fi
+  if [ -e ~/.oh-my-zsh ]
+  then
+    if [ -e ~/.oh-my-zsh.orig ]
+    then
+      rm -rf ~/.oh-my-zsh.orig
+    fi
+    mv ~/.oh-my-zsh ~/.oh-my-zsh.orig
+  fi
   for file in `cat $LOCKFILE | sort -n | uniq`;
   do
     delink $file

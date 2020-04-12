@@ -27,7 +27,7 @@
 # Each block command defaults to the script name to avoid boilerplate.
 # Change $SCRIPT_DIR to the location of your scripts!
 command=~/.config/i3blocks/statusbar/$BLOCK_NAME
-separator_block_width=5
+separator_block_width=0
 markup=none
 # full_text=
 # separator=false
@@ -74,20 +74,6 @@ LABEL=🐳
 #DIR=/mnt/data
 # interval=30
 # color=#FFFFFF
-
-# Memory usage
-#
-# The type defaults to "mem" if the instance is not specified.
-# [memory]
-# label=
-# interval=30
-# color=#FFFFFF
-
-# [memory]
-# label=SWAP
-# instance=swap
-# separator=false
-# interval=30
 
 [weather]
 interval=18000
@@ -153,6 +139,21 @@ markup=pango
 interval=30
 color=#FFFFFF
 separator=false
+
+# Memory usage
+#
+# The type defaults to "mem" if the instance is not specified.
+[memory]
+label=
+interval=10
+color=#FFFFFF
+separator=false
+
+# [memory]
+# label=SWAP
+# instance=swap
+# separator=false
+# interval=30
 
 # Key indicators
 #

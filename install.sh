@@ -59,7 +59,7 @@ main() {
   # mail
   if [ ! -f ~/.msmtprc ];
   then
-    cp msmtprc ~/.msmtprc
+    #cp msmtprc ~/.msmtprc
     printf "copy ${red}msmtprc to ~/.msmtprc ${color_off}\n"
     printf "you need to run chmod 0600 ~/.msmtprc after edit password\n"
 
@@ -79,6 +79,21 @@ main() {
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install
     printf "$Blue Finished Installing fzf$Color_off\n"
+  fi
+  if [ -e ~/.oh-my-zsh || ! `command -v zsh` ]
+  then
+    printf "Unknow zsh command or Installed $Red~/.oh-my-zsh$Color_off\n"
+  else
+    printf "$Cyan Downloading  oh-my-zsh -> $Blue$HOME/.oh-my-zsh$Color_off\n"
+    sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions
+    [ -z "`grep "autoload -U compinit && compinit" ~/.zshrc`" ] && echo "autoload -U compinit && compinit" >> ~/.zshrc
+    sed -i '/^plugins=/c\plugins=(git z zsh-syntax-highlighting zsh-autosuggestions zsh-completions)' ~/.zshrc
+    sed -i '/^ZSH_THEME=/c\ZSH_THEME="ys"' ~/.zshrc
+
+    printf "$Blue Finished Installing oh-my-zsh$Color_off\n"
   fi
 }
 

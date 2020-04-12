@@ -45,7 +45,7 @@ case $BLOCK_BUTTON in
       swaymsg -q "exec $TERMINAL -e \"less -S $full_report\"" ;;
     2) getweather && showeather ;;
     3)
-      notify-check-send "🌈 Weather module" "<b><span color=\"green\">Usage >>></span></b>
+      notify-check-send "🌅 Weather module" "<b><span color=\"green\">Usage >>></span></b>
 - Left click for full forecast.
 - Middle click to update forecast.
 \n<b><span color=\"green\">Full Wether >>></span></b>
