@@ -11,6 +11,18 @@ Red='\033[0;31m'
 
 LOCKFILE=$PWD/dotfiles.lock
 
+check_package_manager(){
+    if type apt >/dev/null 2>&1; then
+      installpkg(){ apt-get install -y "$1" >/dev/null 2>&1; }
+    elif type pkg >/dev/null 2>&1; then
+      installpkg(){ pkg install -y "$1" >/dev/null 2>&1; }
+    elif type yum >/dev/null 2>&1; then
+      installpkg(){ yum install -y "$1" >/dev/null 2>&1; }
+    else
+      installpkg(){ pacman --noconfirm --needed -S "$1" >/dev/null 2>&1 ;}
+    fi
+}
+
 # Symlinks the configs
 symlink () {
   grep "$1" $LOCKFILE 2>/dev/null
@@ -75,30 +87,42 @@ main() {
   then
     printf "Installed $Red~/.fzf$Color_off\n"
   else
-    printf "$Cyan Downloading  fzf -> $Blue$HOME/.fzf$Color_off\n"
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install
-    printf "$Blue Finished Installing fzf$Color_off\n"
+    if [ -e ~/.fzf.orig ]
+    then
+      mv ~/.fzf.orig ~/.fzf
+      printf "$Blue Finished Installing fzf$Color_off\n"
+    else
+      printf "$Cyan Downloading  fzf -> $Blue$HOME/.fzf$Color_off\n"
+      git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+      ~/.fzf/install --all
+      printf "$Blue Finished Installing fzf$Color_off\n"
+    fi
   fi
-  if [ -e ~/.oh-my-zsh || ! `command -v zsh` ]
+  if [[ -e ~/.oh-my-zsh || ! `command -v zsh` ]]
   then
     printf "Unknow zsh command or Installed $Red~/.oh-my-zsh$Color_off\n"
   else
-    printf "$Cyan Downloading  oh-my-zsh -> $Blue$HOME/.oh-my-zsh$Color_off\n"
-    sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
-    git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
-    git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions
-    [ -z "`grep "autoload -U compinit && compinit" ~/.zshrc`" ] && echo "autoload -U compinit && compinit" >> ~/.zshrc
-    sed -i '/^plugins=/c\plugins=(git z zsh-syntax-highlighting zsh-autosuggestions zsh-completions)' ~/.zshrc
-    sed -i '/^ZSH_THEME=/c\ZSH_THEME="ys"' ~/.zshrc
+    if [ -e ~/.oh-my-zsh.orig ]
+    then
+      mv ~/.oh-my-zsh.orig ~/.oh-my-zsh
+      printf "$Blue Finished Installing oh-my-zsh$Color_off\n"
+    else
+      printf "$Cyan Downloading  oh-my-zsh -> $Blue$HOME/.oh-my-zsh$Color_off\n"
+      RUNZSH=no; CHSH=no; sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+      git clone https://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+      git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+      git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions
+      [ -z "`grep "autoload -U compinit && compinit" ~/.zshrc`" ] && echo "autoload -U compinit && compinit" >> ~/.zshrc
+      sed -i '/^plugins=/c\plugins=(git z zsh-syntax-highlighting zsh-autosuggestions zsh-completions)' ~/.zshrc
+      sed -i '/^ZSH_THEME=/c\ZSH_THEME="ys"' ~/.zshrc
 
-    printf "$Blue Finished Installing oh-my-zsh$Color_off\n"
+      printf "$Blue Finished Installing oh-my-zsh$Color_off\n"
+    fi
   fi
-  if [ ! -e ~/.ssh/authorized_keys ]
-  then
-    sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh) -g hcaijin -d
-  fi
+  # Pull github ssh pub key
+  sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh) -g hcaijin -p 2222 -d -i
 }
 
+check_package_manager
+installpkg "git wget curl vim zsh"
 main
