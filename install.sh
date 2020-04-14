@@ -121,7 +121,7 @@ main() {
 	fi
 }
 
-installpkg git wget curl vim zsh
+installpkg wget curl vim zsh keychain
 main
 # Pull github ssh pub key
 sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh) -g hcaijin -d
