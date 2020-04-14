@@ -9,6 +9,9 @@ Cyan='\033[0;36m'
 Blue='\033[0;34m'
 Red='\033[0;31m'
 
+GITUSER='hcaijin'
+PASSWD=''
+PORT=22
 LOCKFILE=$PWD/dotfiles.lock
 [ $EUID != 0 ] && SUDO=sudo
 
@@ -21,6 +24,16 @@ elif type yum >/dev/null 2>&1; then
 else
     installpkg(){ ${SUDO} pacman --noconfirm --needed -S "$@" >/dev/null 2>&1 ;}
 fi
+
+USAGE () {
+  echo "Usage:"
+  echo "  bash install.sh [options...] <arg>"
+  echo "Options:"
+  echo "  -g	Get the public key from GitHub, the arguments is the GitHub ID, default my github id (hcaijin)"
+  echo "  -p	Change sshd listen port"
+  echo "  -P	The sshd key password, default null"
+  echo "  -h	Show usage"
+}
 
 # Symlinks the configs
 symlink () {
@@ -120,9 +133,26 @@ main() {
 		fi
 	fi
 }
+while getopts "hP:p:" OPT; do
+  case OPT in
+    P)
+      PASSWD=$OPTARG
+      ;;
+    p)
+      PORT=$OPTARG
+      ;;
+    g)
+      GITUSER=$OPTARG
+      ;;
+    h)
+      USAGE
+      exit 1
+      ;;
+  esac
+done
 
 installpkg wget curl vim zsh keychain
 main
 # Pull github ssh pub key
-sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh) -g hcaijin -d
-chsh -s `which zsh`
+[ -z "${HOME}/.ssh/id_ecdsa" ] && sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh) -P $PASSWD -p $PORT -g $GITUSER -d
+[ -z "`echo $SHELL | grep 'zsh'`" ] && chsh -s `which zsh`
