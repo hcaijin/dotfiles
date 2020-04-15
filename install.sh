@@ -10,8 +10,6 @@ Blue='\033[0;34m'
 Red='\033[0;31m'
 
 GITUSER='hcaijin'
-PASSWD=''
-PORT=22
 LOCKFILE=$PWD/dotfiles.lock
 [ $EUID != 0 ] && SUDO=sudo
 
@@ -72,7 +70,7 @@ linkFolder() {
 	done
 }
 
-main() {
+doLink() {
 	# mkdir
 	if [ ! -d "$HOME/.config" ];then
 		mkdir ~/.config
@@ -133,26 +131,53 @@ main() {
 		fi
 	fi
 }
-while getopts "hP:p:" OPT; do
-  case OPT in
-    P)
-      PASSWD=$OPTARG
-      ;;
-    p)
-      PORT=$OPTARG
-      ;;
-    g)
-      GITUSER=$OPTARG
-      ;;
-    h)
-      USAGE
-      exit 1
-      ;;
-  esac
-done
 
-installpkg wget curl vim zsh keychain
-main
-# Pull github ssh pub key
-[ -z "${HOME}/.ssh/id_ecdsa" ] && sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh) -P $PASSWD -p $PORT -g $GITUSER -d
-[ -z "`echo $SHELL | grep 'zsh'`" ] && chsh -s `which zsh`
+domain() {
+    echo "do install depandens pkg"
+    installpkg wget curl vim zsh keychain
+    doLink
+    # Pull github ssh pub key
+    [ -z ${PASSWD} ] || PASSWD_STR=" -P $PASSWD"
+    [ -z ${PORT} ] || PORT_STR=" -p $PORT"
+    [ -f "$HOME/.ssh/id_ecdsa" ] || sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh)${PASSWD_STR}${PORT_STR} -g $GITUSER -d
+    [ -z "`echo $SHELL | grep 'zsh'`" ] && chsh -s `which zsh`
+}
+
+doHasopt() {
+    while getopts "P:p:g:h" OPT; do
+      case $OPT in
+        P)
+          PASSWD=$OPTARG
+          ;;
+        p)
+          PORT=$OPTARG
+          ;;
+        g)
+          GITUSER=$OPTARG
+          ;;
+        h)
+          USAGE
+          exit -1
+          ;;
+        ?)
+            USAGE
+            exit -1
+            ;;
+        :)
+            USAGE
+            exit -1
+            ;;
+      esac
+    done
+}
+
+main() {
+    [ $# -lt 1 ] && {
+        domain
+        exit 0
+    }
+    doHasopt $*
+    domain
+}
+
+main $*
