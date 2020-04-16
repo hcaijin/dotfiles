@@ -9,6 +9,7 @@ Cyan='\033[0;36m'
 Blue='\033[0;34m'
 Red='\033[0;31m'
 
+PRE=.orig
 GITUSER='hcaijin'
 LOCKFILE=$PWD/dotfiles.lock
 [ $EUID != 0 ] && SUDO=sudo
@@ -30,7 +31,60 @@ USAGE () {
   echo "  -g	Get the public key from GitHub, the arguments is the GitHub ID, default my github id (hcaijin)"
   echo "  -p	Change sshd listen port"
   echo "  -P	The sshd key password, default null"
+  echo "  -f	Force links installed file"
+  echo "  -d	Uninstall and Delete links"
   echo "  -h	Show usage"
+}
+
+delink () {
+  FILE=$HOME/.$1
+  OLDLINK=$FILE$PRE
+  if [ -e "$FILE" ]
+  then
+    if file $FILE | grep $PWD &> /dev/null;then
+        rm -r "$FILE"
+        # mv $FILE $OLDLINK
+        printf "Removed File $Blue$FILE${Color_off}\n"
+	    if [ -e "$OLDLINK" ]; then
+		printf "Restore $Cyan$OLDLINK${Color_off} -> $Blue$FILE${Color_off}\n"
+		mv $OLDLINK $FILE
+	    fi
+    else
+	printf "Skipping $Red$FILE${Color_off}\n"
+    fi
+  else
+    printf "None File $Red$FILE${Color_off}\n"
+  fi
+}
+
+doUninstall() {
+  if [ ! -e "$LOCKFILE" ]
+  then
+    echo "Nothing to do!! Please check you lock exit!"
+    exit
+  fi
+  if [ -e ~/.fzf ]
+  then
+    ~/.fzf/uninstall
+    if [ -e ~/.fzf.orig ]
+    then
+      rm -rf ~/.fzf.orig
+    fi
+    mv ~/.fzf ~/.fzf.orig
+  fi
+  if [ -e ~/.oh-my-zsh ]
+  then
+    if [ -e ~/.oh-my-zsh.orig ]
+    then
+      rm -rf ~/.oh-my-zsh.orig
+    fi
+    mv ~/.oh-my-zsh ~/.oh-my-zsh.orig
+  fi
+  for file in `cat $LOCKFILE | sort -n | uniq`;
+  do
+    delink $file
+  done
+  rm $LOCKFILE
 }
 
 # Symlinks the configs
@@ -48,7 +102,13 @@ symlink () {
 			printf "Installed $Red$FILE${Color_off}\n"
 
 		else
-			printf "Skipping $Red$FILE${Color_off}\n"
+			if [[ $FORCE -eq 1 ]]; then
+				mv -f "$FILE" "$FILE$PRE"
+				ln -sf "$TARGET" "$FILE"
+				printf "Linking $Cyan$FILE${Color_off} -> $Blue$TARGET${Color_off}\n"
+			else
+				printf "Skipping $Red$FILE${Color_off}\n"
+			fi
 		fi
 	else
 		printf "Linking $Cyan$FILE${Color_off} -> $Blue$TARGET${Color_off}\n"
@@ -120,11 +180,11 @@ doLink() {
 			printf "$Cyan Downloading  oh-my-zsh -> $Blue$HOME/.oh-my-zsh$Color_off\n"
 			sh <(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) --unattended --keep-zshrc
             ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
-			git clone https://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
-			git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
-			git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions
+			# git clone https://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+			# git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+			# git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions
 			[ -z "`grep "autoload -U compinit && compinit" ~/.zshrc`" ] && echo "autoload -U compinit && compinit" >> ~/.zshrc
-			sed -i '/^plugins=/c\plugins=(git z zsh-syntax-highlighting zsh-autosuggestions zsh-completions)' ~/.zshrc
+			# sed -i '/^plugins=/c\plugins=(git z zsh-syntax-highlighting zsh-autosuggestions zsh-completions)' ~/.zshrc
 			sed -i '/^ZSH_THEME=/c\ZSH_THEME="ys"' ~/.zshrc
 
 			printf "$Blue Finished Installing oh-my-zsh$Color_off\n"
@@ -144,7 +204,7 @@ domain() {
 }
 
 doHasopt() {
-    while getopts "P:p:g:h" OPT; do
+    while getopts "P:p:g:hfd" OPT; do
       case $OPT in
         P)
           PASSWD=$OPTARG
@@ -154,6 +214,13 @@ doHasopt() {
           ;;
         g)
           GITUSER=$OPTARG
+          ;;
+        f)
+	FORCE=1
+          ;;
+        d)
+	doUninstall
+	exit
           ;;
         h)
           USAGE
