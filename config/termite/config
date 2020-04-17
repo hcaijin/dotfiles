@@ -7,11 +7,8 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-# font = Courier 10 Pitch 13.5
-#font = DejaVu Sans Mono for Powerline 13
-# font = Inconsolata-g for Powerline 13
-font =Droid Sans Mono for Powerline Plus Nerd File Types Mono 11,Source Code Pro
-#font = Source Code Pro,Source Code Pro ExtraLight:style=ExtraLight Italic,Italic
+# fc-list | grep Noto
+font = Noto Sans Mono,Noto Sans Mono Light:style=Light,Regular 13
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -66,8 +63,7 @@ color14 = #8ec07c
 color15 = #ebdbb2
 
 [hints]
-# font = Monospace 12
-font = DejaVu Sans Mono for Powerline 15
+font = Noto Sans Mono,Noto Sans Mono Light:style=Light,Regular 15
 foreground = #dcdccc
 background = #3f3f3f
 active_foreground = #e68080

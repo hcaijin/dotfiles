@@ -44,158 +44,32 @@ signal=43200
 color=#FFFFFF
 signal=8
 
-# email
-#
-# Show the count of new messages in your
-# email box using IMAP.
-# Left button mouse click opens custom URL.
-# [email]
-# instance=graz_mailbox_config
-# interval=180
-# # min_width=messages: 99
-# label=📬
-# color=#FFFFFF
-
-# docker
-#
-#Show the number of running `Docker` containers and latest created container IP address.
-[docker]
-color=#0db7ed
-interval=60
-LABEL=🐳
-
-# Disk usage
-#
-# The directory defaults to $HOME if the instance is not specified.
-# The script may be called with a optional argument to set the alert
-# (defaults to 10 for 10%).
-# [disk]
-# label=
-#DIR=/mnt/data
-# interval=30
-# color=#FFFFFF
-
-[weather]
-interval=18000
-instance=Shanghai,Hong_Kong,London
-signal=5
-color=#FFFFFF
-
-# Network interface monitoring
-#
-# If the instance is not specified, use the interface used for default route.
-# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
-# [iface]
-# IFACE=wlan0
-# color=#00FF00
-# interval=10
-# separator=false
-
-[wifi]
-INTERFACE=wlp5s0
-# label=
-interval=10
-color=#FFFFFF
-separator=false
-
-[bandwidth]
-#INTERFACE=eth0
-interval=5
-color=#FFFFFF
-
-# Generic media player support
-#
-# This displays "ARTIST - SONG" if a music is playing.
-# Supported players are: spotify, vlc, audacious, xmms2, mplayer, and others.
-#[mediaplayer]
-#instance=spotify
-#interval=5
-#signal=10
-
-# OpenVPN support
-#
-# Support multiple VPN, with colors.
-#[openvpn]
-#interval=20
-
-# Temperature
-#
-# Support multiple chips, though lm-sensors.
-# The script may be called with -w and -c switches to specify thresholds,
-# see the script for details.
-# [temperature]
-# # instance=Core
-# label=
-# command=echo $(sensors coretemp-isa-0000 | awk '/Core/ { print $3; exit }')
-# color=#FFFFFF
-# interval=3
-# separator=false
-
-# Battery indicator
-#
-# The battery instance defaults to 0.
-[battery]
-markup=pango
-interval=30
-color=#FFFFFF
-separator=false
-
-# Memory usage
-#
 # The type defaults to "mem" if the instance is not specified.
 [memory]
 label=
 interval=10
 color=#FFFFFF
-separator=false
-
-# [memory]
-# label=SWAP
-# instance=swap
 # separator=false
-# interval=30
-
-# Key indicators
-#
-# Add the following bindings to i3 config file:
-#
-# bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
-# bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
-#[keyindicator]
-#KEY=CAPS
-#markup=pango
-#interval=once
-#signal=11
-
-#[keyindicator]
-#KEY=NUM
-#markup=pango
-#interval=once
-#signal=11
-
-[brightness]
-# label=
-color=#FFFFFF
-interval=once
-signal=12
-separator=false
-
 # Volume indicator
 #
 # The first parameter sets the step (and units to display)
 # The second parameter overrides the mixer selection
 # See the script for details.
-[volume]
-# label=
-interval=once
-signal=10
-STEP=5%
+# [volume]
+# # label=
+# interval=once
+# signal=10
+# STEP=5%
+# color=#FFFFFF
+
+[disk]
+label=💽
+interval=30
 color=#FFFFFF
 
-# [load_average]
-# label=
-# interval=10
-#
+[load_average]
+label=
+interval=10
 
 [clock]
 label= 

@@ -201,6 +201,11 @@ domain() {
     [ -z ${PORT} ] || PORT_STR=" -p $PORT"
     [ -f "$HOME/.ssh/id_ecdsa" ] || sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh)${PASSWD_STR}${PORT_STR} -g $GITUSER -d
     [ -z "`echo $SHELL | grep 'zsh'`" ] && chsh -s `which zsh`
+    if [[ ! -f "${HOME}/.config/nvim/init.vim" && `type nvim` ]];  then
+      echo "Install nvim default link vimrc"
+      [ -e "${HOME}/.config/nvim" ] || mkdir -p ${HOME}/.config/nvim
+      ln -sf ${PWD}/hiddenrc/vimrc ${HOME}/.config/nvim/init.vim
+    fi
 }
 
 doHasopt() {

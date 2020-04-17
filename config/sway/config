@@ -93,7 +93,7 @@ output * bg ~/.wallpaper/300-Arch.png fill
 # output eDP-1 resolution 1024x768 position 1024,0
 # output eDP-1 resolution 1366x768 position 1366,0
 # output eDP-1 resolution 1600x900 position 1600,0
-# output eDP-1 resolution 1920x1080 position 1920,0
+output Virtual-1 resolution 1680x1050 position 1680,0
 
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -106,9 +106,9 @@ output * bg ~/.wallpaper/300-Arch.png fill
 #Make caps lock work as control: xkb_options ctrl:nocaps
 #Swap left alt and super, and set caps lock to escape: xkb_options altwin:swap_lalt_lwin,caps:escape
 
-input type:keyboard {
-    xkb_options ctrl:swap_lalt_lctl,caps:escape
-}
+# input type:keyboard {
+    # xkb_options ctrl:swap_lalt_lctl,caps:escape
+# }
 # or use file:
 #input type:keyboard xkb_layout "us-custom-winkey"
 
@@ -119,15 +119,15 @@ input type:keyboard {
 #}
 
 # touchpad
-input type:touchpad {
-    dwt enabled
-    tap enabled
-    natural_scroll enabled
-    middle_emulation enabled
-}
+# input type:touchpad {
+    # dwt enabled
+    # tap enabled
+    # natural_scroll enabled
+    # middle_emulation enabled
+# }
 
 # Hides the cursor image after the specified timeout (in millisec‐onds) has elapsed with no activity on that cursor.
-seat seat0 hide_cursor 10000
+# seat seat0 hide_cursor 10000
 
 ### Key bindings
 #
@@ -140,8 +140,8 @@ seat seat0 hide_cursor 10000
 default_border pixel 2
 default_floating_border pixel 2
 hide_edge_borders smart
-gaps inner 15
-gaps outer 15
+gaps inner 5
+gaps outer 5
 popup_during_fullscreen smart
 
 # Layout mode for new containers value: default|stacking|tabbed
@@ -209,8 +209,8 @@ assign [class="VirtualBox Manager" instance="VirtualBox Manager"] $WS9
 bar {
   status_command i3blocks
   # status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
-  position top
-  font SauceCodePro Nerd Font
+  position bottom
+  font Noto Sans Mono,Noto Sans Mono Light:style=Light,Regular 13
   separator_symbol ""
   colors {
     background         $bg-color
