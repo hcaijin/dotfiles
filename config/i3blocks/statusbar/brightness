@@ -16,7 +16,7 @@ case $BLOCK_BUTTON in
 	# lower brightness
 	5) light -U 10 ;;
   # show help
-	3) pgrep -x dunst >/dev/null && notify-send "🌗 Brightness Module" "<b><span color=\"green\">Usage >>></span></b>
+	3) notify-check-send "🌗 Brightness Module" "<b><span color=\"green\">Usage >>></span></b>
 - Middle click to set 50%.
 - Scroll to change."
 esac

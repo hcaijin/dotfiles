@@ -3,8 +3,16 @@
 # Display contents of selection via dunst if running.
 # Separate script for sway.
 
-clip=$(wl-paste)
-prim=$(wl-paste --primary)
+clip=$(wl-paste -n)
+prim=$(wl-paste -n --primary)
 
-[ -n "$clip" ] && notify-send "Clipboard:" "$clip"
-[ -n "$prim" ] && notify-send "Primary:" "$prim"
+# echo "wl-paste ing..."
+
+[ -n "$clip" ] && {
+  [ ${#clip} > 300 ] && clip=${clip:0:300}
+  notify-send "Clipboard:" "$clip"
+}
+[ -n "$prim" ] && {
+  [ ${#prim} > 300 ] && prim=${prim:0:300}
+  notify-send "Primary:" "$prim"
+}

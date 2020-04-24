@@ -33,4 +33,15 @@ case "$1" in
     exit 2
 esac
 
-exit 0
+[ ! -f ${FILE} ] || {
+  echo -n "${FILE}" | wl-copy
+  notify-check-send "📹Screen Capture:" "copy screen capture file path success,${FILE}\nWait 5s show..."
+  sleep 5
+  feh ${FILE}
+}
+[ ! -f ${VFILE} ] || {
+  echo -n "${VFILE}" | wl-copy
+  notify-check-send "📹Screen Capture:" "copy screen capture video file path success,${VFILE}\nWait 5s play..."
+  sleep 5
+  mpv ${VFILE}
+}

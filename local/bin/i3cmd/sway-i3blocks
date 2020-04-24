@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-i3blocks | (read line && echo "$line" && read line && echo "$line" && read line && echo "$line" && while :
-do
-  read line
-  echo "$line" || exit 1
-done)

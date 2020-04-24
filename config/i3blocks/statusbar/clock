@@ -3,9 +3,9 @@
 date "+%a %d %b  %H:%M"
 
 case $BLOCK_BUTTON in
-  1) pgrep -x dunst >/dev/null && notify-send "This Month" "$(cal)" ;;
+  1) notify-check-send "This Month" "$(cal)" ;;
 	2) swaymsg -q "exec $TERMINAL -e calcurse" ;;
-	3) pgrep -x dunst >/dev/null && notify-send "📅 Time/Date Module" "<b><span color=\"green\">Usage >>></span></b>
+	3) notify-check-send "📅 Time/Date Module" "<b><span color=\"green\">Usage >>></span></b>
 - Left click to show cal
 - Middle click opens calcurse" ;;
 esac

@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 #
-# check the dunsts
+# check the dunsts or mako, first use mako
 
 [ ! -z "$1" ] || exit 1
 [ ! -z "$2" ] || exit 2
 
-pgrep -x dunst >/dev/null || exit 3
+pgrep -x mako >/dev/null || pgrep -x dunst >/dev/null || exit 3
 
 notify-send "$1" "$2"
