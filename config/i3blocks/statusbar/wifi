@@ -49,7 +49,7 @@ else
   else
       COLOR="#FF0000"
   fi
-  FULL_TEXT="$LABEL$QUALITY%" # full text
+  FULL_TEXT="$LABEL $QUALITY%" # full text
 fi
 
 function getIpStr(){

@@ -145,7 +145,7 @@ if block_button == 3:
     call(['notify-send', "🔋 Battery module", msg.format(FA_LIGHTNING, FA_PLUG, FA_BATTERY, FA_QUESTION)])
 
 #  form =  '<span color="{}">{}%</span>'
-form =  '{}%'
+form =  ' {}%'
 fulltext += form.format(percentleft)
 
 

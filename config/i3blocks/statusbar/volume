@@ -74,7 +74,7 @@ format() {
   [ "$vol" = "-1" ] && printf "\\n" && exit
 
   if [ "$vol" -gt "70" ]; then
-    LABEL=""
+    LABEL=" "
   elif [ "$vol" -lt "30" ]; then
     LABEL=""
   else

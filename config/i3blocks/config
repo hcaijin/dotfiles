@@ -144,7 +144,7 @@ separator=false
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
-label=
+label= 
 interval=10
 color=#FFFFFF
 separator=false

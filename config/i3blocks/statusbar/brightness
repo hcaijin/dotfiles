@@ -24,11 +24,11 @@ esac
 perc_num=$(light -G | cut -d"." -f1)
 
 if [ "$perc_num" -gt "89" ]; then
-  LABEL=""
+  LABEL=" "
 elif [ "$perc_num" -lt "31" ]; then
-  LABEL=""
+  LABEL=" "
 else
-  LABEL=""
+  LABEL=" "
 fi
 
 echo "$LABEL$perc_num%"
