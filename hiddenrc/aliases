@@ -8,6 +8,8 @@
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias root='sudo -i' \
+           Chinese="trans -shell -brief :zh" \
+           English="trans -shell -brief" \
            wget="wget -U 'noleak'" \
            curl="curl --user-agent 'noleak'" \
            gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative" \
@@ -25,6 +27,7 @@ alias root='sudo -i' \
            e="$EDITOR" \
            v="$EDITOR" \
            x="sxiv -ft *" \
+           d='dirs -v | head -10' \
            gua="git remote | xargs -L1 git push --all" \
            ls="ls -hN --color=auto --group-directories-first" \
            grep="grep --color=auto" \

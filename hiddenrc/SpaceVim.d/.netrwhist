@@ -1,4 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =2
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/etc/pacman.d/gnupg'
+let g:netrw_dirhist_3='/etc/pacman.d'
 let g:netrw_dirhist_2='/home/graz/Source'
 let g:netrw_dirhist_1='/home/graz/.oh-my-zsh/plugins'

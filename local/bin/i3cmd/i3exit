@@ -20,7 +20,7 @@ case "$1" in
         systemctl reboot -i
         ;;
     shutdown)
-        systemctl poweroff -i
+        systemctl poweroff
         ;;
     *)
         echo "Usage: $0 {lock|logout|suspend|hibernate|reboot|shutdown}"

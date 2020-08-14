@@ -18,7 +18,7 @@ $right l
 $resizepx 30px
 $movepx 60px
 # Your preferred terminal emulator
-## choose termite, xterm, urxvt
+## x11 for choose termite
 $term $TERMINAL --display $DISPLAY
 # replay to rofi
 #$menu dmenu_path | dmenu | xargs swaymsg exec
@@ -67,15 +67,13 @@ $WS10 " "
 $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 $mode_print PrtSc (w) screen, (s) part+screen, (r) recorder, (t) audio+recorder, (p) part+recorder
 $freeze Distraction-free mode (super+shift+f to reactivate bindings)
-# Colors
-$bg-color			#2f343f
-$inactive-bg-color		#2f343f
-$text-color			#f3f4f5
-$inactive-text-color	#676E7D
-$urgent-bg-color		#5294e2
 
 $setwinsize resize set 600 350;
 $setwinhalf resize set 960 1070;
+
+$gaps_max 15
+$gaps_min 1
+$gaps_change 5
 }
 #
 
@@ -140,8 +138,10 @@ seat seat0 hide_cursor 10000
 default_border pixel 2
 default_floating_border pixel 2
 hide_edge_borders smart
-gaps inner 15
-gaps outer 15
+# smart_borders on
+# smart_gaps on
+gaps inner $gaps_max
+gaps outer $gaps_max
 popup_during_fullscreen smart
 
 # Layout mode for new containers value: default|stacking|tabbed
@@ -168,6 +168,14 @@ floating_modifier $mod normal
 workspace_auto_back_and_forth yes
 #
 # WINDOW CONTROL
+#colors
+# class                 border  backgr. text    indicator child_border
+client.focused          #222222 #5A5A5A #E1E1E1 #000000   #000000
+client.focused_inactive #222222 #5A5A5A #E1E1E1 #484e50   #000000
+client.unfocused        #222222 #323232 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
 # Float
 ## Float everything
 for_window [class="^.*"] border pixel 2
@@ -197,28 +205,18 @@ for_window [title="mpvfloat"] border pixel 0
 for_window [title="mpvfloat"] move position 1315 698
 no_focus [title="mpvfloat"]
 
+#for_window [class="VirtualBox Manager" instance="VirtualBox Manager"] border pixel 5
 ## Move to workspace
 assign [class="(?i)studio|idea"] $WS10
 assign [class="termite" instance="termite"] $WS1
-assign [class="Chromium|Firefox|Tor"] $WS2
+assign [class="Chromium|Firefox|browser"] $WS2
 assign [class="vimiv"] $WS4
 assign [class="VirtualBox Manager" instance="VirtualBox Manager"] $WS9
 # assign [instance="libreoffice"] $WS7
 
+# include bar
+# i3status.conf i3block.conf, waybar.conf
+include waybar.conf
 
-bar {
-  status_command i3blocks
-  # status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
-  position top
-  font SauceCodePro Nerd Font
-  separator_symbol ""
-  colors {
-    background         $bg-color
-    separator          #757575
-    focused_workspace  $bg-color          $bg-color		$text-color
-    inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
-    urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
-    }
-}
-
+# other include
 include $HOME/.config/sway/config.d/*

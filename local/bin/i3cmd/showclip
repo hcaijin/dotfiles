@@ -9,10 +9,10 @@ prim=$(wl-paste -n --primary)
 # echo "wl-paste ing..."
 
 [ -n "$clip" ] && {
-  [ ${#clip} > 300 ] && clip=${clip:0:300}
+  [ ${#clip} -gt 300 ] && clip=${clip:0:300}
   notify-send "Clipboard:" "$clip"
 }
 [ -n "$prim" ] && {
-  [ ${#prim} > 300 ] && prim=${prim:0:300}
+  [ ${#prim} -gt 300 ] && prim=${prim:0:300}
   notify-send "Primary:" "$prim"
 }

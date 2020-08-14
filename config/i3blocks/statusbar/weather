@@ -16,7 +16,7 @@ getweather() {
   checkping || exit
   # echo "wttr.in/{$LOCALTION}?format=4"
   # exit 0
-  curl -s "wttr.in/{$LOCALTION}?0qm&format=%l:+%c+%t" > "$report" || exit
+  curl -s "wttr.in/{$LOCALTION}?0qm&format=%l:+%c+%t\n" > "$report" || exit
   # curl -s "wttr.in/${LOCALTION}_tpq.png --output $pic" > /dev/null || exit
 }
 

@@ -11,10 +11,10 @@ case $BLOCK_BUTTON in
 	2) light -S 50 ;;
 	# scroll up
 	# raise brightness
-	4) light -A 10 ;;
+	4) light -A 5 ;;
 	# scroll down
 	# lower brightness
-	5) light -U 10 ;;
+	5) light -U 5 ;;
   # show help
 	3) notify-check-send "🌗 Brightness Module" "<b><span color=\"green\">Usage >>></span></b>
 - Middle click to set 50%.
