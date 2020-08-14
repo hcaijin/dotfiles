@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [[ ! "$1" ]]; then
+  # 1. help from https://www.cnblogs.com/garyw/p/12769259.html
+  # TMPDIR=/dev/shm
+  # cd "$TMPDIR"
+  # echo Use mouse select an area on screen to decode QR
+  # echo ""
+  # scrot -s -e 'echo Image size $w x $h ; echo "" ; zbarimg "$f" ; rm  "$f" '
+
+  # 2. help from create img to /tmp/ then scan the img and decode qrcode
+  DEQRIMG=/tmp/deqr-img.png
+  grim -g "$(slurp)" ${DEQRIMG} || exit
+  DEQRSTR=$(zbarimg -q ${DEQRIMG} | awk -F'QR-Code:' '{print $NF}') || exit
+  echo ${DEQRSTR} | wl-copy -n
+  notify-send "QR-Code:" "${DEQRSTR}"
+else
+  qrencode -m 2 -t ANSIUTF8 "$1"
+fi

@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+# Translate wl-paste text to Chinese
+# clip=$(wl-paste -n)
+# prim=$(wl-paste -n --primary)
+
+if [ -n "$1" ]; then
+  TEXT="$1"
+else
+  # echo "$(wl-paste -l)" | grep -n 'text/plain' 2>&1 >/dev/null
+  # [ $? == 0 ] || exit
+  # TEXT=$(wl-paste -n)
+  # [[ -z "${TEXT}" ]] && TEXT=$(wl-paste -n --primary)
+  TEXT=$(wl-paste -n --primary)
+fi
+
+translate=`trans -b :zh "${TEXT}" 2>/dev/null`
+echo ${translate} | wl-copy -n 2>&1 > /dev/null
+notify-send -t 10000 "${TEXT}" "${translate}"
