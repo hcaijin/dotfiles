@@ -71,7 +71,7 @@ $freeze Distraction-free mode (super+shift+f to reactivate bindings)
 $setwinsize resize set 600 350;
 $setwinhalf resize set 960 1070;
 
-$gaps_max 15
+$gaps_max 5
 $gaps_min 1
 $gaps_change 5
 }
@@ -139,7 +139,7 @@ default_border pixel 2
 default_floating_border pixel 2
 hide_edge_borders smart
 # smart_borders on
-# smart_gaps on
+smart_gaps on
 gaps inner $gaps_max
 gaps outer $gaps_max
 popup_during_fullscreen smart

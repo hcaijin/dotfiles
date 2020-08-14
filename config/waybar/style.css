@@ -32,8 +32,13 @@ window#waybar.termite {
     background-color: #3F3F3F;
 }
 
+window#waybar.qutebrowser {
+    background-color: #4F4F4F;
+    border: none;
+}
+
 window#waybar.chromium {
-    background-color: #000000;
+    background-color: #4F4F4F;
     border: none;
 }
 
@@ -88,16 +93,14 @@ window#waybar.chromium {
 }
 
 #clock {
-    border-bottom: 3px solid #64727D;
+    border-bottom: 3px solid #94727D;
 }
 
 #battery {
     border-bottom: 3px solid #64727D;
-    color: #000000;
 }
 
 #battery.charging {
-    color: #ffffff;
     border-bottom: 3px solid #26A65B;
 }
 
@@ -122,15 +125,6 @@ label:focus {
     border-bottom: 3px solid #000000;
 }
 
-#cpu {
-    border-bottom: 3px solid #2ecc71;
-    color: #000000;
-}
-
-#memory {
-    border-bottom: 3px solid #9b59b6;
-}
-
 #backlight {
     border-bottom: 3px solid #90b1b1;
 }
@@ -139,13 +133,16 @@ label:focus {
     border-bottom: 3px solid #2980b9;
 }
 
+#network.speed {
+    border-bottom: none;
+}
+
 #network.disconnected {
     border-bottom: 3px solid #f53c3c;
 }
 
 #pulseaudio {
     border-bottom: 3px solid #f1c40f;
-    color: #000000;
 }
 
 #pulseaudio.muted {
@@ -167,16 +164,8 @@ label:focus {
     border-bottom: 3px solid #ffa000;
 }
 
-#temperature {
-    border-bottom: 3px solid #f0932b;
-}
-
 #temperature.critical {
     border-bottom: 3px solid #eb4d4b;
-}
-
-#tray {
-    border-bottom: 3px solid #2980b9;
 }
 
 #idle_inhibitor {
@@ -185,12 +174,11 @@ label:focus {
 
 #idle_inhibitor.activated {
     border-bottom: 3px solid #ecf0f1;
-    color: #2d3436;
+    color: #9d3436;
 }
 
 #mpd {
     border-bottom: 3px solid #66cc99;
-    color: #2a5c45;
 }
 
 #mpd.disconnected {

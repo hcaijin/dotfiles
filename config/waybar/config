@@ -1,12 +1,12 @@
-{
+[{
     // "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 30, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
-    "modules-center": ["sway/window"],
-    "modules-right": ["mpd", "custom/pacman", "custom/weather", "custom/bandwidth", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "custom/vpn", "battery", "battery#bat2", "clock", "tray"],
+    "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
+    "modules-center": [],
+    "modules-right": ["mpd", "custom/pacman", "custom/weather", "pulseaudio", "network", "backlight", "custom/vpn", "battery", "battery#bat2", "clock", "idle_inhibitor"],
     // Modules configuration
     // "sway/workspaces": {
     //     "disable-scroll": true,
@@ -59,21 +59,11 @@
             "deactivated": ""
         }
     },
-    "tray": {
-        // "icon-size": 21,
-        "spacing": 10
-    },
     "clock": {
         // "timezone": "America/New_York",
+        "format": "  {:%H:%M}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
-    },
-    "cpu": {
-        "format": "{usage}% ",
-        "tooltip": true
-    },
-    "memory": {
-        "format": "{}% "
+        "format-alt": "  {:%Y-%m-%d}"
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -89,8 +79,7 @@
         "on-scroll-up": "light -A 5",
         "on-scroll-down": "light -U 5",
         "on-click-middle": "light -S 50",
-        "format": "{icon}",
-        "format-alt": "{percent}% {icon}",
+        "format": "{icon} {percent}%",
         "format-icons": ["", "", ""]
     },
     "battery": {
@@ -99,10 +88,10 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "{time} {icon}",
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{icon} {time}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
@@ -112,19 +101,19 @@
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
+        "format-wifi": " {essid} ({signalStrength}%)",
+        "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
+        "format-linked": " {ifname} (No IP)",
+        "format-disconnected": "⚠ Disconnected",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon} {format_source}",
+        "format": "{format_source}{icon}{volume}%",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
+        "format-source": " {volume}%",
         "format-source-muted": "",
         "format-icons": {
             "headphone": "",
@@ -156,7 +145,7 @@
         "interval": 3600
     },
     "custom/pacman": {
-        "format": "{}  ",
+        "format": " {}",
         "interval": 3600,
         "return-type": "json",
         "exec": "check-pacup",
@@ -165,16 +154,78 @@
         "on-click-middle": "check-pacup -f",
         "signal": 8
     },
-    "custom/bandwidth": {
-        "exec": "bandwidth",
-        "interval": 10,
-        "tooltip": false
-    },
     "custom/vpn": {
-        "format": "VPN ",
+        "format": " VPN",
         "exec": "echo '{\"class\": \"connected\"}'",
         "exec-if": "test -d /proc/sys/net/ipv4/conf/tun0",
         "return-type": "json",
         "interval": 60
     }
-}
+},
+{
+    "layer": "bottom",
+    "position": "bottom",
+
+    "modules-left": ["tray", "custom/spotify"],
+    "modules-center": ["network#speed"],
+    "modules-right": ["custom/systemd", "custom/backup", "custom/zfs-trim", "custom/zfs-scrub", "temperature", "custom/storage", "cpu", "memory" ],
+    "custom/spotify": {
+        "format": "<span foreground='#929292'></span> {}",
+        "interval": 2,
+        "exec": "~/.config/waybar/module/spotify.sh",
+        "exec-if": "pgrep spotify"
+    },
+    "network#speed": {
+        "format-wifi": "<span foreground='#929292'></span> {bandwidthDownOctets} <span foreground='#929292'></span> {bandwidthUpOctets}",
+        "format-ethernet": "<span foreground='#929292'></span> {bandwidthDownOctets} <span foreground='#929292'></span> {bandwidthUpOctets}",
+        "tooltip": false,
+        "interval": 2
+    },
+    "temperature": {
+        "format": "<span foreground='#929292'></span> {temperatureC}°C",
+        "thermal-zone": 1,
+        "critical-threshold": 60,
+	    "format-critical": "<span foreground='#ff5c57'></span> {temperatureC}°C"
+    },
+    "custom/storage": {
+        "format": "<span foreground='#929292'></span> {}%",
+        "return-type": "json",
+        "interval": 60,
+        "exec": "~/.config/waybar/module/storage.sh /"
+    },
+    "custom/zfs-trim": {
+        "format": " <span foreground='#f3f99d'>trimming...</span>",
+        "interval": 5,
+        "exec": "echo a",
+        "exec-if": "systemctl is-active --quiet zfs-trim"
+    },
+    "custom/zfs-scrub": {
+        "format": " <span foreground='#f3f99d'>scrubbing...</span>",
+        "interval": 5,
+        "exec": "echo a",
+        "exec-if": "systemctl is-active --quiet zfs-scrub"
+    },
+    "custom/backup": {
+        "format": " <span foreground='#f3f99d'>backup...</span>",
+        "interval": 5,
+        "exec": "echo a",
+        "exec-if": "systemctl is-active --quiet backup"
+    },
+    "custom/systemd": {
+        "format": "<span foreground='#ff5c57'> {}</span>",
+        "interval": 5,
+        "exec": "~/.config/waybar/module/systemd.sh",
+        "exec-if": "~/.config/waybar/module/systemd.sh"
+    },
+    "cpu": {
+        "interval": 3,
+        "format": "<span foreground='#929292'></span> {usage}%"
+    },
+    "memory": {
+        "interval": 3,
+        "format": "<span foreground='#929292'></span> {percentage}%"
+    },
+    "tray": {
+        "icon-size": 18
+    }
+}]
