@@ -67,7 +67,7 @@ color15 = #ebdbb2
 
 [hints]
 # font = Monospace 12
-font = DejaVu Sans Mono for Powerline 15
+# font = DejaVu Sans Mono for Powerline 15
 foreground = #dcdccc
 background = #3f3f3f
 active_foreground = #e68080
