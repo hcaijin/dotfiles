@@ -172,15 +172,9 @@
     "layer": "bottom",
     "position": "bottom",
 
-    "modules-left": ["tray", "custom/spotify"],
+    "modules-left": ["tray"],
     "modules-center": ["network#speed"],
     "modules-right": ["custom/systemd", "temperature", "custom/storage", "cpu", "memory" ],
-    "custom/spotify": {
-        "format": "<span foreground='#929292'></span> {}",
-        "interval": 2,
-        "exec": "~/.config/waybar/module/spotify.sh",
-        "exec-if": "pgrep spotify"
-    },
     "network#speed": {
         "format-wifi": "<span foreground='#929292'></span> {bandwidthDownOctets} <span foreground='#929292'></span> {bandwidthUpOctets}",
         "format-ethernet": "<span foreground='#929292'></span> {bandwidthDownOctets} <span foreground='#929292'></span> {bandwidthUpOctets}",
