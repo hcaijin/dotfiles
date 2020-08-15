@@ -1,5 +1,5 @@
 [{
-    // "layer": "top", // Waybar at top layer
+    "layer": "bottom", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 30, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
@@ -116,7 +116,7 @@
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
         "format": "{format_source}{icon}{volume} %",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "{icon} {volume}% {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
         "format-source": " {volume}%",

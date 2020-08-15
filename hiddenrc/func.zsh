@@ -211,5 +211,5 @@ unsetproxy() {
 [ -z "$(ss -tlnp | grep 1080)" ] || setproxy
 
 unlockbw() {
-  export BW_SESSION="$(bw unlock Hcaijin930010 --raw)"
+  export BW_SESSION="$(bw unlock --raw)"
 }

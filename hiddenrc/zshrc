@@ -11,15 +11,16 @@ if [ -f '/home/graz/Source/google-cloud-sdk/completion.zsh.inc' ]; then . '/home
 [ -f ~/.aliases ] && source ~/.aliases
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+  GDK_BACKEND=x11
 
   # export GTK_IM_MODULE=fcitx
   # export QT_IM_MODULE=fcitx
   # export XMODIFIERS="@im=fcitx"
 
-  #export _JAVA_AWT_WM_NONREPARENTING=1
+  export _JAVA_AWT_WM_NONREPARENTING=1
   # Disabling client-side Qt decorations
-  #export QT_QPA_PLATFORM=wayland
-  #export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+  export QT_QPA_PLATFORM=wayland
+  export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
   # Blank window in Java application.
 
   #
