@@ -1,39 +1,70 @@
+@define-color grey rgba(32, 32, 32, 0.8);
+@define-color yellow #E5C07B;
+@define-color darkgrey rgba(20, 20, 20, 0.8);
+@define-color transparent rgba(0, 0, 0, 0);
+
 window {
-    margin: 5px;
-    #border: 2px solid #282C34;
-    #border: 2px solid blue;
-    #background-color: #282C34;
-    #background-color: #282C34;
-    background-color: transparent;
+  margin: 2px;
+  background-color: @grey;
+  font-size: 1.2em;
+  font: {{ font }};
 }
 
 #input {
-    margin-left: 70px;
-    margin-right: 70px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 2px solid blue;
-    #border: 2px solid #777D87;
-    border: 2px solid grey;
-    #background-color: #E5C07B;
-    #background-color: #282C34;
-    background-color: darkgrey;
-}
-
-#scroll {
-    margin: 5px;
-    #border: 2px solid #282C34;
-    border: 2px solid #61AFEF;
-    #background-color: #777D87;
-    #background-color: #ABB2BF;
-    background-color: #282C34;
+  margin: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 1px solid @yellow;
+  border-radius: 0px;
+  background-color: @transparent;
 }
 
 #inner-box {
-    margin: 20px;
+  margin: 0px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-top: 2px solid @transparent;
+  color: white;
+  background-color: @transparent;
 }
 
-#text {
-    margin: 5px;
-    color: #E5C07B;
+expander .entry {
+  margin-left: -15px;
+}
+
+#img {
+  margin-right: 6px;
+}
+
+#outer-box {
+  margin: 0px;
+  border: 0px solid;
+  background-color: @transparent;
+}
+
+#scroll {
+  margin: 0px;
+  border: 0px solid;
+  background-color: @transparent;
+}
+
+#entry{
+  padding: 1px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin: 0px;
+}
+
+#entry:selected{
+  background-color: @yellow;
+  color: @darkgrey;
+  outline: 0px;
+  border-radius: 0px;
+}
+
+#text:selected{
+  background-color: @yellow;
+  color: @darkgrey;
+  outline: 0px;
+  border-radius: 0px;
 }

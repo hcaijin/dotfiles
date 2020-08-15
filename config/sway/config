@@ -138,7 +138,7 @@ seat seat0 hide_cursor 10000
 default_border pixel 2
 default_floating_border pixel 2
 hide_edge_borders smart
-# smart_borders on
+smart_borders on
 smart_gaps on
 gaps inner $gaps_max
 gaps outer $gaps_max
