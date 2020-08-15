@@ -6,23 +6,29 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
     "modules-center": [],
-    "modules-right": ["mpd", "custom/pacman", "custom/weather", "pulseaudio", "network", "backlight", "custom/vpn", "battery", "battery#bat2", "clock", "idle_inhibitor"],
+    "modules-right": ["mpd", "custom/pacman", "custom/weather", "pulseaudio", "network", "backlight", "custom/vpn", "battery", "clock", "idle_inhibitor"],
     // Modules configuration
-    // "sway/workspaces": {
-    //     "disable-scroll": true,
-    //     "all-outputs": true,
-    //     "format": "{name}: {icon}",
-    //     "format-icons": {
-    //         "1": "",
-    //         "2": "",
-    //         "3": "",
-    //         "4": "",
-    //         "5": "",
-    //         "urgent": "",
-    //         "focused": "",
-    //         "default": ""
-    //     }
-    // },
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "0": " ",
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "6": "",
+            "7": " ",
+            "8": "",
+            "9": " ",
+            "10": "",
+            "urgen": "",
+            "focused": "",
+            "default": ""
+        }
+    },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
@@ -101,15 +107,15 @@
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": " {essid} ({signalStrength}%)",
+        "format-wifi": "  {signalStrength}%",
         "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
         "format-linked": " {ifname} (No IP)",
         "format-disconnected": "⚠ Disconnected",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "format-alt": "{essid} {ifname}: {ipaddr}/{cidr}"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{format_source}{icon}{volume}%",
+        "format": "{format_source}{icon}{volume} %",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
@@ -145,7 +151,7 @@
         "interval": 3600
     },
     "custom/pacman": {
-        "format": " {}",
+        "format": " {}",
         "interval": 3600,
         "return-type": "json",
         "exec": "check-pacup",
@@ -168,7 +174,7 @@
 
     "modules-left": ["tray", "custom/spotify"],
     "modules-center": ["network#speed"],
-    "modules-right": ["custom/systemd", "custom/backup", "custom/zfs-trim", "custom/zfs-scrub", "temperature", "custom/storage", "cpu", "memory" ],
+    "modules-right": ["custom/systemd", "temperature", "custom/storage", "cpu", "memory" ],
     "custom/spotify": {
         "format": "<span foreground='#929292'></span> {}",
         "interval": 2,
@@ -193,24 +199,6 @@
         "interval": 60,
         "exec": "~/.config/waybar/module/storage.sh /"
     },
-    "custom/zfs-trim": {
-        "format": " <span foreground='#f3f99d'>trimming...</span>",
-        "interval": 5,
-        "exec": "echo a",
-        "exec-if": "systemctl is-active --quiet zfs-trim"
-    },
-    "custom/zfs-scrub": {
-        "format": " <span foreground='#f3f99d'>scrubbing...</span>",
-        "interval": 5,
-        "exec": "echo a",
-        "exec-if": "systemctl is-active --quiet zfs-scrub"
-    },
-    "custom/backup": {
-        "format": " <span foreground='#f3f99d'>backup...</span>",
-        "interval": 5,
-        "exec": "echo a",
-        "exec-if": "systemctl is-active --quiet backup"
-    },
     "custom/systemd": {
         "format": "<span foreground='#ff5c57'> {}</span>",
         "interval": 5,
@@ -226,6 +214,7 @@
         "format": "<span foreground='#929292'></span> {percentage}%"
     },
     "tray": {
-        "icon-size": 18
+        "icon-size": 18,
+        "spacing": 10
     }
 }]

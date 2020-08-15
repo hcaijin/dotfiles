@@ -42,8 +42,13 @@ window#waybar.chromium {
     border: none;
 }
 
+#workspaces {
+    padding-right: 30px;
+}
+
 #workspaces button {
     padding: 0 5px;
+    min-width:  30px;
     background-color: transparent;
     color: #ffffff;
     border-bottom: 3px solid transparent;
@@ -83,8 +88,8 @@ window#waybar.chromium {
 #custom-bandwidth,
 #custom-pacman,
 #custom-vpn,
-#tray,
 #mode,
+#tray,
 #idle_inhibitor,
 #mpd {
     padding: 0 10px;

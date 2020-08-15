@@ -35,19 +35,42 @@ $term $TERMINAL --display $DISPLAY
 #$WS9 »games
 #$WS0 »code
 
-$WS0 " "
-$WS1 " "
-#$WS2 " "
-$WS2 " "
-$WS3 " "
-#$WS3 " "
-$WS4 " "
-$WS5 " "
-$WS6 " "
-$WS7 " "
-$WS8 " "
-$WS9 " "
-$WS10 " "
+# $WS0 " "
+# $WS1 " "
+# #$WS2 " "
+# $WS2 " "
+# $WS3 " "
+# #$WS3 " "
+# $WS4 " "
+# $WS5 " "
+# $WS6 " "
+# $WS7 " "
+# $WS8 " "
+# $WS9 " "
+# $WS10 " "
+$WS0 "0"
+$WS1 "1"
+$WS2 "2"
+$WS3 "3"
+$WS4 "4"
+$WS5 "5"
+$WS6 "6"
+$WS7 "7"
+$WS8 "8"
+$WS9 "9"
+$WS10 "10"
+
+# $WS0 "0:"
+# $WS1 "1:"
+# $WS2 "2:"
+# $WS3 "3:"
+# $WS4 "4:"
+# $WS5 "5:"
+# $WS6 "6:"
+# $WS7 "7:"
+# $WS8 "8:"
+# $WS9 "9: "
+# $WS10 "10:"
 
 
 ######grouping workspaces+name####
@@ -71,7 +94,7 @@ $freeze Distraction-free mode (super+shift+f to reactivate bindings)
 $setwinsize resize set 600 350;
 $setwinhalf resize set 960 1070;
 
-$gaps_max 5
+$gaps_max 15
 $gaps_min 1
 $gaps_change 5
 }
@@ -135,11 +158,13 @@ seat seat0 hide_cursor 10000
 # font SauceCodePro Nerd Font
 # font Inconsolata-g for Powerline 13
 # font DejaVu Sans Mono for Powerline 12
-default_border pixel 2
-default_floating_border pixel 2
+default_border none
+# default_floating_border none
+# default_floating_border pixel 2
+# hide_edge_borders --i3 both
 hide_edge_borders smart
-smart_borders on
-smart_gaps on
+smart_borders off
+smart_gaps off
 gaps inner $gaps_max
 gaps outer $gaps_max
 popup_during_fullscreen smart
@@ -178,7 +203,7 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 # Float
 ## Float everything
-for_window [class="^.*"] border pixel 2
+# for_window [class="^.*"] border pixel 2
 # for_window [title="."] title_format "%title [ %app_id ]"
 #for_window [class="[.]*"] floating enable
 #for_window [class=""] floating enable

@@ -3,18 +3,22 @@
 @define-color darkgrey rgba(20, 20, 20, 0.8);
 @define-color transparent rgba(0, 0, 0, 0);
 
+* {
+  border: none;
+  margin: 0px;
+}
+
 window {
-  margin: 2px;
   background-color: @grey;
   font-size: 1.2em;
-  font: {{ font }};
+  /* font: {{ font }}; */
 }
 
 #input {
-  margin: 5px;
+  margin: 0px;
   margin-right: 10px;
   margin-left: 10px;
-  border: 1px solid @yellow;
+  border-bottom: 2px solid @yellow;
   border-radius: 0px;
   background-color: @transparent;
 }

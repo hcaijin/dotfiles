@@ -14,23 +14,25 @@
 #}' > ~/.config/mako/config
 #
 
-#max-visible=5
+max-visible=5
 #sort=-time
 #output=""
 #layer=top
 #anchor=top-right
-#font=monospace 10
-background-color=#285577F0
-#text-color=#FFFFFFFF
-#width=300
-height=300
-#padding=5
-#border-size=1
-#border-color=#4C7899FF
-#border-radius=0
+# font=monospace 10
+# background-color=#285577F0
+background-color=#202020BB
+text-color=#f3f99dFF
+width=400
+height=100
+margin=10
+padding=5
+border-size=1
+border-color=#f3f99dBB
+border-radius=5
 #progress-color=over #5588AAFF
-#icons=1
-#max-icon-size=64
+icons=1
+max-icon-size=64
 #icon-path=""
 #markup=1
 #actions=1
@@ -39,3 +41,7 @@ default-timeout=5000
 #ignore-timeout=0
 #group-by=none
 #invisible=0
+
+[urgency=high]
+text-color=#ff5c57FF
+border-color=#ff5c57BB
