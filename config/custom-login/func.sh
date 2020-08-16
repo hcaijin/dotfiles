@@ -1,4 +1,5 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
+# Time: 2020-08-16 17:28:13
 
 make() {
    [ "$1" == 'install' ] &&

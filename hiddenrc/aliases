@@ -8,6 +8,7 @@
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias root='sudo -i' \
+           shred="shred -zf" \
            Chinese="trans -shell -brief :zh" \
            English="trans -shell -brief" \
            wget="wget -U 'noleak'" \

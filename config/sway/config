@@ -164,7 +164,7 @@ default_border none
 # hide_edge_borders --i3 both
 hide_edge_borders smart
 smart_borders off
-smart_gaps off
+smart_gaps on
 gaps inner $gaps_max
 gaps outer $gaps_max
 popup_during_fullscreen smart

@@ -13,14 +13,6 @@ export PS1="\[$darkgrey\][ \[$red\]blackarch \[$white\]\W\[$red\] \[$darkgrey\]]
 export LD_PRELOAD=""
 export EDITOR="vim"
 
-# alias
-alias ls="ls --color"
-#alias vi="vim"
-alias shred="shred -zf"
-alias python="python2"
-alias wget="wget -U 'noleak'"
-alias curl="curl --user-agent 'noleak'"
-
 # source files
 [ -r /usr/share/bash-completion/completions ] &&
   . /usr/share/bash-completion/completions/*
@@ -29,24 +21,5 @@ alias curl="curl --user-agent 'noleak'"
 export LANG=en_US.UTF-8
 export LANGUAGE=zh_CN:en_US
 export LC_CTYPE=en_US.UTF-8
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export XMODIFIERS=@im=fcitx
-
-
-
-
-
-
-
-
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export http_proxy=''
-export https_proxy=''
-export ftp_proxy=''
-export socks_proxy=''
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
