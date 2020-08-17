@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+WP_DIR="$HOME/.config/variety/Downloaded/"
+WP_DIR2="$HOME/.wallpaper/"
+LOG="/tmp/autochagebg.log"
+
+[[ -f ${LOG} && $(wc -l ${LOG} | awk '{print $1}') -gt 0 ]] || find "$WP_DIR" "$WP_DIR2" -type f -name '*.jpg' -o -name '*.png' > ${LOG}
+TOTAL=$(cat ${LOG} | wc -l)
+# echo $TOTAL
+num=$(echo $RANDOM % $TOTAL + 1 | bc)
+# echo $num
+# echo $LOG
+wallpaper="$(sed -n "${num}p" ${LOG} 2> /dev/null)"
+# file "${wallpaper}"
+file "$wallpaper" | grep -iE 'jpeg|jpg|png' >/dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+  kill $(pgrep -x swaybg) >/dev/null 2>&1
+  swaybg -o "*" -i "$wallpaper" -m fill
+fi

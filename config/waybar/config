@@ -1,5 +1,5 @@
 [{
-    "layer": "bottom", // Waybar at top layer
+    "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 30, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
@@ -33,9 +33,9 @@
         "format": "<span style=\"italic\">{}</span>"
     },
     "mpd": {
-        "format": "🎶{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",
-        "format-disconnected": "🎶Disconnected",
-        "format-stopped": "🎶{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped",
+        "format": "🎶 {stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",
+        "format-disconnected": "🎶 Disconnected",
+        "format-stopped": "🎶 {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped",
         "unknown-tag": "N/A",
         "interval": 2,
         "consume-icons": {
@@ -172,7 +172,7 @@
     }
 },
 {
-    "layer": "bottom",
+    "layer": "top",
     "position": "bottom",
 
     "modules-left": ["tray"],

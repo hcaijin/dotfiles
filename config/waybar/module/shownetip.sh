@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Time: 2020-08-17 12:27:10
-iplink=$(ip link | grep -i ',up,' | grep -v 'lo:' | awk '{print $2}')
+iplink=$(ip link | grep -i ',up,' | grep -E 'wlp|enp' | awk '{print $2}')
 BLOCK_INSTANCE=${iplink:0:-1}
 INTERFACE="${BLOCK_INSTANCE:-wlp5s0}"
 SEND_HEADER="📶 Network Module"
