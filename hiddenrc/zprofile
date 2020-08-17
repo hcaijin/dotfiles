@@ -28,10 +28,16 @@ eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_ecdsa)"
 
 sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/Source/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Source/google-cloud-sdk/path.zsh.inc"; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f "$HOME/Source/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Source/google-cloud-sdk/completion.zsh.inc"; fi
-
-[ -f "$HOME/.aliases" ] && source "$HOME/.aliases"
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+  export XDG_CURRENT_DESKTOP=Unity
+  # export GDK_BACKEND=x11
+  #export _JAVA_AWT_WM_NONREPARENTING=1
+  # MPD daemon start (if no other user instance exists)
+  [ ! -s ~/.config/mpd/pid ] && mpd 2>&1 >/dev/null &
+  #
+  # Sway start
+  # exec sway -d 2> /tmp/sway.log # sway debug
+  # The first card is used for actual rendering, and display buffers are copied to the secondary cards for any displays connected to them.
+  # WLR_DRM_DEVICES=/dev/dri/card0 exec sway 2>/tmp/sway.log
+  XKB_DEFAULT_LAYOUT=us exec sway 2> /tmp/sway.log
+fi

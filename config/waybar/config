@@ -33,9 +33,9 @@
         "format": "<span style=\"italic\">{}</span>"
     },
     "mpd": {
-        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+        "format": "🎶{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",
+        "format-disconnected": "🎶Disconnected",
+        "format-stopped": "🎶{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped",
         "unknown-tag": "N/A",
         "interval": 2,
         "consume-icons": {
@@ -56,7 +56,8 @@
             "playing": ""
         },
         "tooltip-format": "MPD (connected)",
-        "tooltip-format-disconnected": "MPD (disconnected)"
+        "tooltip-format-disconnected": "MPD (disconnected)",
+        "on-click-right": "$TERMINAL -e 'ncmpcpp'"
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -111,7 +112,9 @@
         "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
         "format-linked": " {ifname} (No IP)",
         "format-disconnected": "⚠ Disconnected",
-        "format-alt": "{essid} {ifname}: {ipaddr}/{cidr}"
+        "format-alt": "{essid} {ifname}: {ipaddr}/{cidr}",
+        "on-click-right": "~/.config/waybar/module/shownetip.sh",
+        "on-click-middle": "~/.config/waybar/module/shownetip.sh rm"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
@@ -146,7 +149,7 @@
     },
     "custom/weather": {
         "return-type": "json",
-        "exec": "~/.config/waybar/module/weather",
+        "exec": "export LOCAL=Shanghai,London,Hong_Kong; ~/.config/waybar/module/weather.sh",
         "exec-if": "ping wttr.in -c1",
         "interval": 3600
     },
@@ -154,10 +157,10 @@
         "format": " {}",
         "interval": 3600,
         "return-type": "json",
-        "exec": "check-pacup",
+        "exec": "~/.config/waybar/module/checkupdate.sh",
         "exec-if": "exit 0",
         "on-click": "$TERMINAL -e 'popupgrade'",
-        "on-click-middle": "check-pacup -f",
+        "on-click-middle": "~/.config/waybar/module/checkupdate.sh -f",
         "signal": 8
     },
     "custom/vpn": {

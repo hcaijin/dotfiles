@@ -197,5 +197,6 @@ DISABLE_CORRECTION="true"
 # completion detail
 zstyle ':completion:*:complete:-command-:*:*' ignored-patterns '*.pdf|*.exe|*.dll'
 zstyle ':completion:*:*sh:*:' tag-order files
+zstyle ':completion:*' rehash true
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -96,9 +96,15 @@ $setwinhalf resize set 960 1070;
 
 $gaps_max 15
 $gaps_min 1
-$gaps_change 5
+
+# $laptop eDP-1
 }
 #
+
+# Clamshell Mode
+# As of Sway 1.1 you can use switch events to drive certain functionality, such as disabling an output upon a laptop lid being closed. Pass your laptop output name into the following, which can by found with: swaymsg -t get_outputs for example eDP-1.
+# bindswitch --reload --locked lid:on output $laptop disable
+# bindswitch --reload --locked lid:off output $laptop enablegaps_change 5
 
 ### Output configuration
 #
@@ -134,10 +140,10 @@ input type:keyboard {
 #input type:keyboard xkb_layout "us-custom-winkey"
 
 #Keyboard repeat delay and rate
-#input type:keyboard {
-    #repeat_delay 200
-    #repeat_rate 2
-#}
+# input type:keyboard {
+    # repeat_delay 500
+    # repeat_rate 5
+# }
 
 # touchpad
 input type:touchpad {
@@ -164,7 +170,7 @@ default_border none
 # hide_edge_borders --i3 both
 hide_edge_borders smart
 smart_borders off
-smart_gaps on
+smart_gaps off
 gaps inner $gaps_max
 gaps outer $gaps_max
 popup_during_fullscreen smart
@@ -245,3 +251,4 @@ include waybar.conf
 
 # other include
 include $HOME/.config/sway/config.d/*
+include /etc/sway/config.d/*

@@ -3,6 +3,10 @@
 @define-color darkgrey rgba(20, 20, 20, 0.8);
 @define-color transparent rgba(0, 0, 0, 0);
 
+* {
+  border: none;
+}
+
 window {
   background-color: @grey;
   font-size: 1.2em;
