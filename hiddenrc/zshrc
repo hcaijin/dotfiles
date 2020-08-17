@@ -163,7 +163,6 @@ autoload -U deer
 zle -N deer
 
 # default keymap
-bindkey -s '\ee' 'vim\n'
 bindkey '\eh' backward-char
 bindkey '\el' forward-char
 bindkey '\ej' down-line-or-history
@@ -173,17 +172,17 @@ bindkey '\eL' forward-word
 bindkey '\eJ' beginning-of-line
 bindkey '\eK' end-of-line
 
-bindkey -s '\eo' 'cd ..\n'
-bindkey -s '\e;' 'll\n'
-
 bindkey '\e[1;3D' backward-word
 bindkey '\e[1;3C' forward-word
 bindkey '\e[1;3A' beginning-of-line
 bindkey '\e[1;3B' end-of-line
 
 bindkey '\ev' deer
-bindkey -s '\eu' 'ranger_cd\n'
-bindkey -s '\eOS' 'vim '
+bindkey -s '\eo' 'cd ..\n'
+bindkey -s '\ep' 'll\n'
+bindkey -s '\ee' 'vim\n'
+bindkey -s '\eu' 'ranger\n'
+bindkey -s '\e-' 'cd ~\n'
 
 
 # source function.sh if it exists
