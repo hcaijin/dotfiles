@@ -211,7 +211,7 @@
         "format": "<span foreground='#929292'></span> {percentage}%"
     },
     "tray": {
-        "icon-size": 18,
+        "icon-size": 16,
         "spacing": 10
     }
 }]
