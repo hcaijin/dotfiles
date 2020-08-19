@@ -23,3 +23,7 @@ export LANGUAGE=zh_CN:en_US
 export LC_CTYPE=en_US.UTF-8
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export http_proxy=''
+export https_proxy=''
+export ftp_proxy=''
+export socks_proxy=''
