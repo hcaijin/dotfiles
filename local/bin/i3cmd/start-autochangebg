@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+# change wallpaper shell
+
+pid=$(pgrep -f auto-change-bg)
+if [ "$?" == "0" ]
+then
+  kill $pid
+  notify-send "Stoped auto change bg shell command."
+else
+  auto-change-bg &
+  notify-send "Starting auto change bg shell command."
+fi

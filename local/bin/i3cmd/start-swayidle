@@ -4,8 +4,8 @@
 
 ifinstalled swayidle || exit
 
-stat=$(pgrep -x swayidle)
-if [ $stat  ]
+pgrep -x swayidle
+if [ "$?" == "0" ]
 then
   pkill -x swayidle
   notify-send "Stoped swayidle shell command."
