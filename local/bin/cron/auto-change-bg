@@ -18,15 +18,18 @@ change_bg(){
   # echo $LOG
   wallpaper="$(sed -n "${num}p" ${LOG} 2> /dev/null)"
   # file "${wallpaper}"
-  fortune -s > $WPTEXT 2>/dev/null
+  # fortune -s > $WPTEXT 2>/dev/null
+  # Remove color codes with sed help: https://www.commandlinefu.com/commands/view/3584/remove-color-codes-special-characters-with-sed
+  fortune -e chinese | sed -r "s:\x1B\[[0-9;]*[mK]::g" > $WPTEXT 2>/dev/null
   time_var=$(date +%H:%M)
   month_var=$(date "+%B %d")
   weekday_var=$(date "+%A")
   height=$(identify "$wallpaper" | sed -e 's/.*\( [0-9]*x[0-9]* \).*/\1/' | cut -d"x" -f2)
   quote_h=$((height/2))
   echo "$wallpaper" | wl-copy -p
+    # -font Cantarell \
   convert "${wallpaper}" \
-    -font Cantarell \
+    -font /usr/share/fonts/wenquanyi/wqy-microhei/wqy-microhei.ttc \
     -fill white \
     -weight bolder \
     -pointsize 48 \
@@ -36,7 +39,7 @@ change_bg(){
     -draw "text 100,$((quote_h-48)) '${time_var}'" \
     -draw "text 100,$((quote_h-96)) '${month_var}'" \
     -draw "text 100,$((quote_h-144)) '${weekday_var}'" \
-    "${RESULT}" 2>/dev/null
+    "${RESULT}"
   sleep 1
   file "$RESULT" | grep -iE 'jpeg|jpg|png' >/dev/null 2>&1
   if [ "$?" -eq "0" ]; then
