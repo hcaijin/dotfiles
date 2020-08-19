@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 # change wallpaper
 # dependence: sway fortune convert wl-copy
+# help: http://www.imagemagick.org/Usage/ 
+# https://blog.csdn.net/yuxiangji/article/details/24964577
 
 WP_DIR="$HOME/.config/variety/Downloaded/"
 WP_DIR2="$HOME/.wallpaper/"
@@ -9,6 +11,8 @@ RESULT="/tmp/wallpaper.jpg"
 WPTEXT="/tmp/wallpaper.txt"
 
 change_bg(){
+  # todo: get the display width
+  # display_w="$(swaymsg -t get_outputs -p | grep 'Current mode:' | awk '{print $3}' | cut -dx -f1)"
   num=$(echo $RANDOM % $TOTAL + 1 | bc)
   # echo $num
   # echo $LOG
@@ -18,7 +22,7 @@ change_bg(){
   time_var=$(date +%H:%M)
   month_var=$(date "+%B %d")
   weekday_var=$(date "+%A")
-  height=$(identify "$wallpaper" | awk '{print $3}' | cut -d"x" -f2)
+  height=$(identify "$wallpaper" | sed -e 's/.*\( [0-9]*x[0-9]* \).*/\1/' | cut -d"x" -f2)
   quote_h=$((height/2))
   echo "$wallpaper" | wl-copy -p
   convert "${wallpaper}" \
