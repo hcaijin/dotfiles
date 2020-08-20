@@ -5,17 +5,31 @@ ifinstalled netctl || exit
 
 MYIPFILE=/tmp/myip.txt
 MYPIPFILE=/tmp/myproxyip.txt
+LOCALSSID=/tmp/localssid.txt
 
-netlist=$(netctl list | grep '*' | awk '{print $NF}')
-if [[ ! -z "$netlist" ]]; then
+current_net=$(netctl list | grep -E '^\*' | awk '{print $NF}')
+if [[ ! -z "$current_net" ]]; then
   rm -rf $MYIPFILE
   rm -rf $MYPIPFILE
-  for net in ${netlist}
+  for net in ${current_net}
   do
     sudo -A netctl restart $net
     notify-send "Restarting ${net} network..."
   done
 else
-  sudo -A netctl start TP-LINK_116DDA
-  notify-send "Starting default network..."
+  interface=$(iw dev | grep -A1 "phy#0" | grep "Interface" | awk '{print $NF}')
+  [ -f ${LOCALSSID} ] || sudo iw dev "$interface" scan | grep 'SSID:' | awk '{print $NF}' > $LOCALSSID
+  netlist=$(netctl list | awk '{print $NF}')
+  for id in `cat ${LOCALSSID}`
+  do
+    for net in `echo $netlist`
+    do
+      if [ "$id" == "$net" ]; then
+        notify-send "Starting ${net} network..."
+        sleep 1
+        sudo -A netctl start "$net"
+        exit 0
+      fi
+    done
+  done
 fi
