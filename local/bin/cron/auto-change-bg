@@ -9,14 +9,27 @@ WP_DIR2="$HOME/.wallpaper/"
 LOG="/tmp/autochagebg.log"
 RESULT="/tmp/wallpaper.jpg"
 WPTEXT="/tmp/wallpaper.txt"
+MAX_SIZE=1000000
+
+getWallpaper(){
+  # echo $1
+  wallpaper="$(sed -n "${1}p" ${LOG} 2> /dev/null)"
+  wp_size=$(ls -al "$wallpaper" | awk '{print $5}')
+  if [ "$wp_size" -gt "$MAX_SIZE" ]; then
+    sed -i "${1}d" ${LOG}
+    next_total=$(wc -l ${LOG} | awk '{print $1}')
+    # echo $next_total
+    random_num=$(echo $RANDOM % $next_total + 1 | bc)
+    wallpaper="$(sed -n "${random_num}p" ${LOG} 2> /dev/null)"
+    getWallpaper $random_num
+  fi
+}
 
 change_bg(){
   # todo: get the display width
   # display_w="$(swaymsg -t get_outputs -p | grep 'Current mode:' | awk '{print $3}' | cut -dx -f1)"
   num=$(echo $RANDOM % $TOTAL + 1 | bc)
-  # echo $num
-  # echo $LOG
-  wallpaper="$(sed -n "${num}p" ${LOG} 2> /dev/null)"
+  getWallpaper $num
   # file "${wallpaper}"
   # fortune -s > $WPTEXT 2>/dev/null
   # Remove color codes with sed help: https://www.commandlinefu.com/commands/view/3584/remove-color-codes-special-characters-with-sed
