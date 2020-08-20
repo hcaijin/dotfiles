@@ -91,9 +91,6 @@ $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot
 $mode_print PrtSc (w) screen, (s) part+screen, (r) recorder, (t) audio+recorder, (p) part+recorder
 $freeze Distraction-free mode (super+shift+f to reactivate bindings)
 
-$setwinsize resize set 600 350;
-$setwinhalf resize set 960 1070;
-
 $gaps_max 15
 $gaps_min 1
 

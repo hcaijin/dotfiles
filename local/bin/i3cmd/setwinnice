@@ -1,0 +1,30 @@
+#!/bin/bash
+
+win_wh=$(swaymsg -t get_outputs -p | grep 'Current mode:' | awk '{print $3}')
+
+win_w=$(echo $win_wh | cut -dx -f1)
+win_h=$(echo $win_wh | cut -dx -f2)
+
+half_resize_w=$((win_w/2-5))
+half_resize_h=$((win_h))
+
+min_resize_w=$((win_w/3))
+min_resize_h=$((win_h/3))
+
+case "$1" in
+  "left_half")
+    swaymsg "floating toggle; resize set ${half_resize_w} ${half_resize_h}; move position -30 -60"
+    ;;
+  "right_half")
+    swaymsg "floating toggle; resize set ${half_resize_w} ${half_resize_h}; move position $((win_w/2-25)) -60"
+    ;;
+  "left_min")
+    swaymsg "floating toggle; sticky toggle; resize set ${min_resize_w} ${min_resize_h}; move position -30 $((win_h-min_resize_h-60))"
+    ;;
+  "right_min")
+    swaymsg "floating toggle; sticky toggle; resize set ${min_resize_w} ${min_resize_h}; move position $((win_w-min_resize_w-30)) $((win_h-min_resize_h-60))"
+    ;;
+  *)
+    echo "Nothing to do!!"
+    ;;
+esac
