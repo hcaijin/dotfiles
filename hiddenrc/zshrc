@@ -182,7 +182,8 @@ bindkey -s '\eo' 'cd ..\n'
 bindkey -s '\ep' 'll\n'
 bindkey -s '\ee' 'vim\n'
 bindkey -s '\eu' 'ranger\n'
-bindkey -s '\e-' 'cd ~\n'
+bindkey -s '\e-' 'cd -\n'
+bindkey -s '\e0' 'cd ~\n'
 
 
 # source function.sh if it exists
