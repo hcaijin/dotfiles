@@ -1,12 +1,19 @@
 #!/usr/bin/env sh
 # change wallpaper shell
+CLEARWP=/tmp/clear-wallpaper.txt
 
-pid=$(pgrep -f auto-change-bg)
+pid=$(pgrep -f "auto-change-bg")
 if [ "$?" == "0" ]
 then
-  kill $pid
-  notify-send "Stoped auto change bg shell command."
+  kill -9 $pid
+  pkill -x -9 swaybg
+  # swaymsg -q "output * bg "$(cat "${CLEARWP}")" fill" &
+  swaybg -o "*" -i "$(cat $CLEARWP)" -m fill & >/dev/null
+  sleep 1
+  rm $CLEARWP
+  # notify-send "Stoped auto change bg shell command."
 else
+  # [[ -f ${CLEARWP} ]] && exit 0
   auto-change-bg &
-  notify-send "Starting auto change bg shell command."
+  # notify-send "Starting auto change bg shell command."
 fi

@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+MPCSTAT=/tmp/resume-mpc.stat
+ACBGSTAT=/tmp/resume-autochangebg.stat
+
+[ -f $MPCSTAT ] && {
+  mpc play
+  rm $MPCSTAT
+}
+[ -f $ACBGSTAT ] && {
+  start-autochangebg
+  rm $ACBGSTAT
+}

@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # lock the win
 IMG="~/.wallpaper/300-Arch.png"
 FILETEMP="/tmp/screen.png"
@@ -7,9 +8,17 @@ convert $FILETEMP -scale 10% -scale 1000% $FILETEMP
 # convert $FILETEMP -paint 3 -modulate 80 $FILETEMP
 # convert $FILETEMP -paint 3 $FILETEMP
 [[ -f ${IMG} ]] && convert $FILETEMP $IMG -gravity center -composite -matte $FILETEMP
-# mocp -P
-# i3lock -u -e -i $FILETEMP
-# swaylock -u -e -f -i $FILETEMP
-mpd --kill
-pkill -f 'auto-change-bg'
 swaylock -e -f -i $FILETEMP
+
+mpc | grep 'playing' >/dev/null && {
+  # lock windown that mpc status save the pid to MPCSTAT
+  # MPCSTAT=/tmp/resume-mpc.stat
+  pgrep -x mpd > /tmp/resume-mpc.stat
+  mpc pause
+}
+acb_pid=$(pgrep -f "auto-change-bg") && {
+  # auto-change-bg shell status
+  # ACBGSTAT=/tmp/resume-autochangebg.stat
+  echo $acb_pid > /tmp/resume-autochangebg.stat
+  kill -9 $acb_pid
+}

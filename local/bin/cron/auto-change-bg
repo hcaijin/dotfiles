@@ -6,19 +6,18 @@
 
 WP_DIR="$HOME/.config/variety/Downloaded/"
 WP_DIR2="$HOME/.wallpaper/"
-LOG="/tmp/autochagebg.log"
+LOG="$HOME/autochagebg.log"
 RESULT="/tmp/wallpaper.jpg"
 WPTEXT="/tmp/wallpaper.txt"
+CLEARWP="/tmp/clear-wallpaper.txt"
 MAX_SIZE=1000000
 
 getWallpaper(){
-  # echo $1
   wallpaper="$(sed -n "${1}p" ${LOG} 2> /dev/null)"
   wp_size=$(ls -al "$wallpaper" | awk '{print $5}')
   if [ "$wp_size" -gt "$MAX_SIZE" ]; then
     sed -i "${1}d" ${LOG}
     next_total=$(wc -l ${LOG} | awk '{print $1}')
-    # echo $next_total
     random_num=$(echo $RANDOM % $next_total + 1 | bc)
     wallpaper="$(sed -n "${random_num}p" ${LOG} 2> /dev/null)"
     getWallpaper $random_num
@@ -39,7 +38,6 @@ change_bg(){
   month_var=$(date "+%B %d")
   weekday_var=$(date "+%A")
   height=$(identify "$wallpaper" | sed -e 's/.*\( [0-9]*x[0-9]* \).*/\1/' | cut -d"x" -f2)
-  echo "$wallpaper" | wl-copy -p
     # -font Cantarell \
   fontsize=48
   quote_h=$((height/2-fontsize*3))
@@ -58,16 +56,31 @@ change_bg(){
   sleep 1
   file "$RESULT" | grep -iE 'jpeg|jpg|png' >/dev/null 2>&1
   if [ "$?" -eq "0" ]; then
-    kill $(pgrep -x swaybg) >/dev/null 2>&1
+    kill -9 $(pgrep -x swaybg) >/dev/null 2>&1
     swaybg -o "*" -i "$RESULT" -m fill & >/dev/null
+    echo "$wallpaper" > ${CLEARWP}
   fi
+}
+
+change_once_bg(){
+  # todo: get the display width
+  # display_w="$(swaymsg -t get_outputs -p | grep 'Current mode:' | awk '{print $3}' | cut -dx -f1)"
+  num=$(echo $RANDOM % $TOTAL + 1 | bc)
+  getWallpaper $num
+  file "$wallpaper" | grep -iE 'jpeg|jpg|png' >/dev/null 2>&1
+  if [ "$?" -eq "0" ]; then
+    kill -9 $(pgrep -x swaybg) >/dev/null 2>&1
+    swaybg -o "*" -i "$wallpaper" -m fill & >/dev/null
+  fi
+  exit 0
 }
 
 [[ -f ${LOG} && $(wc -l ${LOG} | awk '{print $1}') -gt 0 ]] || find "$WP_DIR" "$WP_DIR2" -type f -name '*.jpg' -o -name '*.png' > ${LOG}
 TOTAL=$(cat ${LOG} | wc -l)
 # echo $TOTAL
 
-if [ "${1}" == "onece" ]; then
+if [ "${1}" == "once" ]; then
+  [ -f $CLEARWP ] || change_once_bg
   change_bg
 else
   while :

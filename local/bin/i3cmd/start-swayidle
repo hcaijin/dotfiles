@@ -10,10 +10,11 @@ then
   pkill -x swayidle
   notify-send "Stoped swayidle shell command."
 else
-  swayidle -w \
-      timeout 300 'lockwin' \
-      timeout 600 'swaymsg "output * dpms off"' \
-      resume 'swaymsg "output * dpms on"' \
-      before-sleep 'swaylock -f -c 000000' & 2>/dev/null
   notify-send "Starting swayidle shell command."
+  swayidle -w \
+      timeout 600 'lockwin' resume 'start-resume' \
+      timeout 1200 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+      before-sleep 'swaylock -f -c 000000' &
 fi
+
+exit 0
