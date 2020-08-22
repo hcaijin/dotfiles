@@ -26,8 +26,3 @@ A list of applications that I use:
 ## Screenshots
 
 ![Desktop](screenshots/mydesktop.gif)
-
-![SpaceVim](screenshots/screenshot-2019-10-28-164408.png)
-
-![Chromium](screenshots/screenshot-2019-10-28-164518.png)
-
