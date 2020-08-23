@@ -114,7 +114,8 @@
         "format-disconnected": "⚠ Disconnected",
         "format-alt": "{essid} {ifname}: {ipaddr}/{cidr}",
         "on-click-right": "~/.config/waybar/module/shownetip.sh",
-        "on-click-middle": "~/.config/waybar/module/shownetip.sh rm"
+        "on-click-middle": "~/.config/waybar/module/shownetip.sh rm",
+        "signal": 11
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
@@ -211,7 +212,15 @@
         "format": "<span foreground='#929292'></span> {percentage}%"
     },
     "tray": {
-        "icon-size": 16,
+        "icon-size": 14,
         "spacing": 10
+    },
+    "wlr/taskbar": {
+      "format": "{icon}",
+      "icon-size": 14,
+      "icon-theme": "Numix-Circle",
+      "tooltip-format": "{title}",
+      "on-click": "activate",
+      "on-click-middle": "close"
     }
 }]

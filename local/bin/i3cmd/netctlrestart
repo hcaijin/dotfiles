@@ -19,6 +19,7 @@ if [[ ! -z "$current_net" ]]; then
 else
   interface=$(iw dev | grep -A1 "phy#0" | grep "Interface" | awk '{print $NF}')
   [[ -f ${LOCALSSID} && $(wc -l ${LOCALSSID} | awk '{print $1}') -gt "0" ]] || {
+    notify-send "Scanning wifi ... wait 7s"
     sudo ip link set "$interface" up
     sleep 1
     sudo iw dev "$interface" scan | grep 'SSID:' | awk '{print $NF}' | sed -r '/SSID:/d' > $LOCALSSID
@@ -35,8 +36,9 @@ else
         notify-send "Starting ${net} network..."
         sleep 1
         sudo -A netctl start "$net"
-        exit 0
+        break 2
       fi
     done
   done
 fi
+pkill -RTMIN+11 waybar

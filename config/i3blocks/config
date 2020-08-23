@@ -40,7 +40,6 @@ color=#666666
 [pacpackages]
 label=📦
 interval=once
-signal=43200
 color=#FFFFFF
 signal=8
 
