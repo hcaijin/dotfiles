@@ -18,7 +18,14 @@ if [[ ! -z "$current_net" ]]; then
   done
 else
   interface=$(iw dev | grep -A1 "phy#0" | grep "Interface" | awk '{print $NF}')
-  [ -f ${LOCALSSID} ] || sudo iw dev "$interface" scan | grep 'SSID:' | awk '{print $NF}' > $LOCALSSID
+  [[ -f ${LOCALSSID} && $(wc -l ${LOCALSSID} | awk '{print $1}') -gt "0" ]] || {
+    sudo ip link set "$interface" up
+    sleep 1
+    sudo iw dev "$interface" scan | grep 'SSID:' | awk '{print $NF}' | sed -r '/SSID:/d' > $LOCALSSID
+    sleep 5
+    sudo ip link set "$interface" down
+    sleep 1
+  }
   netlist=$(netctl list | awk '{print $NF}')
   for id in `cat ${LOCALSSID}`
   do
