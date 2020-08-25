@@ -108,11 +108,13 @@
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "  {signalStrength}%",
+        "format-wifi": " {signalStrength}%",
         "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
         "format-linked": " {ifname} (No IP)",
-        "format-disconnected": "⚠ Disconnected",
-        "format-alt": "{essid} {ifname}: {ipaddr}/{cidr}",
+        // "format-disconnected": "⚠ Disconnected",
+        "format-disconnected": "  ",
+        "format-alt": " {essid}",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n {bandwidthDownBits}\n {bandwidthUpBits}",
         "on-click-right": "~/.config/waybar/module/shownetip.sh",
         "on-click-middle": "~/.config/waybar/module/shownetip.sh rm",
         "signal": 11
@@ -176,7 +178,7 @@
     "layer": "bottom",
     "position": "bottom",
 
-    "modules-left": ["tray"],
+    "modules-left": ["tray", "custom/usbguard"],
     "modules-center": ["network#speed"],
     "modules-right": ["custom/systemd", "temperature", "custom/storage", "cpu", "memory" ],
     "network#speed": {
@@ -223,5 +225,11 @@
       "tooltip-format": "{title}",
       "on-click": "activate",
       "on-click-middle": "close"
-    }
+    },
+    "custom/usbguard": {
+        "exec": "sudo waybar-usbguard",
+        "return-type": "json",
+        "on-click": "sudo waybar-usbguard allow",
+        "on-click-right": "sudo waybar-usbguard reject"
+    },
 }]
