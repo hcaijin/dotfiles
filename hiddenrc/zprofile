@@ -9,7 +9,7 @@ export ANDROID_HOME="$HOME/Tools/android-sdk-linux"
 export PATH="$(find $HOME/.local/bin -type l,d | cut -f2 | tr '\n' ':')$HOME/.npm-packages/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$HOME/.local/bin:$PATH"
 
 export TERMINAL="termite"
-export BROWSER="qutebrowser"
+export BROWSER="chromium"
 export FILE="vifm"
 
 export NVM_DIR="$HOME/.nvm"

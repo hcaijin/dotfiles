@@ -33,7 +33,7 @@ showontermite() {
 
 if [[ "${1}" == "term" ]]
 then
-  showontermite
+  less -S $full_report
   exit 0
 fi
 

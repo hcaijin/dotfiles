@@ -95,6 +95,7 @@ antigen bundle zdharma/fast-syntax-highlighting
 
 antigen bundle willghatch/zsh-cdr
 # antigen bundle zsh-users/zaw
+antigen theme romkatv/powerlevel10k
 
 # check login shell
 if [[ -o login ]]; then

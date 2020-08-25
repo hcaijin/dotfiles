@@ -208,6 +208,7 @@
         "format": "<span foreground='#929292'></span> {usage}%"
     },
     "memory": {
+        "on-click": "$TERMINAL -e 'htop'",
         "interval": 3,
         "format": "<span foreground='#929292'></span> {percentage}%"
     },

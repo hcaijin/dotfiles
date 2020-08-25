@@ -196,14 +196,22 @@ floating_modifier $mod normal
 workspace_auto_back_and_forth yes
 #
 # WINDOW CONTROL
-#colors
-# class                 border  backgr. text    indicator child_border
-client.focused          #222222 #5A5A5A #E1E1E1 #000000   #000000
-client.focused_inactive #222222 #5A5A5A #E1E1E1 #484e50   #000000
-client.unfocused        #222222 #323232 #888888 #292d2e   #222222
-client.urgent           #2f343a #900000 #ffffff #900000   #900000
-client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
+# Color scheme (Gruvbox dark)
+set $color_normal_white  #a89984
+set $color_bright_white  #ebdbb2
+set $color_normal_gray   #222222
+set $color_bright_gray   #3c3836
+set $color_bright_yellow #d79921
+set $color_normal_black  #282828
+set $color_unused        #ff0000
+
+# Colors                  border                 background             text                   indicator            child_border
+client.focused            $color_bright_gray     $color_bright_gray     $color_bright_white    $color_bright_gray   $color_normal_black
+client.focused_inactive   $color_bright_gray     $color_bright_gray     $color_bright_white    $color_bright_gray   $color_normal_black
+client.unfocused          $color_normal_gray     $color_normal_gray     $color_normal_white    $color_normal_gray   $color_normal_black
+client.urgent             $color_bright_yellow   $color_bright_yellow   $color_normal_black    $color_unused        $color_unused
+client.placeholder        $color_unused          $color_unused          $color_unused          $color_unused        $color_unused
 # Float
 ## Float everything
 # for_window [class="^.*"] border pixel 2
