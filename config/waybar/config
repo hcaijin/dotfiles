@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
     "modules-center": [],
-    "modules-right": ["mpd", "custom/pacman", "custom/weather", "pulseaudio", "network", "backlight", "custom/vpn", "battery", "clock", "idle_inhibitor"],
+    "modules-right": ["custom/mpd", "custom/weather", "pulseaudio", "network", "backlight", "custom/vpn", "battery", "custom/tablet", "clock"],
     // Modules configuration
     "sway/workspaces": {
         "disable-scroll": true,
@@ -31,6 +31,17 @@
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
+    },
+    "custom/mpd": {
+        "format": "🎵{}",
+        //"max-length": 15,
+        "interval": 10, 
+        "exec": "mpc current", 
+        "exec-if": "pgrep mpd",
+        "on-click": "mpc toggle",
+        "on-scroll-up": "mpc next",
+        "on-scroll-down": "mpc prev",
+        "on-click-right": "$TERMINAL -e 'ncmpcpp'"
     },
     "mpd": {
         "format": "🎶 {stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",
@@ -86,8 +97,9 @@
         "on-scroll-up": "light -A 5",
         "on-scroll-down": "light -U 5",
         "on-click-middle": "light -S 50",
-        "format": "{icon} {percent}%",
-        "format-icons": ["", "", ""]
+        "format": "{icon}",
+        "tooltip-format": "<big>{percent}%</big>",
+        "format-icons": [" ", "", "  "]
     },
     "battery": {
         "states": {
@@ -95,10 +107,11 @@
             "warning": 30,
             "critical": 15
         },
-        "format": "{icon} {capacity}%",
+        "format": "{icon}",
         "format-charging": " {capacity}%",
         "format-plugged": " {capacity}%",
         "format-alt": "{icon} {time}",
+        "tooltip-format": "<big>{capacity}%</big>",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
@@ -108,25 +121,26 @@
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": " {signalStrength}%",
+        "format-wifi": " ",
         "format-ethernet": " {ifname}: {ipaddr}/{cidr}",
         "format-linked": " {ifname} (No IP)",
         // "format-disconnected": "⚠ Disconnected",
         "format-disconnected": "  ",
         "format-alt": " {essid}",
-        "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n {bandwidthDownBits}\n {bandwidthUpBits}",
+        "tooltip-format": "{ifname}: {signalStrength}%\n{ipaddr}/{cidr}\n {bandwidthDownBits}\n {bandwidthUpBits}",
         "on-click-right": "~/.config/waybar/module/shownetip.sh",
         "on-click-middle": "~/.config/waybar/module/shownetip.sh rm",
         "signal": 11
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
-        "format": "{format_source}{icon}{volume} %",
-        "format-bluetooth": "{icon} {volume}% {format_source}",
+        "format": "{icon}{volume}%",
+        "format-bluetooth": "{icon}",
         "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
+        "format-muted": " ",
         "format-source": " {volume}%",
         "format-source-muted": "",
+        "tooltip": false,
         "format-icons": {
             "headphone": "",
             "hands-free": "",
@@ -136,7 +150,7 @@
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol"
+        "on-click": "$TERMINAL -e 'alsamixer'"
     },
     "custom/media": {
         "format": "{icon} {}",
@@ -172,15 +186,22 @@
         "exec-if": "test -d /proc/sys/net/ipv4/conf/tun0",
         "return-type": "json",
         "interval": 60
+    },
+    "custom/tablet": {
+        "exec": "waybar-tablet",
+        "return-type": "json",
+        "signal": 4,
+        "interval": "once",
+        "on-click": "waybar-tablet toggle"
     }
 },
 {
     "layer": "bottom",
     "position": "bottom",
 
-    "modules-left": ["tray", "custom/usbguard"],
-    "modules-center": ["network#speed"],
-    "modules-right": ["custom/systemd", "temperature", "custom/storage", "cpu", "memory" ],
+    "modules-left": ["tray", "custom/usbguard", "custom/recording"],
+    "modules-center": ["network#speed", "custom/progress"],
+    "modules-right": ["custom/systemd", "custom/updates", "disk", "temperature", "cpu", "memory" ],
     "network#speed": {
         "format-wifi": "<span foreground='#929292'></span> {bandwidthDownOctets} <span foreground='#929292'></span> {bandwidthUpOctets}",
         "format-ethernet": "<span foreground='#929292'></span> {bandwidthDownOctets} <span foreground='#929292'></span> {bandwidthUpOctets}",
@@ -198,12 +219,6 @@
         "return-type": "json",
         "interval": 60,
         "exec": "~/.config/waybar/module/storage.sh /"
-    },
-    "custom/systemd": {
-        "format": "<span foreground='#ff5c57'> {}</span>",
-        "interval": 5,
-        "exec": "~/.config/waybar/module/systemd.sh",
-        "exec-if": "~/.config/waybar/module/systemd.sh"
     },
     "cpu": {
         "interval": 3,
@@ -232,4 +247,35 @@
         "on-click": "sudo waybar-usbguard allow",
         "on-click-right": "sudo waybar-usbguard reject"
     },
+    "custom/progress": {
+        "exec": "waybar-progress",
+        "return-type": "json",
+        "interval": 1
+    },
+    "custom/systemd": {
+        "format": "<span foreground='#ff5c57'>{}</span>",
+        "exec": "waybar-systemd",
+        "return-type": "json",
+        "interval": 10
+    },
+    "custom/updates": {
+        "format": "<span foreground='#929292'> </span>{}",
+        "exec": "waybar-updates show",
+        "return-type": "json",
+        "signal": 1,
+        "on-click-middle": "waybar-updates refresh",
+        "on-click-right": "$TERMINAL -e 'yay -Syu'; waybar-updates refresh",
+        "interval": "once"
+    },
+    "custom/recording": {
+        "exec": "waybar-recording",
+        "return-type": "json",
+        "signal": 3,
+        "interval": "once"
+    },
+    "disk": {
+        "interval": 60,
+        "format": "<span foreground='#929292'></span> {percentage_used}%",
+        "path": "/"
+    }
 }]

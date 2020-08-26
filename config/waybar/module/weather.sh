@@ -17,14 +17,12 @@ showeather() {
   then
     res=$(echo $text | awk '{print $1$2}')
     [[ "$res" != "Unknowlocation" ]] || exit 3
-    echo -e "{\"text\":\""${res}"\", \"tooltip\":\""$(showfullweather)"\"}"
+    # echo -e "{\"text\":\""${res}"\", \"tooltip\":\""$(cat $report)"\"}"
+    tooltip="$(printf "$(cat $report)" | perl -pe 's/\n/\\n/g' | perl -pe 's/(?:\\n)+$//')"
+    printf '{"text": "%s", "tooltip": "%s"}\n' "${res}" "${tooltip}"
   else
     getweather && showeather
   fi
-}
-
-showfullweather() {
-  awk '{print $1" "$2" "$3}' $report
 }
 
 showontermite() {
@@ -41,7 +39,6 @@ if [ "$(stat -c %y "$report" 2>/dev/null | awk '{print $1}')" != "$(date '+%Y-%m
 then
   getweather && showeather
 else
-  # showfullweather
   showeather
 fi
 if [ "$(stat -c %y "$full_report" 2>/dev/null | awk '{print $1}')" != "$(date '+%Y-%m-%d')" ]

@@ -20,13 +20,21 @@ case "$1" in
     grim -g "$(slurp)" - | tee $FILE 2>&1 > /dev/null 
     ;;
   rw)
+    { sleep 1 && pkill -RTMIN+3 -x waybar; } &
     wf-recorder -f $VFILE
+    pkill -RTMIN+3 -x waybar
     ;;
   raw)
+    { sleep 1 && pkill -RTMIN+3 -x waybar; } &
     wf-recorder -a -f $VFILE
+    pkill -RTMIN+3 -x waybar
     ;;
   rp)
-    wf-recorder -g "$(slurp)" -f $VFILE
+    notify-send -t 2000 'Screen sharing' 'Select an area to start the recording...'
+    geometry="$(slurp)"
+    { sleep 1 && pkill -RTMIN+3 -x waybar; } &
+    wf-recorder -g "$geometry" -f $VFILE
+    pkill -RTMIN+3 -x waybar
     ;;
   *)
     echo "Usage: $0 {sw|sp|rw|raw|rp}"

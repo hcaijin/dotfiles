@@ -3,7 +3,7 @@
 printf "Beginning upgrade.\\n"
 
 sudo yay -Syu
-pkill -RTMIN+8 i3blocks
+# pkill -RTMIN+8 i3blocks
 pkill -SIGRTMIN+8 waybar
 
 printf "\\nUpgrade complete.\\nPress <Enter> to exit window.\\n\\n"

@@ -88,8 +88,16 @@ window#waybar.chromium {
 #custom-bandwidth,
 #custom-pacman,
 #custom-vpn,
+#custom-tablet,
+#custom-updates,
+#custom-recording,
+#custom-progress,
+#custom-systemd,
+#custom-usbguard,
+#custom-mpd,
 #mode,
 #tray,
+#disk,
 #idle_inhibitor,
 #mpd {
     padding: 0 10px;
@@ -182,6 +190,10 @@ label:focus {
     color: #9d3436;
 }
 
+#custom-mpd {
+    border-bottom: 3px solid #66cc99;
+}
+
 #mpd {
     border-bottom: 3px solid #66cc99;
 }
@@ -213,4 +225,9 @@ label:focus {
 #custom-vpn.connected {
     border-bottom: 3px solid #2F8000;
     color: #2d3436;
+}
+
+#custom-tablet.on {
+    border-bottom: 3px solid #F98000;
+    color: #990000;
 }
