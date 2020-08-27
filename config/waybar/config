@@ -126,8 +126,8 @@
         "format-linked": " {ifname} (No IP)",
         // "format-disconnected": "⚠ Disconnected",
         "format-disconnected": "  ",
-        "format-alt": " {essid}",
-        "tooltip-format": "{ifname}: {signalStrength}%\n{ipaddr}/{cidr}\n {bandwidthDownBits}\n {bandwidthUpBits}",
+        // "format-alt": " {essid}",
+        "tooltip-format": "{essid}: {signalStrength}%\n{ifname}: {ipaddr}/{cidr}\n {bandwidthDownBits}\n {bandwidthUpBits}",
         "on-click-right": "~/.config/waybar/module/shownetip.sh",
         "on-click-middle": "~/.config/waybar/module/shownetip.sh rm"
     },
@@ -212,12 +212,6 @@
         "thermal-zone": 1,
         "critical-threshold": 60,
 	    "format-critical": "<span foreground='#ff5c57'></span> {temperatureC}°C"
-    },
-    "custom/storage": {
-        "format": "<span foreground='#929292'></span> {}%",
-        "return-type": "json",
-        "interval": 60,
-        "exec": "~/.config/waybar/module/storage.sh /"
     },
     "cpu": {
         "interval": 3,
