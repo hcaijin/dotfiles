@@ -48,18 +48,28 @@ $term $TERMINAL --display $DISPLAY
 # $WS8 " "
 # $WS9 " "
 # $WS10 " "
-$WS0 "0"
-$WS1 "1"
-$WS2 "2"
-$WS3 "3"
-$WS4 "4"
-$WS5 "5"
-$WS6 "6"
-$WS7 "7"
-$WS8 "8"
-$WS9 "9"
-$WS10 "10"
-
+# $WS0 "0"
+# $WS1 "1"
+# $WS2 "2"
+# $WS3 "3"
+# $WS4 "4"
+# $WS5 "5"
+# $WS6 "6"
+# $WS7 "7"
+# $WS8 "8"
+# $WS9 "9"
+# $WS10 "10"
+$WS0 workspace number 0
+$WS1 workspace number 1
+$WS2 workspace number 2
+$WS3 workspace number 3
+$WS4 workspace number 4
+$WS5 workspace number 5
+$WS6 workspace number 6
+$WS7 workspace number 7
+$WS8 workspace number 8
+$WS9 workspace number 9
+$WS10 workspace number 10
 # $WS0 "0:"
 # $WS1 "1:"
 # $WS2 "2:"
@@ -254,6 +264,7 @@ assign [class="VirtualBox Manager" instance="VirtualBox Manager"] $WS9
 # i3status.conf i3block.conf, waybar.conf
 include waybar.conf
 
+include /etc/sway/config.d/*
+
 # other include
 include $HOME/.config/sway/config.d/*
-include /etc/sway/config.d/*

@@ -41,4 +41,3 @@ else
     done
   done
 fi
-pkill -RTMIN+11 waybar

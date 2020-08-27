@@ -8,27 +8,27 @@
     "modules-center": [],
     "modules-right": ["custom/mpd", "custom/weather", "pulseaudio", "network", "backlight", "custom/vpn", "battery", "custom/tablet", "clock"],
     // Modules configuration
-    "sway/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": true,
-        "format": "{icon}",
-        "format-icons": {
-            "0": " ",
-            "1": "",
-            "2": "",
-            "3": "",
-            "4": "",
-            "5": "",
-            "6": "",
-            "7": " ",
-            "8": "",
-            "9": " ",
-            "10": "",
-            "urgen": "",
-            "focused": "",
-            "default": ""
-        }
-    },
+    //"sway/workspaces": {
+    //    "disable-scroll": true,
+    //    "all-outputs": true,
+    //    "format": "{icon}",
+    //    "format-icons": {
+    //        "0": " ",
+    //        "1": "",
+    //        "2": "",
+    //        "3": "",
+    //        "4": "",
+    //        "5": "",
+    //        "6": "",
+    //        "7": " ",
+    //        "8": "",
+    //        "9": " ",
+    //        "10": "",
+    //        "urgen": "",
+    //        "focused": "",
+    //        "default": ""
+    //    }
+    //},
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
@@ -129,8 +129,7 @@
         "format-alt": " {essid}",
         "tooltip-format": "{ifname}: {signalStrength}%\n{ipaddr}/{cidr}\n {bandwidthDownBits}\n {bandwidthUpBits}",
         "on-click-right": "~/.config/waybar/module/shownetip.sh",
-        "on-click-middle": "~/.config/waybar/module/shownetip.sh rm",
-        "signal": 11
+        "on-click-middle": "~/.config/waybar/module/shownetip.sh rm"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float

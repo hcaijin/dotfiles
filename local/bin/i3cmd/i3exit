@@ -11,16 +11,16 @@ case "$1" in
         swaymsg -q exit
         ;;
     suspend)
-        lockwin && systemctl suspend -i
+        systemctl -i suspend
         ;;
     hibernate)
         systemctl hibernate -i
         ;;
     reboot)
-        systemctl reboot -i
+        systemctl -i reboot
         ;;
     shutdown)
-        systemctl poweroff
+        systemctl -i poweroff
         ;;
     *)
         echo "Usage: $0 {lock|logout|suspend|hibernate|reboot|shutdown}"

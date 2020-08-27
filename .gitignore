@@ -8,4 +8,5 @@ config/vifm/vifminfo
 config/vifm/vifmimgpdffile
 config/vifm/vifmimgpdfpage
 config/mpd/
-
+config/systemd/user/graphical-session.target.wants
+packages/
