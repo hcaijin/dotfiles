@@ -41,3 +41,4 @@ else
     done
   done
 fi
+pkill -x waybar && waybar &

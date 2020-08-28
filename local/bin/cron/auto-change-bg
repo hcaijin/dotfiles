@@ -25,6 +25,9 @@ getWallpaper(){
 }
 
 change_bg(){
+  if [[ -z $SWAYSOCK ]] && [[ -z $I3SOCK ]]; then
+    exit 1
+  fi
   # todo: get the display width
   # display_w="$(swaymsg -t get_outputs -p | grep 'Current mode:' | awk '{print $3}' | cut -dx -f1)"
   num=$(echo $RANDOM % $TOTAL + 1 | bc)
