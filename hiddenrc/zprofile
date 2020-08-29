@@ -31,7 +31,7 @@ sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   export XDG_CURRENT_DESKTOP=Unity
   # export GDK_BACKEND=x11
-  #export _JAVA_AWT_WM_NONREPARENTING=1
+  export _JAVA_AWT_WM_NONREPARENTING=1
   # MPD daemon start (if no other user instance exists)
   [ ! -s ~/.config/mpd/pid ] && mpd 2>&1 >/dev/null &
   #

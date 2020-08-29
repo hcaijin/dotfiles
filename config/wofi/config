@@ -1,8 +1,8 @@
 # filter_rate=50
 # insensitive=true
 #location=center
-key_forward=Control_L-n
-key_backward=Control_L-p
+# key_forward=Control_L-n
+# key_backward=Control_L-p
 width=100%
 xoffset=0px
 allow_images=true

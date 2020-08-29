@@ -5,12 +5,16 @@
 # Anything else, it search it.
 browser=${BROWSER:-firefox}
 
-pgrep -x dmenu && exit
+pgrep -x wofi && exit
 
-choice=$(echo "🦆" | dmenu -i -p "Search DuckDuckGo:") || exit 1
+choice=$(printf "🦆\n \n" | wofi -L 3 -e -b --show dmenu -i -p "Search DuckDuckGo:") || exit 1
 
 if [ "$choice" = "🦆"  ]; then
     $browser "https://duckduckgo.com"
+elif [ "$choice" = " "  ]; then
+    $browser "https://google.com"
+elif [ "$choice" = ""  ]; then
+    $browser "https://bing.com"
 else
     if echo "$choice" | grep "^(http:\/\/|https:\/\/)?[a-zA-Z0-9]+\.[a-zA-Z]+(/)?.*$"; then
         $browser "$choice"

@@ -26,7 +26,7 @@ WINDOW_ICONS = {
     "nnn": "n³",
     "paperwork": "",
     "pavucontrol": "",
-    "obs": "",
+    "obs": "",
     "org.qutebrowser.qutebrowser": "",
     "riot": "",
     "slack": "",
@@ -37,9 +37,14 @@ WINDOW_ICONS = {
     "virtualbox manager": " ",
     "org.pwmt.zathura": "",
     "top": "",
+    "genymotion": "",
+    "genymotion player": "",
+    "jetbrains-studio": "",
+    "qutebrowser": "",
+    "wofi": ""
 }
 
-DEFAULT_ICON = ""
+DEFAULT_ICON = ""
 
 
 def icon_for_window(window):

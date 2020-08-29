@@ -5,10 +5,12 @@
 # Must have wl-clipboard-git installed to even show menu.
 which wl-copy 2>&1 >/dev/null || exit
 
+pgrep -x wofi && exit
+
 if [ -e ~/.config/fontawesome ]; then
-    chosen=$(grep -v "#" -h ~/.config/emoji ~/.config/fontawesome | dmenu -i -l 20 -fn Monospace-18)
+    chosen=$(grep -v "#" -h ~/.config/emoji ~/.config/fontawesome | wofi --show dmenu -i -L 20)
 else
-    chosen=$(grep -v "#" ~/.config/emoji | dmenu -i -l 20 -fn Monospace-18)
+    chosen=$(grep -v "#" ~/.config/emoji | wofi --show dmenu -i -L 20)
 fi
 
 [ "$chosen" != "" ] || exit
