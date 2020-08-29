@@ -1,15 +1,12 @@
 #!/bin/sh
 
 listen() {
-  usbguard watch |
-  while read -r line; do
-    blocked="$(usbguard list-devices -b | head -n1 | grep -Po 'name "\K[^"]+')"
-    if [ -n "$blocked" ]; then
-      printf '{"text": "  %s"}\n' "$blocked"
-    else
-      printf '{"text": ""}\n'
-    fi
-  done
+  blocked="$(usbguard list-devices -b | head -n1 | grep -Po 'name "\K[^"]+')"
+  if [ -n "$blocked" ]; then
+    printf '{"text": "  %s"}\n' "$blocked"
+  else
+    printf '{"text": ""}\n'
+  fi
 }
 
 allow() {

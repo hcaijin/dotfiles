@@ -6,7 +6,6 @@ show() {
     if [ -e "$marker" ]; then
         printf '{"text": "  ", "class": "on"}\n'
     else
-        # printf '{"text": "  ", "class": "off"}\n'
         printf '{"text": ""}\n'
     fi
 }

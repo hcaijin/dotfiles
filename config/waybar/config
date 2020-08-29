@@ -34,7 +34,7 @@
     },
     "custom/mpd": {
         "format": "🎵{}",
-        //"max-length": 15,
+        "max-length": 25,
         "interval": 10, 
         "exec": "mpc current", 
         "exec-if": "pgrep mpd",
@@ -155,9 +155,11 @@
     },
     "custom/weather": {
         "return-type": "json",
-        "exec": "export LOCAL=Shanghai,London,Hong_Kong; ~/.config/waybar/module/weather.sh",
-        "exec-if": "ping wttr.in -c1",
-        "interval": 3600
+        "exec": "export LOCAL=Shanghai,London,Hong_Kong; ~/.config/waybar/module/weather.sh show",
+        //"exec-if": "ping wttr.in -c1",
+        "on-click-middle": "export LOCAL=Shanghai,London,Hong_Kong; ~/.config/waybar/module/weather.sh refresh",
+        "interval": 3600,
+        "signal": 9
     },
     "custom/pacman": {
         "format": " {}",
@@ -225,6 +227,7 @@
       "on-click-middle": "close"
     },
     "custom/usbguard": {
+        "interval": 1,
         "exec": "sudo waybar-usbguard",
         "return-type": "json",
         "on-click": "sudo waybar-usbguard allow",
