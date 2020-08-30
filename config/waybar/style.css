@@ -90,10 +90,8 @@ window#waybar.chromium {
 #custom-vpn,
 #custom-tablet,
 #custom-updates,
-#custom-recording,
 #custom-progress,
 #custom-systemd,
-#custom-usbguard,
 #custom-mpd,
 #mode,
 #tray,
@@ -159,8 +157,8 @@ label:focus {
 }
 
 #pulseaudio.muted {
-    border-bottom: 3px solid #90b1b1;
-    color: #2a5c45;
+    border-bottom: 3px solid #f1c40f;
+    color: #f8c40f;
 }
 
 #custom-media {

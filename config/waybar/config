@@ -255,6 +255,7 @@
     },
     "custom/recording": {
         "exec": "waybar-recording",
+        "on-click": "killall -s 2 wf-recorder",
         "return-type": "json",
         "signal": 3,
         "interval": "once"
