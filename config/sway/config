@@ -9,6 +9,7 @@
 set {
 # Logo key. Use Mod1 for Alt.
 $mod Mod4
+$hyper Mod3
 # Home row direction keys, like vim
 $left h
 $down j
@@ -139,12 +140,12 @@ output * bg ~/.wallpaper/300-Arch.png fill
 #Swap escape and caps lock: xkb_options caps:swapescape
 #Make caps lock work as control: xkb_options ctrl:nocaps
 #Swap left alt and super, and set caps lock to escape: xkb_options altwin:swap_lalt_lwin,caps:escape
-
-input type:keyboard {
-    xkb_options ctrl:swap_lalt_lctl,caps:escape
-}
+# input type:keyboard {
+  # xkb_layout us-custom-winkey
+  # xkb_options ctrl:swap_lalt_lctl,caps:hyper
+# }
 # or use file:
-#input type:keyboard xkb_layout "us-custom-winkey"
+input type:keyboard xkb_layout "us-custom-winkey"
 
 #Keyboard repeat delay and rate
 # input type:keyboard {
