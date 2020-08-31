@@ -1,9 +1,10 @@
 # Default config for sway
 # Help wiki: https://github.com/swaywm/sway/wiki
-#
 # Copy this to ~/.config/sway/config and edit it to your liking.
 #
 # Read `man 5 sway` for a complete reference.
+#
+# Help i3 Migration Guide: https://github.com/swaywm/sway/wiki/i3-Migration-Guide
 
 ### Variables
 set {
