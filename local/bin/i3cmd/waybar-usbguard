@@ -1,13 +1,23 @@
 #!/bin/sh
 
 listen() {
-  blocked="$(usbguard list-devices -b | head -n1 | grep -Po 'name "\K[^"]+')"
-  if [ -n "$blocked" ]; then
-    printf '{"text": "  %s"}\n' "$blocked"
-  else
-    printf '{"text": ""}\n'
-  fi
-}
+  # blocked="$(usbguard list-devices -b | head -n1 | grep -Po 'name "\K[^"]+')"
+  # if [ -n "$blocked" ]; then
+  #   printf '{"text": "  %s"}\n' "$blocked"
+  # else
+  #   printf '{"text": ""}\n'
+  # fi
+  # dbus-monitor --system --profile "interface='org.usbguard.Devices1'" |
+  usbguard watch -w |
+    while read -r line; do
+      blocked="$(usbguard list-devices -b | head -n1 | grep -Po 'name "\K[^"]+')"
+      if [ -n "$blocked" ]; then
+        printf '{"text": " %s"}\n' "$blocked"
+      else
+        printf '{"text": ""}\n'
+      fi
+    done
+  }
 
 allow() {
   blocked_id="$(usbguard list-devices -b | head -n1 | grep -Po '^[^:]+')"
@@ -24,5 +34,6 @@ if [ "$1" = "allow" ]; then
 elif [ "$1" = "reject" ]; then
   reject
 else
+  ! pgrep -x usbguard || exit
   listen
 fi

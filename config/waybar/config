@@ -94,9 +94,9 @@
     },
     "backlight": {
         // "device": "acpi_video1",
-        "on-scroll-up": "light -A 5",
-        "on-scroll-down": "light -U 5",
-        "on-click-middle": "light -S 50",
+        "on-scroll-up": "sway-light.sh up 1",
+        "on-scroll-down": "sway-light.sh down 1",
+        "on-click-middle": "sway-light.sh set 50",
         "format": "{icon}",
         "format-alt": "{icon} {percent}%",
         "format-icons": [" ", "", "  "]
@@ -151,6 +151,9 @@
             "car": "",
             "default": ["", "", ""]
         },
+        "on-scroll-up": "sway-pulseaudio.sh up 1",
+        "on-scroll-down": "sway-pulseaudio.sh down 1",
+        "on-click-middle": "sway-pulseaudio.sh toggle",
         "on-click-right": "$TERMINAL -e 'alsamixer'"
     },
     "custom/weather": {
@@ -227,16 +230,14 @@
       "on-click-middle": "close"
     },
     "custom/usbguard": {
-        "interval": 1,
         "exec": "sudo waybar-usbguard",
         "return-type": "json",
         "on-click": "sudo waybar-usbguard allow",
         "on-click-right": "sudo waybar-usbguard reject"
     },
     "custom/progress": {
-        "exec": "waybar-progress",
-        "return-type": "json",
-        "interval": 1
+        "exec": "waybar-progress listen",
+        "return-type": "json"
     },
     "custom/systemd": {
         "format": "<span foreground='#ff5c57'>{}</span>",

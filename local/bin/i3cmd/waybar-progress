@@ -1,7 +1,26 @@
 #!/bin/sh
 
-output="$(progress -q)"
-text="$(printf "%s" "$output" | sed 's/\[[^]]*\] //g' | awk 'BEGIN { ORS=" " } NR%3==1 { op=$1 } NR%3==2 { pct=($1+0); if (op != "gpg" && pct > 0 && pct < 100) { print op, $1 } }')"
-tooltip="$(printf "%s" "$output" | perl -pe 's/\n/\\n/g' | perl -pe 's/(?:\\n)+$//')"
+! pgrep -x progress || exit
 
-printf '{"text": "%s", "tooltip": "%s"}\n' "$text" "$tooltip"
+case "$1" in
+  listen)
+    progress -qM |
+      while read line; do
+        output="$(progress -q)"
+        text="$(printf "%s" "$output" | sed 's/\[[^]]*\] //g' | awk 'BEGIN { ORS=" " } NR%3==1 { op=$1 } NR%3==2 { pct=($1+0); if (op != "gpg" && pct > 0 && pct < 100) { print op, $1 } }')"
+        tooltip="$(printf "%s" "$output" | perl -pe 's/\n/\\n/g' | perl -pe 's/(?:\\n)+$//')"
+        printf "%s" "$text" | awk '{print $NF}' | cut -d '.' -f1 > $SWAYSOCK.wob
+        printf '{"text": "%s", "tooltip": "%s"}\n' "$text" "$tooltip"
+      done
+    ;;
+  show)
+    output="$(progress -q)"
+    text="$(printf "%s" "$output" | sed 's/\[[^]]*\] //g' | awk 'BEGIN { ORS=" " } NR%3==1 { op=$1 } NR%3==2 { pct=($1+0); if (op != "gpg" && pct > 0 && pct < 100) { print op, $1 } }')"
+    tooltip="$(printf "%s" "$output" | perl -pe 's/\n/\\n/g' | perl -pe 's/(?:\\n)+$//')"
+    printf '{"text": "%s", "tooltip": "%s"}\n' "$text" "$tooltip"
+    ;;
+  *)
+    echo >&2 "Usage: $0 <show|listen>"
+    exit 1
+    ;;
+esac
