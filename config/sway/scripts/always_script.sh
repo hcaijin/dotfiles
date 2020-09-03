@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # Time: 2020-08-29 13:10:23
-# 自定义启动脚本
-
-pkill -x waybar && "kill waybar success"
-waybar &
+# 重载sway自定义启动脚本
 
 pkill -x sway-autoname-w && echo "kill sway-autoname-workspaces success"
 sway-autoname-workspaces -d -l ~/.cache/sway-autoname-wp.log &

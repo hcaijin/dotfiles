@@ -1,0 +1,11 @@
+default partial alphanumeric_keys modifier_keys
+
+xkb_symbols "basic" {
+  include "us"
+
+  replace key <LCTL> { [ Alt_L, Meta_L ] };
+  replace key <LALT> { [ Control_L ] };
+  replace key <CAPS> { [ Escape, Hyper_L ] };
+  replace key <LWIN> { [ Super_L ] };
+  modifier_map Mod3 { <META>, Hyper_L };
+};

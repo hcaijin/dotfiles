@@ -1,3 +1,4 @@
+export $(systemctl --user show-environment)
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 # export LANGUAGE=en_US:zh_CN
@@ -29,15 +30,17 @@ eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_ecdsa)"
 sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-  export XDG_CURRENT_DESKTOP=Unity
-  # export GDK_BACKEND=x11
+  export XDG_CURRENT_DESKTOP=sway
   export _JAVA_AWT_WM_NONREPARENTING=1
-  # MPD daemon start (if no other user instance exists)
-  [ ! -s ~/.config/mpd/pid ] && mpd 2>&1 >/dev/null &
+  export XDG_SESSION_TYPE=wayland
+  export XKB_DEFAULT_LAYOUT=us
+  # export GDK_BACKEND=x11
   #
   # Sway start
   # exec sway -d 2> /tmp/sway.log # sway debug
   # The first card is used for actual rendering, and display buffers are copied to the secondary cards for any displays connected to them.
   # WLR_DRM_DEVICES=/dev/dri/card0 exec sway 2>/tmp/sway.log
-  XKB_DEFAULT_LAYOUT=us exec sway 2> /tmp/sway.log
+  #exec sway 2> ~/.cache/sway.log
+  systemd-cat -t sway sway
+  systemctl --user unset-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 fi

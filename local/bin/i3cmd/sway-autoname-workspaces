@@ -41,6 +41,8 @@ WINDOW_ICONS = {
     "genymotion player": "",
     "jetbrains-studio": "",
     "qutebrowser": "",
+    "xdroidui": "",
+    "xappcenter": "",
     "wofi": ""
 }
 

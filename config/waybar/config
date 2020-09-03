@@ -233,11 +233,13 @@
         "exec": "sudo waybar-usbguard",
         "return-type": "json",
         "on-click": "sudo waybar-usbguard allow",
-        "on-click-right": "sudo waybar-usbguard reject"
+        "on-click-right": "sudo waybar-usbguard reject",
+        "interval": 1
     },
     "custom/progress": {
-        "exec": "waybar-progress listen",
-        "return-type": "json"
+        "exec": "waybar-progress show",
+        "return-type": "json",
+        "interval": 1
     },
     "custom/systemd": {
         "format": "<span foreground='#ff5c57'>{}</span>",
