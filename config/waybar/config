@@ -230,11 +230,10 @@
       "on-click-middle": "close"
     },
     "custom/usbguard": {
-        "exec": "sudo waybar-usbguard",
+        "exec": "sudo waybar-usbguard watch",
         "return-type": "json",
         "on-click": "sudo waybar-usbguard allow",
-        "on-click-right": "sudo waybar-usbguard reject",
-        "interval": 1
+        "on-click-right": "sudo waybar-usbguard reject"
     },
     "custom/progress": {
         "exec": "waybar-progress show",

@@ -169,9 +169,9 @@ domain() {
 }
 
 doEditSystem() {
-  # login faillock
+  # https://wiki.archlinux.org/index.php/Security
   sudo sed -i 's/# deny.*/deny = 50/g' /etc/security/faillock.conf
-  # systemd log size
+  # https://wiki.archlinux.org/index.php/Systemd/Journal#Clean_journal_files_manually
   sudo sed -i 's/#SystemMaxUse=.*/SystemMaxUse=200M/g' /etc/systemd/journald.conf
 }
 

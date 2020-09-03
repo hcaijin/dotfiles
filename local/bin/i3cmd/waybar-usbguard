@@ -10,7 +10,7 @@ listen() {
 }
 
 watchs() {
-  dbus-monitor --system --profile "interface='org.usbguard.Devices1'" |
+    # dbus-monitor --system --profile "interface='org.usbguard.Devices1'" |
     usbguard watch -w |
     while read -r line; do
       # printf "%s\n" "$line" && continue
@@ -37,7 +37,7 @@ if [ "$1" = "allow" ]; then
   allow
 elif [ "$1" = "reject" ]; then
   reject
-elif [ "$1" = "watchs" ]; then
+elif [ "$1" = "watch" ]; then
   ! pgrep -x usbguard || exit
   watchs
 else
