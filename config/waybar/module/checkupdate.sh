@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 LOGFILE=/tmp/checkpacmanupdate.log
 if [[ "$(stat -c %y "$LOGFILE" 2>/dev/null | awk '{print $1}')" != "$(date '+%Y-%m-%d')" ||  ! -z $1 ]]; then
   checkupdates > ${LOGFILE} || exit

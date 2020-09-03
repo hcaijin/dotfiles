@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Toggle floating dropdown terminal in sway, or start if non-existing.
 # $1 is	the script run in the terminal.

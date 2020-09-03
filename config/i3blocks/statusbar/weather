@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 if [[ -z "$LOCALTION" ]] ; then
   localt=$(file /etc/localtime 2>/dev/null | awk -F'/' '{print $NF}')

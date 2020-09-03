@@ -8,6 +8,8 @@
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias root='sudo -i' \
+           pkill="pkill -U $UID" \
+           pgrep="pgrep -U $UID" \
            0="cd -0" \
            1="cd -1" \
            2="cd -2" \

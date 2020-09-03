@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Authors:
 # - Moritz Warning <moritzwarning@web.de> (2016)

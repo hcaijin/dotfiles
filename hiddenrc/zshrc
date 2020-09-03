@@ -39,7 +39,6 @@ fi
 INIT_SH_NOFUN=1
 INIT_SH_NOLOG=1
 DISABLE_Z_PLUGIN=1
-[ -f "$HOME/.config/custom-login/init.sh" ] && source "$HOME/.config/custom-login/init.sh"
 
 # exit for non-interactive shell
 [[ $- != *i* ]] && return
@@ -140,10 +139,6 @@ ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=009
 ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=009
 ZSH_HIGHLIGHT_STYLES[assign]=none
 
-# load local config
-[ -f "$HOME/.config/custom-login/config.zsh" ] && source "$HOME/.config/custom-login/config.zsh"
-[ -f "$HOME/.config/custom-login/local.zsh" ] && source "$HOME/.config/custom-login/local.zsh"
-
 antigen apply
 
 # work around: fast syntax highlighting may crash zsh without this
@@ -194,9 +189,6 @@ bindkey -s '\e-' 'cd -\n'
 bindkey -s '\e0' 'cd ~\n'
 bindkey -s '\ep' 'ncdu\n'
 
-
-# source function.sh if it exists
-[ -f "$HOME/.config/custom-login/func.sh" ] && . "$HOME/.config/custom-login/func.sh"
 
 # Disable correction
 unsetopt correct_all

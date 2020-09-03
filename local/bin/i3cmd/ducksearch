@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # Gives a dmenu prompt to search DuckDuckGo.
 # Without input, will open DuckDuckGo.com.
 # URLs will be directly handed to the browser.

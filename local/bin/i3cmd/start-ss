@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # ss-local proxy on port 1080
 
 MYPIPFILE=/tmp/myproxyip.txt

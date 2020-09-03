@@ -1,4 +1,5 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+
 read lcd < /tmp/lcd
 	if [ "$lcd" -eq "0" ]; then
 		swaymsg "output * dpms on"

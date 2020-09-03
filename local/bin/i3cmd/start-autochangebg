@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # change wallpaper shell
 CLEARWP=/tmp/clear-wallpaper.txt
 

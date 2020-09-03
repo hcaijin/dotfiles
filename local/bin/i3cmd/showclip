@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Display contents of selection via dunst if running.
 # Separate script for sway.

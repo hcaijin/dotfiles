@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # dependence for docker
 command -v docker > /dev/null 2>&1  || exit 0
 

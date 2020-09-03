@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Restart netctl default network
 
 ifinstalled netctl || exit

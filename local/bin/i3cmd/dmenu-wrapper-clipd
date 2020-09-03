@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+
 set -euo pipefail
 
 wl-clipboard-history -p "$(wl-clipboard-history -l 20 | dmenu -p 'select a paste' | cut -d ',' -f1)" | wl-copy

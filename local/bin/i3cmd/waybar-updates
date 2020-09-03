@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 cache_path="${XDG_CACHE_HOME:-$HOME/.cache}/waybar-updates"
 

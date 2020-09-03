@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # lock the win
 IMG="~/.wallpaper/300-Arch.png"

@@ -1,11 +1,10 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # change wallpaper
 # dependence: sway fortune convert wl-copy
 # help: http://www.imagemagick.org/Usage/ 
 # https://blog.csdn.net/yuxiangji/article/details/24964577
 
-WP_DIR="$HOME/.config/variety/Downloaded/"
-WP_DIR2="$HOME/.wallpaper/"
+WP_DIR="$HOME/.wallpaper/"
 LOG="$HOME/autochagebg.log"
 RESULT="/tmp/wallpaper.jpg"
 WPTEXT="/tmp/wallpaper.txt"
@@ -78,7 +77,7 @@ change_once_bg(){
   exit 0
 }
 
-[[ -f ${LOG} && $(wc -l ${LOG} | awk '{print $1}') -gt 0 ]] || find "$WP_DIR" "$WP_DIR2" -type f -name '*.jpg' -o -name '*.png' > ${LOG}
+[[ -f ${LOG} && $(wc -l ${LOG} | awk '{print $1}') -gt 0 ]] || find "$WP_DIR" -type f -name '*.jpg' -o -name '*.png' > ${LOG}
 TOTAL=$(cat ${LOG} | wc -l)
 # echo $TOTAL
 

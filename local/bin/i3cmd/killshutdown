@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 pkill -f auto-shutdown || exit 1
 notify-check-send " Battery Module" "\nShutdown cronjob is stopped."

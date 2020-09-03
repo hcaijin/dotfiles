@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Help: https://wiki.archlinux.org/index.php/Sway#Screen_capture
 #Screen capture
@@ -17,7 +17,7 @@ case "$1" in
     grim - | tee $FILE 2>&1 > /dev/null
     ;;
   sp)
-    grim -g "$(slurp)" - | tee $FILE 2>&1 > /dev/null 
+    grim -g "$(slurp)" - | tee $FILE 2>&1 > /dev/null
     ;;
   rw)
     { sleep 1 && pkill -RTMIN+3 -x waybar; } &

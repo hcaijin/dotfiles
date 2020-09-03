@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 listen() {
   blocked="$(usbguard list-devices -b | head -n1 | grep -Po 'name "\K[^"]+')"

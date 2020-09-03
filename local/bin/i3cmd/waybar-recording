@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 if pgrep -x wf-recorder > /dev/null; then
     printf '{"text": "  "}\n'

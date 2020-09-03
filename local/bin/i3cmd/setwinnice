@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 win_wh=$(swaymsg -t get_outputs -p | grep 'Current mode:' | awk '{print $3}')
 

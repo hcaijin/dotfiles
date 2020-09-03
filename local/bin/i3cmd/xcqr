@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # Must have wl-clipboard-git installed to show qrencode
 
 if [ -n "$1" ]; then

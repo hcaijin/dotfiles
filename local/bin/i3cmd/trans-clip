@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Translate wl-paste text to Chinese
 # clip=$(wl-paste -n)

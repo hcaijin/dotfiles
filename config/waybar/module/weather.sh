@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 localt=$(file /etc/localtime 2>/dev/null | awk -F'/' '{print $NF}')
 [ ! -z "$localt" ] || localt="Shanghai"

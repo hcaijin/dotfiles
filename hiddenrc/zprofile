@@ -29,6 +29,10 @@ eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_ecdsa)"
 
 sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
 
+# load custom config
+[ -f "$HOME/.config/custom-login/local.zsh" ] && source "$HOME/.config/custom-login/local.zsh"
+[ -f "$HOME/.config/custom-login/func.sh" ] && source "$HOME/.config/custom-login/func.sh"
+
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   export XDG_CURRENT_DESKTOP=sway
   export _JAVA_AWT_WM_NONREPARENTING=1

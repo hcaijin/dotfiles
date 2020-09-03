@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 failed_user="$(systemctl --plain --no-legend --user list-units --state=failed | awk '{ print $1 }')"
 failed_system="$(systemctl --plain --no-legend list-units --state=failed | awk '{ print $1 }')"

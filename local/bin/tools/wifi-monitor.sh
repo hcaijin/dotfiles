@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Dependences: ifconfig, iw, airtrack-ng
 

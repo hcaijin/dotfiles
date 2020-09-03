@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [[ ! "$1" ]]; then
   # 1. help from https://www.cnblogs.com/garyw/p/12769259.html

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # A general, all-purpose extraction script.
 #
 # Default behavior: Extract archive into new directory
