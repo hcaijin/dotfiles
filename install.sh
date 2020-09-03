@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-#
-# Init colors
-# Reset
-Color_off='\033[0m'       # Text Reset
-
-# Regular Colors
+Color_off='\033[0m'
 Cyan='\033[0;36m'
 Blue='\033[0;34m'
 Red='\033[0;31m'
@@ -15,13 +10,13 @@ LOCKFILE=$PWD/dotfiles.lock
 [ $EUID != 0 ] && SUDO=sudo
 
 if type apt >/dev/null 2>&1; then
-    installpkg(){ ${SUDO} apt-get install -y "$@" >/dev/null 2>&1; }
+  installpkg(){ ${SUDO} apt-get install -y "$@" >/dev/null 2>&1; }
 elif type pkg >/dev/null 2>&1; then
-    installpkg(){ ${SUDO} pkg install -y "$@" >/dev/null 2>&1; }
+  installpkg(){ ${SUDO} pkg install -y "$@" >/dev/null 2>&1; }
 elif type yum >/dev/null 2>&1; then
-    installpkg(){ ${SUDO} yum install -y "$@" >/dev/null 2>&1; }
+  installpkg(){ ${SUDO} yum install -y "$@" >/dev/null 2>&1; }
 else
-    installpkg(){ ${SUDO} pacman --noconfirm --needed -S "$@" >/dev/null 2>&1 ;}
+  installpkg(){ ${SUDO} pacman --noconfirm --needed -S "$@" >/dev/null 2>&1 ;}
 fi
 
 USAGE () {
@@ -42,15 +37,15 @@ delink () {
   if [ -e "$FILE" ]
   then
     if file $FILE | grep $PWD &> /dev/null;then
-        rm -r "$FILE"
-        # mv $FILE $OLDLINK
-        printf "Removed File $Blue$FILE${Color_off}\n"
-	    if [ -e "$OLDLINK" ]; then
-		printf "Restore $Cyan$OLDLINK${Color_off} -> $Blue$FILE${Color_off}\n"
-		mv $OLDLINK $FILE
-	    fi
+      rm -r "$FILE"
+      # mv $FILE $OLDLINK
+      printf "Removed File $Blue$FILE${Color_off}\n"
+      if [ -e "$OLDLINK" ]; then
+        printf "Restore $Cyan$OLDLINK${Color_off} -> $Blue$FILE${Color_off}\n"
+        mv $OLDLINK $FILE
+      fi
     else
-	printf "Skipping $Red$FILE${Color_off}\n"
+      printf "Skipping $Red$FILE${Color_off}\n"
     fi
   else
     printf "None File $Red$FILE${Color_off}\n"
@@ -81,140 +76,148 @@ doUninstall() {
 
 # Symlinks the configs
 symlink () {
-	grep "$1" $LOCKFILE 2>/dev/null
-	if [ $? != 0 ]
-	then
-		echo $1 >> $LOCKFILE
-	fi
-	TARGET=$PWD/$2$1
-	FILE=$HOME/.$1
-	if [ -e "$FILE" ]
-	then
-		if file $FILE | grep $PWD &> /dev/null;then
-			printf "Installed $Red$FILE${Color_off}\n"
+  grep "$1" $LOCKFILE 2>/dev/null
+  if [ $? != 0 ]
+  then
+    echo $1 >> $LOCKFILE
+  fi
+  TARGET=$PWD/$2$1
+  FILE=$HOME/.$1
+  if [ -e "$FILE" ]
+  then
+    if file $FILE | grep $PWD &> /dev/null;then
+      printf "Installed $Red$FILE${Color_off}\n"
 
-		else
-			if [[ $FORCE -eq 1 ]]; then
-				mv -f "$FILE" "$FILE$PRE"
-				ln -sf "$TARGET" "$FILE"
-				printf "Linking $Cyan$FILE${Color_off} -> $Blue$TARGET${Color_off}\n"
-			else
-				printf "Skipping $Red$FILE${Color_off}\n"
-			fi
-		fi
-	else
-		printf "Linking $Cyan$FILE${Color_off} -> $Blue$TARGET${Color_off}\n"
-		ln -s "$TARGET" "$FILE"
-	fi
+    else
+      if [[ $FORCE -eq 1 ]]; then
+        mv -f "$FILE" "$FILE$PRE"
+        ln -sf "$TARGET" "$FILE"
+        printf "Linking $Cyan$FILE${Color_off} -> $Blue$TARGET${Color_off}\n"
+      else
+        printf "Skipping $Red$FILE${Color_off}\n"
+      fi
+    fi
+  else
+    printf "Linking $Cyan$FILE${Color_off} -> $Blue$TARGET${Color_off}\n"
+    ln -s "$TARGET" "$FILE"
+  fi
 }
 
 linkHiddenFile() {
-	for file in `ls hiddenrc`;
-	do
-		symlink $file hiddenrc/
-	done
+  for file in `ls hiddenrc`;
+  do
+    symlink $file hiddenrc/
+  done
 }
 
 linkFolder() {
-	for file in `ls $1 | egrep -v '^(etc|share)'`;
-	do
-		symlink $1/$file
-	done
+  for file in `ls $1 | egrep -v '^(etc|share)'`;
+  do
+    symlink $1/$file
+  done
 }
 
 doLink() {
-	# mkdir
-	if [ ! -d "$HOME/.config" ];then
-		mkdir ~/.config
-	fi
-	if [ ! -d "$HOME/.local/bin" ];then
-		mkdir -p ~/.local/bin
-	fi
-	# mail
-	if [ ! -f ~/.msmtprc ];
-	then
-		#cp msmtprc ~/.msmtprc
-		printf "copy ${red}msmtprc to ~/.msmtprc ${color_off}\n"
-		printf "you need to run chmod 0600 ~/.msmtprc after edit password\n"
+  # mkdir
+  if [ ! -d "$HOME/.config" ];then
+    mkdir ~/.config
+  fi
+  if [ ! -d "$HOME/.local/bin" ];then
+    mkdir -p ~/.local/bin
+  fi
+  # mail
+  if [ ! -f ~/.msmtprc ];
+  then
+    #cp msmtprc ~/.msmtprc
+    printf "copy ${red}msmtprc to ~/.msmtprc ${color_off}\n"
+    printf "you need to run chmod 0600 ~/.msmtprc after edit password\n"
 
-	fi
-	# Install folder to config or local
-	linkFolder config
-	linkFolder local/bin
-	linkFolder local/share
-	# Install hidden file to ~
-	linkHiddenFile
-	# Install FZF
-	if [ -e ~/.fzf ]
-	then
-		printf "Installed $Red~/.fzf$Color_off\n"
-	else
-		if [ -e ~/.fzf.orig ]
-		then
-			mv ~/.fzf.orig ~/.fzf
-			printf "$Blue Finished Installing fzf$Color_off\n"
-		else
-			printf "$Cyan Downloading  fzf -> $Blue$HOME/.fzf$Color_off\n"
-			git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-			~/.fzf/install --all
-			printf "$Blue Finished Installing fzf$Color_off\n"
-		fi
-	fi
+  fi
+  # Install folder to config or local
+  linkFolder config
+  linkFolder local/bin
+  linkFolder local/share
+  # Install hidden file to ~
+  linkHiddenFile
+  # Install FZF
+  if [ -e ~/.fzf ]
+  then
+    printf "Installed $Red~/.fzf$Color_off\n"
+  else
+    if [ -e ~/.fzf.orig ]
+    then
+      mv ~/.fzf.orig ~/.fzf
+      printf "$Blue Finished Installing fzf$Color_off\n"
+    else
+      printf "$Cyan Downloading  fzf -> $Blue$HOME/.fzf$Color_off\n"
+      git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+      ~/.fzf/install --all
+      printf "$Blue Finished Installing fzf$Color_off\n"
+    fi
+  fi
 }
 
 domain() {
-    echo "do install depandens pkg"
-    installpkg wget curl vim zsh keychain
-    doLink
-    # Pull github ssh pub key
-    [ -z ${PASSWD} ] || PASSWD_STR=" -P $PASSWD"
-    [ -z ${PORT} ] || PORT_STR=" -p $PORT"
-    [ -f "$HOME/.ssh/id_ecdsa" ] || sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh)${PASSWD_STR}${PORT_STR} -g $GITUSER -d
-    [ -z "`echo $SHELL | grep 'zsh'`" ] && chsh -s `which zsh`
+  echo "do install depandens pkg"
+  installpkg wget curl vim zsh keychain
+  doLink
+  # Pull github ssh pub key
+  [ -z ${PASSWD} ] || PASSWD_STR=" -P $PASSWD"
+  [ -z ${PORT} ] || PORT_STR=" -p $PORT"
+  [ -f "$HOME/.ssh/id_ecdsa" ] || sh <(curl -Ls https://raw.githubusercontent.com/hcaijin/SSH_Key_Installer/master/ikey.sh)${PASSWD_STR}${PORT_STR} -g $GITUSER -d
+  [ -z "`echo $SHELL | grep 'zsh'`" ] && chsh -s `which zsh`
+}
+
+doEditSystem() {
+  # login faillock
+  sudo sed -i 's/# deny.*/deny = 50/g' /etc/security/faillock.conf
+  # systemd log size
+  sudo sed -i 's/#SystemMaxUse=.*/SystemMaxUse=200M/g' /etc/systemd/journald.conf
 }
 
 doHasopt() {
-    while getopts "P:p:g:hfd" OPT; do
-      case $OPT in
-        P)
-          PASSWD=$OPTARG
-          ;;
-        p)
-          PORT=$OPTARG
-          ;;
-        g)
-          GITUSER=$OPTARG
-          ;;
-        f)
-	FORCE=1
-          ;;
-        d)
-	doUninstall
-	exit
-          ;;
-        h)
-          USAGE
-          exit -1
-          ;;
-        ?)
-            USAGE
-            exit -1
-            ;;
-        :)
-            USAGE
-            exit -1
-            ;;
-      esac
-    done
+  while getopts "P:p:g:hfd" OPT; do
+    case $OPT in
+      P)
+        PASSWD=$OPTARG
+        ;;
+      p)
+        PORT=$OPTARG
+        ;;
+      g)
+        GITUSER=$OPTARG
+        ;;
+      f)
+        FORCE=1
+        ;;
+      d)
+        doUninstall
+        exit
+        ;;
+      h)
+        USAGE
+        exit -1
+        ;;
+      ?)
+        USAGE
+        exit -1
+        ;;
+      :)
+        USAGE
+        exit -1
+        ;;
+    esac
+  done
 }
 
 main() {
-    [ $# -lt 1 ] && {
-        domain
-        exit 0
-    }
-    doHasopt $*
+  [ $# -lt 1 ] && {
     domain
+      exit 0
+    }
+  doHasopt $*
+  domain
+  doEditSystem
 }
 
 main $*
