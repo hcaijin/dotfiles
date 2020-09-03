@@ -1,6 +1,9 @@
 #!/bin/bash
-function lock(){
-    swaylock -f -i $HOME/.wallpaper/300-Arch.png
+
+function pre_exit(){
+  [ -f "$HOME/.config/mpd/pid" ] && mpd --kill
+  pkill -U $UID -f "auto-change-bg"
+  pkill -U $UID -f "$SWAYSOCK.wob"
 }
 
 case "$1" in
@@ -8,13 +11,14 @@ case "$1" in
         lockwin
         ;;
     logout)
+        pre_exit
         swaymsg exit
         ;;
     suspend)
         systemctl -i suspend
         ;;
     hibernate)
-        systemctl hibernate -i
+        systemctl -i hibernate
         ;;
     reboot)
         systemctl -i reboot
