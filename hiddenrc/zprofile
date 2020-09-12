@@ -1,17 +1,13 @@
 export $(systemctl --user show-environment)
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
+# export LANG=en_US.UTF-8
 # export LANGUAGE=en_US:zh_CN
-export LC_CTYPE=en_US.UTF-8
+# export LC_CTYPE=en_US.UTF-8
 # Enable 256 color to make auto-suggestions look nice
 export TERM="xterm-256color"
 
 export ANDROID_HOME="$HOME/Tools/android-sdk-linux"
 export PATH="$(find $HOME/.local/bin -type l,d | cut -f2 | tr '\n' ':')$HOME/.npm-packages/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$HOME/.local/bin:$PATH"
-
-export TERMINAL="termite"
-export BROWSER="chromium"
-export FILE="vifm"
 
 export NVM_DIR="$HOME/.nvm"
 export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
@@ -29,15 +25,15 @@ eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_ecdsa)"
 
 sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
 
-# load custom config
-[ -f "$HOME/.config/custom-login/local.zsh" ] && source "$HOME/.config/custom-login/local.zsh"
-[ -f "$HOME/.config/custom-login/func.sh" ] && source "$HOME/.config/custom-login/func.sh"
+# export QT_QPA_PLATFORM=wayland-egl
+# export QT_WAYLAND_FORCE_DPI=physical
+# export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+
+# export ECORE_EVAS_ENGINE=wayland_egl
+# export ELM_ENGINE=wayland_egl
+# export SDL_VIDEODRIVER=wayland
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-  export XDG_CURRENT_DESKTOP=sway
-  export _JAVA_AWT_WM_NONREPARENTING=1
-  export XDG_SESSION_TYPE=wayland
-  export XKB_DEFAULT_LAYOUT=us
   # export GDK_BACKEND=x11
   #
   # Sway start

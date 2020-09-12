@@ -12,12 +12,17 @@ case "$1" in
         ;;
     logout)
         pre_exit
+        sleep 1
         swaymsg exit
         ;;
     suspend)
+        start-swayidle alway
+        sleep 1
         systemctl -i suspend
         ;;
     hibernate)
+        start-swayidle alway
+        sleep 1
         systemctl -i hibernate
         ;;
     reboot)

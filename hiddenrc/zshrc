@@ -199,6 +199,11 @@ DISABLE_CORRECTION="true"
 zstyle ':completion:*:complete:-command-:*:*' ignored-patterns '*.pdf|*.exe|*.dll'
 zstyle ':completion:*:*sh:*:' tag-order files
 zstyle ':completion:*' rehash true
+# load custom config
+
+[ -f "$HOME/.config/custom-login/local.zsh" ] && source "$HOME/.config/custom-login/local.zsh"
+[ -f "$HOME/.config/custom-login/func.sh" ] && source "$HOME/.config/custom-login/func.sh"
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

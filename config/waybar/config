@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["custom/mpd", "custom/weather", "network", "battery", "backlight", "pulseaudio", "custom/vpn", "clock", "custom/tablet"],
+    "modules-right": ["custom/mpd", "custom/weather", "network", "battery", "backlight", "pulseaudio", "custom/vpn", "custom/idle", "clock", "custom/tablet"],
     // Modules configuration
     //"sway/workspaces": {
     //    "disable-scroll": true,
@@ -69,6 +69,13 @@
         "tooltip-format": "MPD (connected)",
         "tooltip-format-disconnected": "MPD (disconnected)",
         "on-click-right": "$TERMINAL -e 'ncmpcpp'"
+    },
+    "custom/idle": {
+        "interval": "once",
+        "signal": 7,
+        "return-type": "json",
+        "exec": "start-swayidle show",
+        "on-click": "start-swayidle click"
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -187,6 +194,15 @@
         "signal": 4,
         "interval": "once",
         "on-click": "waybar-tablet toggle"
+    },
+    "custom/newsboat": {
+        "format": "  {}",
+        "exec": "~/.config/waybar/module/newsboat.sh show",
+        "return-type": "json",
+        "signal": 5,
+        "interval": "once",
+        "on-click": "$TERMINAL -e 'newsboat'",
+        "on-click-middle": "~/.config/waybar/module/newsboat.sh reload"
     }
 },
 {

@@ -17,13 +17,11 @@ export EDITOR="vim"
 [ -r /usr/share/bash-completion/completions ] &&
   . /usr/share/bash-completion/completions/*
 
+[ -f "$HOME/.config/custom-login/local.zsh" ] && source "$HOME/.config/custom-login/local.zsh"
+[ -f "$HOME/.config/custom-login/func.sh" ] && source "$HOME/.config/custom-login/func.sh"
 
 export LANG=en_US.UTF-8
-export LANGUAGE=zh_CN:en_US
+# export LANGUAGE=zh_CN:en_US
 export LC_CTYPE=en_US.UTF-8
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export http_proxy=''
-export https_proxy=''
-export ftp_proxy=''
-export socks_proxy=''

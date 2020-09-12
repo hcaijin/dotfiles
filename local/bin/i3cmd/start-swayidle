@@ -4,17 +4,32 @@
 
 ifinstalled swayidle || exit
 
-pgrep -x swayidle
-if [ "$?" == "0" ]
-then
-  pkill -x swayidle
-  notify-send "Stoped swayidle shell command."
-else
-  notify-send "Starting swayidle shell command."
+function startIdel(){
   swayidle -w \
       timeout 600 'lockwin' resume 'start-resume' \
       timeout 1200 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
       before-sleep 'swaylock -f -c 000000' &
-fi
+}
+
+case "$1" in
+  alway)
+    pgrep -x swayidle || startIdel
+    ;;
+  click)
+    pkill -x swayidle || startIdel
+    pkill -RTMIN+7 -x waybar
+    ;;
+  show)
+    if pgrep -x swayidle >/dev/null; then
+      printf '{"text": "", "class": "activated"}\n'
+    else
+      printf '{"text": "", "class": "deactivated"}\n'
+    fi
+    ;;
+  *)
+    echo "Usage: $0 <alway|click|show>"
+    exit 1
+    ;;
+esac
 
 exit 0

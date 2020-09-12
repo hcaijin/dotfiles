@@ -89,10 +89,12 @@ window#waybar.chromium {
 #custom-pacman,
 #custom-vpn,
 #custom-tablet,
+#custom-newsboat,
 #custom-updates,
 #custom-progress,
 #custom-systemd,
 #custom-mpd,
+#custom-idle,
 #mode,
 #tray,
 #disk,
@@ -229,3 +231,17 @@ label:focus {
     border-bottom: 3px solid #F98000;
     color: #990000;
 }
+
+#custom-newsboat {
+  border-bottom: 3px solid #FF3829;
+}
+
+#custom-idle {
+    border-bottom: 3px solid #8d3436;
+}
+
+#custom-idle.activated {
+    border-bottom: 3px solid #cc00f1;
+    color: #1cf0f1;
+}
+
