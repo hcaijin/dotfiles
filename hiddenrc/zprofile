@@ -1,15 +1,17 @@
-export $(systemctl --user show-environment)
+PATH="$(find $HOME/.local/bin -type l,d | cut -f2 | tr '\n' ':')$PATH"
 
 export ANDROID_HOME="$HOME/Tools/android-sdk-linux"
-export PATH="$(find $HOME/.local/bin -type l,d | cut -f2 | tr '\n' ':')$HOME/.npm-packages/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$HOME/.local/bin:$PATH"
-
 export NVM_DIR="$HOME/.nvm"
 export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+export PATH="$HOME/.npm-packages/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$HOME/.local/bin:$PATH"
+
 # keychain start
-eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_ecdsa)"
+type keychain >/dev/null && eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_ecdsa)"
+# not systemd server must run dbus
+! type systemctl >/dev/null && eval "$(dbus-launch --sh-syntax --exit-with-session)"
 
 sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
 
@@ -18,7 +20,5 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   # exec sway -d 2> /tmp/sway.log # sway debug
   # The first card is used for actual rendering, and display buffers are copied to the secondary cards for any displays connected to them.
   # WLR_DRM_DEVICES=/dev/dri/card0 exec sway 2>/tmp/sway.log
-  #exec sway 2> ~/.cache/sway.log
-  systemd-cat -t sway sway
-  systemctl --user unset-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+  exec sway 2> ~/.cache/sway.log
 fi

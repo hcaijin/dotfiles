@@ -8,5 +8,5 @@ sway-autoname-workspaces -d -l ~/.cache/sway-autoname-wp.log &
 pkill -f inactive-windows-transparency.py && echo "kill inactive-windows-transparency success"
 ~/.config/sway/scripts/inactive-windows-transparency.py -o 0.7 &
 
-pkill -9 -f auto-change-bg && echo "kill auto-change-bg success"
-auto-change-bg &
+# pkill -9 -f auto-change-bg && echo "kill auto-change-bg success"
+# auto-change-bg &

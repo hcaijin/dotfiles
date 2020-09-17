@@ -110,7 +110,7 @@ linkHiddenFile() {
 }
 
 linkFolder() {
-  for file in `ls $1 | egrep -v '^(etc|share)'`;
+  for file in `ls $1 | egrep -v '^(etc)'`;
   do
     symlink $1/$file
   done

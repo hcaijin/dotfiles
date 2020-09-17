@@ -11,11 +11,12 @@ show() {
 }
 
 toggle() {
+  output="$(swaymsg -r -t get_outputs | jq -r '.[].name')"
     if [ -e "$marker" ]; then
-        swaymsg output eDP-1 transform 0
+        swaymsg output "$output" transform 0
         rm -f "$marker"
     else
-        swaymsg output eDP-1 transform 180
+        swaymsg output "$output" transform 180
         touch "$marker"
     fi
     pkill -RTMIN+4 -x waybar

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+server=$(which systemctl)
+
+! type systemctl >/dev/null && server=$(which loginctl)
+
 function pre_exit(){
   [ -f "$HOME/.config/mpd/pid" ] && mpd --kill
   pkill -U $UID -f "auto-change-bg"
@@ -18,18 +22,18 @@ case "$1" in
     suspend)
         start-swayidle alway
         sleep 1
-        systemctl -i suspend
+        ${server} -i suspend
         ;;
     hibernate)
         start-swayidle alway
         sleep 1
-        systemctl -i hibernate
+        ${server} -i hibernate
         ;;
     reboot)
-        systemctl -i reboot
+        ${server} -i reboot
         ;;
     shutdown)
-        systemctl -i poweroff
+        ${server} -i poweroff
         ;;
     *)
         echo "Usage: $0 {lock|logout|suspend|hibernate|reboot|shutdown}"
