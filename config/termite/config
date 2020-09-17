@@ -12,6 +12,7 @@ clickable_url = true
 # font = Inconsolata-g for Powerline 13
 # font =Droid Sans Mono for Powerline Plus Nerd File Types Mono 11,Source Code Pro
 #font = Source Code Pro,Source Code Pro ExtraLight:style=ExtraLight Italic,Italic
+font = MesloLGS NF
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal

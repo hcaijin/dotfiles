@@ -8,4 +8,4 @@ pkill -x waybar
 while pgrep -x waybar >/dev/null; do sleep 1; done
 
 # Launch main
-systemd-cat -t waybar waybar
+waybar -l error >~/.cache/waybar.error.log

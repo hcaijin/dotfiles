@@ -38,7 +38,8 @@ if [ "$1" = "allow" ]; then
 elif [ "$1" = "reject" ]; then
   reject
 elif [ "$1" = "watch" ]; then
-  ! pgrep -x usbguard || exit
+  # ! pgrep -x usbguard || exit
+  pkill -x usbguard
   watchs
 else
   listen

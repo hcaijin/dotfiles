@@ -60,7 +60,6 @@ doUninstall() {
   fi
   if [ -e ~/.fzf ]
   then
-    ~/.fzf/uninstall
     if [ -e ~/.fzf.orig ]
     then
       rm -rf ~/.fzf.orig
@@ -151,7 +150,7 @@ doLink() {
     else
       printf "$Cyan Downloading  fzf -> $Blue$HOME/.fzf$Color_off\n"
       git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-      ~/.fzf/install --all
+      ~/.fzf/install --all --no-update-rc
       printf "$Blue Finished Installing fzf$Color_off\n"
     fi
   fi

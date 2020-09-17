@@ -105,6 +105,7 @@ $freeze Distraction-free mode (super+shift+f to reactivate bindings)
 
 $gaps_max 15
 $gaps_min 1
+$gaps_change 5
 
 # $laptop eDP-1
 }
@@ -113,7 +114,7 @@ $gaps_min 1
 # Clamshell Mode
 # As of Sway 1.1 you can use switch events to drive certain functionality, such as disabling an output upon a laptop lid being closed. Pass your laptop output name into the following, which can by found with: swaymsg -t get_outputs for example eDP-1.
 # bindswitch --reload --locked lid:on output $laptop disable
-# bindswitch --reload --locked lid:off output $laptop enablegaps_change 5
+# bindswitch --reload --locked lid:off output $laptop enable
 
 ### Output configuration
 #

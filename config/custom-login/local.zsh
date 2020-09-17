@@ -5,6 +5,3 @@ if [ -f "$HOME/Source/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Source/goo
 
 # The next line enables shell command completion for gcloud.
 if [ -f "$HOME/Source/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Source/google-cloud-sdk/completion.zsh.inc"; fi
-
-[ -f "$HOME/.aliases" ] && source "$HOME/.aliases"
-

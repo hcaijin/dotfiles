@@ -6,21 +6,12 @@
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+# Define functions and completions.
 
 alias root='sudo -i' \
+           sudo='sudo -E ' \
            pkill="pkill -U $UID" \
            pgrep="pgrep -U $UID" \
-           0="cd -0" \
-           1="cd -1" \
-           2="cd -2" \
-           3="cd -3" \
-           4="cd -4" \
-           5="cd -5" \
-           6="cd -6" \
-           7="cd -7" \
-           8="cd -8" \
-           9="cd -9" \
-           "-"="cd -" \
            shred="shred -zf" \
            Chinese="trans -shell -brief :zh" \
            English="trans -shell -brief" \
@@ -41,9 +32,7 @@ alias root='sudo -i' \
            e="$EDITOR" \
            v="$EDITOR" \
            x="sxiv -ft *" \
-           d='dirs -v | head -10' \
            gua="git remote | xargs -L1 git push --all" \
-           ls="ls -hN --color=auto --group-directories-first" \
            grep="grep --color=auto" \
            diff="diff --color=auto" \
            ccat="highlight --out-format=ansi" \
@@ -54,6 +43,15 @@ alias root='sudo -i' \
            lsp="pacman -Qett --color=always | less" \
            ffmpeg="ffmpeg -hide_banner"
 
-command -v nvim >/dev/null && alias vim="nvim" vimdiff="nvim -d" # Use neovim for vim if present.
-
-vf() { fzf | xargs -r -I % $EDITOR % ;}
+alias dig='dig +nocmd +multiline +noall +answer' \
+         cp='cp -r --reflink=auto' \
+         mkdir='mkdir -p' \
+         hexdumps='od -A x -t x1z -v' \
+         http-serve='python -m http.server' \
+         htpasswd='openssl passwd -apr1' \
+         ip='ip -color -brief' \
+         locate='locate -i' \
+         o='xdg-open' \
+         rm!='\rm -rf' \
+         rsync='rsync --verbose --archive --info=progress2 --human-readable --partial' \
+         tree='tree -a -I .git --dirsfirst'
