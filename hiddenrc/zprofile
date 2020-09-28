@@ -9,9 +9,9 @@ export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
 export PATH="$HOME/.npm-packages/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$HOME/.local/bin:$PATH"
 
 # keychain start
-type keychain >/dev/null && eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_ecdsa)"
+type keychain >/dev/null 2>&1 && eval "$(keychain --eval --agents ssh -Q --quiet $HOME/.ssh/id_ecdsa)"
 # not systemd server must run dbus
-! type systemctl >/dev/null && eval "$(dbus-launch --sh-syntax --exit-with-session)"
+command -v systemctl >/dev/null || eval "$(dbus-launch --sh-syntax --exit-with-session)"
 
 sudo -n loadkeys ~/.local/share/kbd/keymaps/personal.map 2>/dev/null
 
@@ -20,5 +20,11 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   # exec sway -d 2> /tmp/sway.log # sway debug
   # The first card is used for actual rendering, and display buffers are copied to the secondary cards for any displays connected to them.
   # WLR_DRM_DEVICES=/dev/dri/card0 exec sway 2>/tmp/sway.log
-  exec sway 2> ~/.cache/sway.log
+  if command -v wayfire >/dev/null; then
+    export SWAYSOCK=/run/user/$(id -u)/wayland-0.sock
+    exec wayfire -d > ~/.cache/wayfire.log
+  else
+    export XDG_CURRENT_DESKTOP=sway
+    exec sway 2> ~/.cache/sway.log
+  fi
 fi

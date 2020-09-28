@@ -147,8 +147,8 @@ output * bg ~/.wallpaper/300-Arch.png fill
   # xkb_options ctrl:swap_lalt_lctl,caps:hyper
 # }
 # or use file:
-# input type:keyboard xkb_layout "us-custom-winkey"
-input type:keyboard xkb_layout "us-hyper"
+input type:keyboard xkb_layout "us-custom-winkey"
+# input type:keyboard xkb_layout "us-hyper"
 
 #Keyboard repeat delay and rate
 # input type:keyboard {

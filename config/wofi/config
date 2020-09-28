@@ -9,3 +9,4 @@ allow_images=true
 image_size=20px
 drun-display_generic=true
 dynamic_lines=true
+# mode=drun

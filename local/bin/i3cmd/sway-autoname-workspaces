@@ -43,6 +43,7 @@ WINDOW_ICONS = {
     "qutebrowser": "",
     "xdroidui": "",
     "xappcenter": "",
+    "微信开发者工具": "",
     "wofi": ""
 }
 

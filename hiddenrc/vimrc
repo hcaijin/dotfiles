@@ -18,6 +18,7 @@ Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'lilydjwg/fcitx.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'terryma/vim-multiple-cursors'
@@ -28,14 +29,15 @@ Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
 Plug 'majutsushi/tagbar',         {'on': 'TagbarToggle'}
 Plug 'mbbill/undotree',           {'on': 'UndotreeToggle'}
-Plug 'Shougo/denite.nvim'
 Plug 'raghur/fruzzy',             {'do': { -> fruzzy#install()}}
+
 Plug 'junegunn/vim-easy-align',   {'on': '<plug>(LiveEasyAlign)'}
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'dyng/ctrlsf.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 call plug#end()
+" }}}1
 
 " setting {{{1
 
@@ -48,11 +50,11 @@ call plug#end()
 	" 将制表符扩展为空格
 	set expandtab
 	" 设置编辑时制表符占用空格数
-	set tabstop=4
+	set tabstop=2
 	" 设置格式化时制表符占用空格数
-	set shiftwidth=4
+	set shiftwidth=2
 	" 让 vim 把连续数量的空格视为一个制表符
-	set softtabstop=4
+	set softtabstop=2
 	" backgroud: light|dark
     set background=light
 	set go=a
@@ -63,7 +65,18 @@ call plug#end()
 	" set cursorline
 	" set cursorcolumn
 	" 可以与系统剪贴版通过y,p复制粘贴 h: clipboard-unnamedplus
-	set clipboard+=unnamedplus,unnamed
+    if has('unnamedplus')
+        set clipboard+=unnamedplus,unnamed
+        vnoremap <leader>y "+y
+        " vnoremap <leader>d "+d
+        nnoremap <leader>p "+p
+        " inoremap <C-x> <C-r><C-o>+
+    else
+        vnoremap <silent><leader>y :w !wl-copy<cr><cr>
+        " vnoremap <silent><C-x> :w !wl-copy<cr><cr>
+        nnoremap <silent><leader>p :r !wl-paste<cr><cr>
+        " inoremap <silent><C-x> <esc>:r !wl-paste<cr><cr>
+    endif
 	" 设置 gvim 显示字体
 	"set guifont=Inconsolata-g\ for\ Powerline\ 13
 	" Some basics:
@@ -94,7 +107,7 @@ call plug#end()
 " }}}
 
 " :help mapping {{{1
-    nnoremap <leader>T        :split +terminal<cr>
+    nnoremap <leader>:        :terminal<cr>
     tnoremap <A-e>            <nop>
     tnoremap <esc>            <c-\><c-n>
     tnoremap <C-d>            <C-\><C-N>ZQ
@@ -116,17 +129,16 @@ call plug#end()
     nnoremap <leader>a :set autochdir<cr>
     nnoremap <leader>A :set noautochdir<cr>
     " 保存快捷键
-    nnoremap <leader>ss :SaveSession!<cr>
+    " nnoremap <leader>ss :SaveSession!<cr>
     " 恢复快捷键
-    nnoremap <leader>rs :OpenSession!<cr>
+    " nnoremap <leader>rs :OpenSession!<cr>
     " vsplit | split
     nnoremap <leader>v :vs<CR>
     nnoremap <leader>b :sp<CR>
     " buffers ls
     " nnoremap <leader><leader> :ls<CR>:bu<space>
     " <tab> move
-    nnoremap <TAB> <C-w>w
-    nnoremap <leader>tn :tabnew<CR>:edit<space>
+    " nnoremap <TAB> <C-w>w
     nnoremap <A-TAB> :tabnext<CR>
     nnoremap <S-TAB> :tabprevious<CR>
 	" shortcutting split navigation, saving a keypress:
@@ -135,14 +147,17 @@ call plug#end()
 	nnoremap <c-k> <c-w>k
 	nnoremap <c-l> <c-w>l
 	" Spell-check set to <leader>o, 'o' for 'orthography':
-	nnoremap <leader>o :setlocal spell! spelllang=en_us<CR>
+	" nnoremap <leader>o :setlocal spell! spelllang=en_us<CR>
 	" quit file
-	nnoremap <esc><esc> :q<cr>
+	" nnoremap <esc><esc> :q<cr>
+	nnoremap <leader>q :q<cr>
 	" !quit all file
 	nnoremap <leader>Q :qall<cr>
 	" save file
 	nnoremap <leader>w :w<cr>
 	nnoremap <leader>W :w!<cr>
+    " open new tab
+    nnoremap <leader>N :tabnew<CR>:edit<space>
 	" insert model save file
 	inoremap jj <esc>:w<cr>
 	" change insert model to format model
@@ -152,13 +167,13 @@ call plug#end()
 	" save file as sudo on files that require root permission
 	cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 	" replace all is aliased to s.
-	nnoremap S :%s//g<left><left>
+	nnoremap <leader>S :%s//g<left><left>
 	" 帮助查询
 	nnoremap <leader>h :helpgrep<space>
 	" vsplit ~/.vimrc
-	nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+	nnoremap <leader>ee :vsplit $MYVIMRC<cr>
 	" source vimrc
-	nnoremap <leader>sv :source $MYVIMRC<cr>
+	nnoremap <leader>ev :source $MYVIMRC<cr>
     " :help redraw!
     nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
     " 快速移动当前行 Example: 2]e
@@ -172,32 +187,87 @@ call plug#end()
     " :h gv
     xnoremap <  <gv
     xnoremap >  >gv
-    " copy folder path to clipboard, foo/bar/foobar.c => foo/bar/
-    nnoremap <silent> <leader>y1 :let @*=fnamemodify(bufname('%'),":p:h")<CR>
-    " copy file name to clipboard, foo/bar/foobar.c => foobar.c
-    nnoremap <silent> <leader>y2 :let @*=fnamemodify(bufname('%'),":p:t")<CR>
-    " copy full path to clipboard, foo/bar/foobar.c => foo/bar/foobar.c
-    nnoremap <silent> <leader>y3 :let @*=fnamemodify(bufname('%'),":p")<CR>
+
+    if has('nvim') " {{{if
+        " copy folder path to clipboard, foo/bar/foobar.c => foo/bar/
+        nnoremap <silent> <leader>y1 :let @*=fnamemodify(bufname('%'),":p:h")<CR>
+        " copy file name to clipboard, foo/bar/foobar.c => foobar.c
+        nnoremap <silent> <leader>y2 :let @*=fnamemodify(bufname('%'),":p:t")<CR>
+        " copy full path to clipboard, foo/bar/foobar.c => foo/bar/foobar.c
+        nnoremap <silent> <leader>y3 :let @*=fnamemodify(bufname('%'),":p")<CR>
+    else
+        nnoremap <silent> <leader>y1 :let @"=fnamemodify(bufname('%'),":p:h")<CR>
+        " copy file name to clipboard, foo/bar/foobar.c => foobar.c
+        nnoremap <silent> <leader>y2 :let @"=fnamemodify(bufname('%'),":p:t")<CR>
+        " copy full path to clipboard, foo/bar/foobar.c => foo/bar/foobar.c
+        nnoremap <silent> <leader>y3 :let @"=fnamemodify(bufname('%'),":p")<CR>
+    endif " }}}if
 
 " }}}
 
 " plugin {{{1
 
     " Plugin: airline {{{2
-    let g:airline_left_sep  = '>'
-    let g:airline_right_sep = '<'
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#left_alt_sep = '|'
+    let g:airline#extensions#tabline#buffer_nr_show = 0
+    let g:airline#extensions#tabline#formatter = 'default'
+    let g:airline_theme = 'badwolf'
+    let g:airline#extensions#keymap#enabled = 1
+    let g:airline#extensions#tabline#buffer_idx_mode = 1
+    let g:airline#extensions#tabline#buffer_idx_format = {
+           \ '0': '0 ',
+           \ '1': '1 ',
+           \ '2': '2 ',
+           \ '3': '3 ',
+           \ '4': '4 ',
+           \ '5': '5 ',
+           \ '6': '6 ',
+           \ '7': '7 ',
+           \ '8': '8 ',
+           \ '9': '9 '
+           \}
+    nmap <leader>1 <Plug>AirlineSelectTab1
+    nmap <leader>2 <Plug>AirlineSelectTab2
+    nmap <leader>3 <Plug>AirlineSelectTab3
+    nmap <leader>4 <Plug>AirlineSelectTab4
+    nmap <leader>5 <Plug>AirlineSelectTab5
+    nmap <leader>6 <Plug>AirlineSelectTab6
+    nmap <leader>7 <Plug>AirlineSelectTab7
+    nmap <leader>8 <Plug>AirlineSelectTab8
+    nmap <leader>9 <Plug>AirlineSelectTab9
+    nmap <leader>j <Plug>AirlineSelectPrevTab
+    nmap <leader>k <Plug>AirlineSelectNextTab
+    nmap <leader>K :bp<cr>:bd #<cr>
+    if !exists('g:airline_symbols')
+        let g:airline_symbols = {}
+    endif
+    let g:airline_symbols.linenr = "CL" " current line
+    let g:airline_symbols.whitespace = ''
+    " let g:airline_left_sep  = '>'
+    " let g:airline_right_sep = '<'
+    " let g:airline_left_alt_sep = ')'
+    " let g:airline_right_alt_sep = '('
+    let g:airline_symbols.maxlinenr = 'Ml' "maxline
+    let g:airline_symbols.branch = 'BR'
+    let g:airline_symbols.readonly = "RO"
+    let g:airline_symbols.dirty = "DT"
+    let g:airline_symbols.crypt = "CR"
+    " }}}2
 
     " Plugin: surround {{{2
     " -----------------------------------------------------------------------------
+    " usage: https://github.com/tpope/vim-surround
     "  <  vim-surround Press cs"' (that's c, s, double quote, single quote) insidectags >
     " -----------------------------------------------------------------------------
+    "}}}2
 
     " Plugin: nerdtree {{{2
     " -----------------------------------------------------------------------------
-	nnoremap <F1> :NERDTreeToggle<CR>
-	nnoremap <leader>gp :NERDTreeCWD<CR>
-	nnoremap <leader>gf :NERDTreeFind<CR>
-	inoremap <leader>gf <ESC>:NERDTreeFind<CR>
+	nnoremap <leader>F :NERDTreeToggle<CR>
+	nnoremap <leader>fp :NERDTreeCWD<CR>
+	nnoremap <leader>ff :NERDTreeFind<CR>
+	inoremap <leader>ff <ESC>:NERDTreeFind<CR>
     " 设置NERDTree子窗口宽度
     let NERDTreeWinSize=32
     " 设置NERDTree子窗口位置
@@ -210,6 +280,7 @@ call plug#end()
     let NERDTreeAutoDeleteBuffer=1
     " 在窗口里可以使用q退出
 	autocmd bufenter * if (winnr("$") == 1 && exists("b:nerdtree") && b:nerdtree.istabtree()) | q | endif
+    "}}}2
 
     " Plugin: nerdcommenter {{{2
     " -----------------------------------------------------------------------------
@@ -229,19 +300,22 @@ call plug#end()
     let g:NERDTrimTrailingWhitespace = 1
     " Enable NERDCommenterToggle to check all selected lines is commented or not
     let g:NERDToggleCheckAllLines = 1
+    "}}}2
 
     " Plugin: tagbar {{{2
     " -----------------------------------------------------------------------------
-    nnoremap <f2> :TagbarToggle<cr>
+    nnoremap <leader>T :TagbarToggle<cr>
 
     let g:tagbar_width     = 40
     let g:tagbar_autoclose = 0
     let g:tagbar_autofocus = 1
     let g:tagbar_compact   = 1
+    "}}}2
 
     " Plugin: undotree {{{2
     " -----------------------------------------------------------------------------
-    nnoremap <f3>  :UndotreeToggle<cr>
+    nnoremap <leader>U  :UndotreeToggle<cr>
+    "}}}2
 
     " Plugin: wildfire.vim {{{2
     " -----------------------------------------------------------------------------
@@ -252,6 +326,7 @@ call plug#end()
     vmap <S-SPACE> <Plug>(wildfire-water)
     " 适用于哪些结对符
     let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "i>", "ip"]
+    "}}}2
 
     " Plugin: vim-easymotion {{{2
     " -----------------------------------------------------------------------------
@@ -269,6 +344,7 @@ call plug#end()
     " `s{char}{char}{label}`
     " Need one more keystroke, but on average, it may be more comfortable.
     nmap <silent><space> <Plug>(easymotion-overwin-f2)
+    "}}}2
 
     " Plugin: vim-session {{{2
     " -----------------------------------------------------------------------------
@@ -276,111 +352,20 @@ call plug#end()
     " -----------------------------------------------------------------------------
     " :SaveSession!
     " :OpenSession!
+    let g:session_autosave = 'yes'
+    "}}}2
 
     " Plugin: vim-easy-align {{{2
     " -----------------------------------------------------------------------------
     xmap <cr> <plug>(LiveEasyAlign)
-
-    if has('nvim') " {{{if
-        " Plugin: denite.vim {{{2
-        " -----------------------------------------------------------------------------
-        " Mapping
-        nnoremap <leader><leader> :Denite buffer<CR>
-        nnoremap <C-p> :Denite file/rec<CR>
-        nnoremap <leader>fs :DeniteProjectDir file/rec<CR>
-        nnoremap <leader>fw :DeniteCursorWord buffer<CR>
-        nnoremap <leader>fd :DeniteCursorWord file/rec<CR>
-        " Option
-        let s:denite_options = {
-              \ 'default' : {
-              \ 'winheight' : 15,
-              \ 'mode' : 'insert',
-              \ 'start_filter' : 1,
-              \ 'quit' : 1,
-              \ 'path' : getcwd(),
-              \ 'highlight_matched_char' : 'MoreMsg',
-              \ 'highlight_matched_range' : 'MoreMsg',
-              \ 'direction': 'rightbelow',
-              \ 'statusline' : has('patch-7.4.1154') ? v:false : 0,
-              \ 'max_dynamic_update_candidates': 100000,
-              \ }}
-
-        function! s:profile(opts) abort
-          for fname in keys(a:opts)
-            for dopt in keys(a:opts[fname])
-              call denite#custom#option(fname, dopt, a:opts[fname][dopt])
-            endfor
-          endfor
-        endfunction
-        call s:profile(s:denite_options)
-
-        " Define mappings
-        autocmd FileType denite call s:denite_my_settings()
-        function! s:denite_my_settings() abort
-          nnoremap <silent><buffer><expr> i
-                \ denite#do_map('open_filter_buffer')
-          nnoremap <silent><buffer><expr> '
-                \ denite#do_map('toggle_select').'j'
-          nnoremap <silent><buffer><expr> <ESC>
-                \ denite#do_map('quit')
-          nnoremap <silent><buffer><expr> <C-t>
-                \ denite#do_map('do_action', 'tabopen')
-          nnoremap <silent><buffer><expr> <C-v>
-                \ denite#do_map('do_action', 'vsplit')
-          nnoremap <silent><buffer><expr> <C-s>
-                \ denite#do_map('do_action', 'split')
-          nnoremap <silent><buffer><expr> <CR>
-                \ denite#do_map('do_action')
-          nnoremap <silent><buffer><expr> p
-                \ denite#do_map('do_action', 'preview')
-          nnoremap <silent><buffer><TAB> j
-          nnoremap <silent><buffer><S-TAB> k
-        endfunction
-
-        autocmd FileType denite-filter call s:denite_filter_my_settings()
-        function! s:denite_filter_my_settings() abort
-          imap <silent><buffer> <Esc> <Plug>(denite_filter_quit)
-        endfunction
-        " Change file/rec command.
-        call denite#custom#var('file/rec', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-        " Ag command on grep source
-        call denite#custom#var('grep', 'command', ['rg'])
-        call denite#custom#var('grep', 'default_opts',
-            \ ['--vimgrep', '--no-heading'])
-        call denite#custom#var('grep', 'recursive_opts', [])
-        call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-        call denite#custom#var('grep', 'separator', ['--'])
-        call denite#custom#var('grep', 'final_opts', [])
-        " Specify multiple paths in grep source
-        "call denite#start([{'name': 'grep',
-        "      \ 'args': [['a.vim', 'b.vim'], '', 'pattern']}])
-
-        " buffer source
-        call denite#custom#var(
-              \ 'buffer',
-              \ 'date_format', '%m-%d-%Y %H:%M:%S')
-        " Define alias
-        call denite#custom#alias('source', 'file/rec/git', 'file/rec')
-        call denite#custom#var('file/rec/git', 'command',
-              \ ['git', 'ls-files', '-co', '--exclude-standard'])
-        " Change ignore_globs
-        call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
-              \ [ '.git/', '.ropeproject/', '__pycache__/',
-              \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
-
-        " tell denite to use this matcher by default for all sources
-        call denite#custom#source('_', 'matchers', ['matcher/fruzzy'])
-        " }}}2
-    else
-        nnoremap <leader><leader> :Buffers<cr>
-        nnoremap <C-p> :FZF<cr>
-    endif " }}}if
+    "}}}2
 
     " Plugin: fzf {{{2
-    set runtimepath+=~/.fzf
+    nnoremap <leader><leader> :Buffers<cr>
+    nnoremap <C-p> :FZF<cr>
+    " set runtimepath+=~/.fzf
     let g:fzf_history_dir = '~/.local/share/fzf-history'
-
+    nnoremap <leader>B :Barschemes<cr>
     nnoremap <leader>C :Colorschemes<cr>
     nnoremap <leader>P :Plugins<cr>
 
@@ -403,6 +388,10 @@ call plug#end()
       execute 'NERDTree' expand(s:bundle_dir) .'/'. a:entry
     endfunction
 
+    function! s:changetheme(entry)
+      execute 'AirlineTheme' a:entry
+    endfunction
+
     command! Buffers let bl = reverse(s:buflist()) | call fzf#run({
           \ 'source':  bl,
           \ 'sink*':   function('<sid>bufopen'),
@@ -417,21 +406,27 @@ call plug#end()
           \ 'left':    30
           \ })
 
+    command! Barschemes call fzf#run({
+          \ 'source':  reverse(sort(map(globpath(s:bundle_dir, '/vim-airline-themes/autoload/airline/themes/*.vim', 0, 1), 'fnamemodify(v:val, ":t:r")'))),
+          \ 'sink':    function('<sid>changetheme'),
+          \ 'options': '+m',
+          \ 'left':    30
+          \ })
+
     command! Colorschemes call fzf#run({
           \ 'source':  reverse(sort(map(globpath(&rtp, 'colors/*.vim', 0, 1), 'fnamemodify(v:val, ":t:r")'))),
           \ 'sink':    'colorscheme',
           \ 'options': '+m',
           \ 'left':    30
           \ })
+    "}}}2
 
-" }}}
-
-
-    " Plugin: fruzzz {{{2
+    " Plugin: fruzzy {{{2
     " -----------------------------------------------------------------------------
     " Mapping
     let g:fruzzy#usenative = 1
     let g:fruzzy#sortonempty = 1
+    "}}}2
 
     " Plugin: vim-signature {{{2
     " -----------------------------------------------------------------------------
@@ -458,9 +453,7 @@ call plug#end()
         \ 'ListBufferMarks'    :  "m/",
         \ 'ListBufferMarkers'  :  "m?"
         \ }
-
-    " Plugin: vim-signature {{{2
-    " help multiple-cursors-mappings
+    "}}}2
 
     " Plugin: ultisnips and vim-snippets {{{2
     " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -469,20 +462,181 @@ call plug#end()
     let g:UltiSnipsJumpBackwardTrigger="<c-z>"
     " If you want :UltiSnipsEdit to split your window.
     let g:UltiSnipsEditSplit="vertical"
+    "}}}2
 
     " Plugin: ctrlsf.vim {{{2
     " Preferred order is 'ag' > 'ack' > 'rg' > 'pt' > 'ack-grep'. You can also explicitly set it by
     let g:ctrlsf_ackprg = '/bin/ag'
     let g:ctrlsf_winsize = '30%'
-    nnoremap <leader>ff :CtrlSF<CR>
-    nmap     <leader>f <Plug>CtrlSFPrompt
-    vmap     <leader>f <Plug>CtrlSFVwordPath
-    vmap     <leader>F <Plug>CtrlSFVwordExec
-    nmap     <leader>fn <Plug>CtrlSFCwordPath
-    nmap     <leader>fp <Plug>CtrlSFPwordPath
-    nnoremap <leader>fo :CtrlSFOpen<CR>
-    nnoremap <leader>ft :CtrlSFToggle<CR>
-    inoremap <leader>ft <Esc>:CtrlSFToggle<CR>
+    nnoremap <leader>ss :CtrlSF<CR>
+    nmap     <leader>sf <Plug>CtrlSFPrompt
+    vmap     <leader>sp <Plug>CtrlSFVwordPath
+    vmap     <leader>sF <Plug>CtrlSFVwordExec
+    nmap     <leader>sn <Plug>CtrlSFCwordPath
+    nmap     <leader>sp <Plug>CtrlSFPwordPath
+    nnoremap <leader>so :CtrlSFOpen<CR>
+    nnoremap <leader>S :CtrlSFToggle<CR>
+    inoremap <leader>S <Esc>:CtrlSFToggle<CR>
+    " }}}2
+
+    " Plugin: coc.nvim {{{2
+    " TextEdit might fail if hidden is not set.
+    set hidden
+
+    " Some servers have issues with backup files, see #649.
+    set nobackup
+    set nowritebackup
+
+    " Give more space for displaying messages.
+    set cmdheight=2
+
+    " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+    " delays and poor user experience.
+    set updatetime=300
+
+    " Don't pass messages to |ins-completion-menu|.
+    set shortmess+=c
+
+    " Always show the signcolumn, otherwise it would shift the text each time
+    " diagnostics appear/become resolved.
+    if has("patch-8.1.1564")
+      " Recently vim can merge signcolumn and number column into one
+      set signcolumn=number
+    else
+      set signcolumn=yes
+    endif
+
+    " Use tab for trigger completion with characters ahead and navigate.
+    " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+    " other plugin before putting this into your config.
+    inoremap <silent><expr> <TAB>
+          \ pumvisible() ? "\<C-n>" :
+          \ <SID>check_back_space() ? "\<TAB>" :
+          \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+    " Use <c-space> to trigger completion.
+    if has('nvim')
+      inoremap <silent><expr> <leader><space> coc#refresh()
+    else
+      inoremap <silent><expr> <c-@> coc#refresh()
+    endif
+
+    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+    " position. Coc only does snippet and additional edit on confirm.
+    " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+    if exists('*complete_info')
+      inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+    else
+      inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    endif
+
+    " Use `[g` and `]g` to navigate diagnostics
+    " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+    " GoTo code navigation.
+    nmap <silent> go <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Use K to show documentation in preview window.
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+    function! s:show_documentation()
+      if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+      else
+        call CocActionAsync('doHover')
+      endif
+    endfunction
+
+    " Highlight the symbol and its references when holding the cursor.
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+
+    " Symbol renaming.
+    " nmap <leader>rn <Plug>(coc-rename)
+
+    " Formatting selected code.
+    xmap <leader>gm  <Plug>(coc-format-selected)
+    nmap <leader>gm <Plug>(coc-format-selected)
+
+    augroup mygroup
+      autocmd!
+      " Setup formatexpr specified filetype(s).
+      autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+      " Update signature help on jump placeholder.
+      autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup end
+
+    " Applying codeAction to the selected region.
+    " Example: `<leader>aap` for current paragraph
+    xmap <leader>gg  <Plug>(coc-codeaction-selected)
+    nmap <leader>gg  <Plug>(coc-codeaction-selected)
+
+    " TODO: remap key
+    " Remap keys for applying codeAction to the current buffer.
+    nmap <leader>gc  <Plug>(coc-codeaction)
+    " Apply AutoFix to problem on the current line.
+    nmap <leader>gf  <Plug>(coc-fix-current)
+
+    " Map function and class text objects
+    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+    xmap if <Plug>(coc-funcobj-i)
+    omap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap af <Plug>(coc-funcobj-a)
+    xmap ic <Plug>(coc-classobj-i)
+    omap ic <Plug>(coc-classobj-i)
+    xmap ac <Plug>(coc-classobj-a)
+    omap ac <Plug>(coc-classobj-a)
+
+    " Use CTRL-S for selections ranges.
+    " Requires 'textDocument/selectionRange' support of language server.
+    nmap <silent> <C-s> <Plug>(coc-range-select)
+    xmap <silent> <C-s> <Plug>(coc-range-select)
+
+    " Add `:Format` command to format current buffer.
+    command! -nargs=0 Format :call CocAction('format')
+
+    " Add `:Fold` command to fold current buffer.
+    command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+    " Add `:OR` command for organize imports of the current buffer.
+    command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+    " Add (Neo)Vim's native statusline support.
+    " NOTE: Please see `:h coc-status` for integrations with external plugins that
+    " provide custom statusline: lightline.vim, vim-airline.
+    set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+    " Mappings for CoCList
+    " Show all diagnostics.
+    nnoremap <silent><nowait> <leader><space>a  :<C-u>CocList diagnostics<cr>
+    " Manage extensions.
+    nnoremap <silent><nowait> <leader><space>e  :<C-u>CocList extensions<cr>
+    " Show commands.
+    nnoremap <silent><nowait> <leader><space>c  :<C-u>CocList commands<cr>
+    " Find symbol of current document.
+    nnoremap <silent><nowait> <leader><space>o  :<C-u>CocList outline<cr>
+    " Search workspace symbols.
+    nnoremap <silent><nowait> <leader><space>s  :<C-u>CocList -I symbols<cr>
+    " Do default action for next item.
+    nnoremap <silent><nowait> <leader><space>j  :<C-u>CocNext<CR>
+    " Do default action for previous item.
+    nnoremap <silent><nowait> <leader><space>k  :<C-u>CocPrev<CR>
+    " Resume latest coc list.
+    nnoremap <silent><nowait> <leader><space>p  :<C-u>CocListResume<CR>
+    "}}}2
+
+"}}}1
 
 " autocommand {{{1
 
@@ -490,7 +644,7 @@ call plug#end()
 	autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 	" automatically deletes all trailing whitespace on save.
 	autocmd bufwritepre * %s/\s\+$//e
-	" 让配置变更立即生效 echo 'export MYVIMRC="$HOME/.vimrc"' >> ~/.zshrc
+	" 让配置变更立即生效
 	" autocmd BufWritePost $MYVIMRC source $MYVIMRC
 	" 打开文件时恢复光标位置
 	autocmd BufReadPost *

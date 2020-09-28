@@ -16,7 +16,7 @@ case "$1" in
     pamixer -ud $2
     ;;
   *)
-    echo >&2 "Usage: $0 [<up|down> <int..0-100>] [<toggle>]"
+    echo "Usage: $0 [<up|down> <int..0-100>] [<toggle>]"
     exit 1
     ;;
 esac  && pamixer --get-volume > $SWAYSOCK.wob

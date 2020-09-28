@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-server=$(which systemctl)
+server=$(which systemctl) || server=$(which loginctl)
 
-! type systemctl >/dev/null && server=$(which loginctl)
+# ! type systemctl >/dev/null 2>&1 && server=$(which loginctl)
 
 function pre_exit(){
   [ -f "$HOME/.config/mpd/pid" ] && mpd --kill

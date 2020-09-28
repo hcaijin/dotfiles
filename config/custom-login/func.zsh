@@ -139,28 +139,6 @@ pacman-size()
     echo "$RESULT" | awk '{TOTAL=$1+TOTAL} END {printf("Total : %d KiB\n",TOTAL)}'
 }
 
-function listpackages() {
-  expac -H M "%011m\t%-20n\t%10d" $(comm -23 <(pacman -Qqen | sort) <(pacman -Qqg base base-devel | sort)) | sort -n
-}
-
-function showpackage() {
-  local PACKAGE="$1"
-  if [[ "$PACKAGE" == "" ]]; then
-    echo "pacmanqlq 'package name'"
-  else
-    pacman -Qlq $1 | grep -v '/$' | xargs du -h | sort -h
-  fi
-}
-
-function listpackbydate() {
-  local LIMIT="$1"
-  if [[ ! $LIMIT = ~^[0-9] ]]; then
-    expac --timefmt='%Y-%m-%d %T' '%l\t%n' | sort | tail -n $LIMIT
-  else
-    expac --timefmt='%Y-%m-%d %T' '%l\t%n' | sort | tail -n 20
-  fi
-}
-
 dclean() {
     processes=`docker ps -q -f status=exited`
     if [ -n "$processes" ]; then

@@ -3,7 +3,7 @@
 EnumerateWithTriggerKeys=True
 
 [Hotkey/TriggerKeys]
-0=Control+space
+0=Alt+space
 1=Zenkaku_Hankaku
 2=Hangul
 
@@ -39,6 +39,9 @@ EnumerateWithTriggerKeys=True
 
 [Hotkey/NextCandidate]
 0=Tab
+
+[Hotkey/TogglePreedit]
+0=Control+Alt+P
 
 [Behavior]
 # Active By Default

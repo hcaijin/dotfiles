@@ -8,6 +8,43 @@
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # Define functions and completions.
 
+setopt AUTO_CD              # Auto changes to a directory without typing cd.
+setopt AUTO_PUSHD           # Push the old directory onto the stack on cd.
+setopt PUSHD_IGNORE_DUPS    # Do not store duplicates in the stack.
+setopt PUSHD_SILENT         # Do not print the directory stack after pushd or popd.
+setopt PUSHD_TO_HOME        # Push to home directory when no argument is given.
+setopt CDABLE_VARS          # Change directory to a path stored in a variable.
+setopt MULTIOS              # Write to multiple descriptors.
+setopt EXTENDED_GLOB        # Use extended globbing syntax.
+unsetopt CLOBBER            # Do not overwrite existing files with > and >>.
+                            # Use >! and >>! to bypass.
+#
+# Aliases
+#
+
+alias d='dirs -v'
+for index ({1..9}) alias "$index"="cd +${index}"; unset index
+
+e64() { [[ $# == 1 ]] && base64 -w0 <<<"$1" || base64 -w0 }
+d64() { [[ $# == 1 ]] && base64 --decode <<<"$1" || base64 --decode }
+
+p() { ping "${1:-1.1.1.1}" }
+
+tmpd() { cd "$(mktemp -d -t "${1:-tmp}.XXXXXXXXXX")" }
+
+command -v curlie    &> /dev/null    && alias curl='curlie'
+command -v pydf      &> /dev/null    && alias df='pydf'
+command -v icdiff    &> /dev/null    && alias diff='icdiff'
+command -v bat       &> /dev/null    && alias c='bat -p'                                           || alias c='cat'
+command -v fd        &> /dev/null    && alias fd='fd --hidden --follow'                            || alias fd='find . -name'
+command -v rg        &> /dev/null    && alias rg='rg --hidden --follow --smart-case 2>/dev/null'   || alias rg='grep --color=auto --exclude-dir=.git -R'
+command -v exa       &> /dev/null    && alias ls='exa --group --git --group-directories-first'     || alias ls='ls --color=auto --group-directories-first -h'
+alias l='ls -lah'
+alias ll='ls -l'
+command -v exa       &> /dev/null    && alias la='ll -a'                                           || alias la='ll -A'
+command -v exa       &> /dev/null    && alias lk='ll -s=size'                                      || alias lk='ll -r --sort=size'
+command -v exa       &> /dev/null    && alias lm='ll -s=modified'                                  || alias lm='ll -r --sort=time'
+
 alias root='sudo -i' \
            sudo='sudo -E ' \
            pkill="pkill -U $UID" \
@@ -17,30 +54,23 @@ alias root='sudo -i' \
            English="trans -shell -brief" \
            wget="wget -U 'noleak'" \
            curl="curl --user-agent 'noleak'" \
-           gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative" \
-           gitdiff="git difftool" \
-           gitmerge="git mergetool" \
            tsharkbyopenwrt="ssh openwrt 'tcpdump -s 0 -U -n -w - -i eth0 not port 22' | wireshark -k -i -" \
            msfconsole="msfconsole --quiet -x \"db_connect ${USER}@msf\"" \
            go='http_proxy=http://127.0.0.1:7777/ https_proxy=http://127.0.0.1:7777/ no_proxy=localhost,127.0.0.0/8,::1 go' \
            mkd="mkdir -pv" \
            mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
            calcurse="calcurse -D ~/.config/calcurse" \
-           p="sudo pacman" \
            SS="sudo systemctl" \
            f="$FILE" \
            e="$EDITOR" \
            v="$EDITOR" \
            x="sxiv -ft *" \
-           gua="git remote | xargs -L1 git push --all" \
            grep="grep --color=auto" \
            diff="diff --color=auto" \
            ccat="highlight --out-format=ansi" \
            yt="youtube-dl --add-metadata -i -o '%(upload_date)s-%(title)s.%(ext)s'" \
            yta="yt -x -f bestaudio/best" \
            YT="youtube-viewer" \
-           psyu="sudo pacman -Syu" \
-           lsp="pacman -Qett --color=always | less" \
            ffmpeg="ffmpeg -hide_banner"
 
 alias dig='dig +nocmd +multiline +noall +answer' \
@@ -55,3 +85,189 @@ alias dig='dig +nocmd +multiline +noall +answer' \
          rm!='\rm -rf' \
          rsync='rsync --verbose --archive --info=progress2 --human-readable --partial' \
          tree='tree -a -I .git --dirsfirst'
+
+## docker-compose
+command -v docker-compose &> /dev/null && \
+          alias dc='docker-compose' \
+                dcu='dc up -d' \
+                dcd='dc down' \
+                dcr='dcd; dcu' \
+                dcp='dc pull' \
+                dcl='dc logs -f --tail=1000' \
+                dce='dc exec' \
+                dcs='dc ps'
+
+command -v git &> /dev/null && \
+          alias g='git' \
+                ga='git add' \
+                gaa='git add --all' \
+                gap='git add -p' \
+                gb='git branch' \
+                gba='git branch --all' \
+                gbd='git branch -D' \
+                gbda='git branch --no-color --merged | command grep -vE "^(\*|\s*(master|develop|dev)\s*$)" | command xargs -n 1 git branch -d' \
+                gbo='git branch --set-upstream-to=origin/$(git symbolic-ref --short HEAD) $(git symbolic-ref --short HEAD)' \
+                gbu='git branch --set-upstream-to=upstream/$(git symbolic-ref --short HEAD) $(git symbolic-ref --short HEAD)' \
+                gbsb='git bisect bad' \
+                gbsg='git bisect good' \
+                gbsr='git bisect reset' \
+                gbss='git bisect start' \
+                gc='git commit -v' \
+                gc!='git commit -v --amend' \
+                gcn!='git commit --no-edit --amend' \
+                gac='git add --all && git commit -v' \
+                gac!='git add --all && git commit -v --amend' \
+                gacn!='git add --all && git commit --amend --no-edit' \
+                gacm='git add --all && git commit -m' \
+                gcm='git commit -m' \
+                gcf='git commit --fixup' \
+                gcfh='git commit --fixup HEAD' \
+                gacf='git add --all && git commit --fixup' \
+                gacfh='git add --all && git commit --fixup HEAD' \
+                gco='git checkout' \
+                gcom='git checkout master' \
+                gcob='git checkout -b' \
+                gcop='git checkout -p' \
+                gcp='git cherry-pick' \
+                gcpa='git cherry-pick --abort' \
+                gcpc='git cherry-pick --continue' \
+                gd='git diff' \
+                gds='git diff --cached' \
+                gd!='git difftool -d' \
+                gds!='git difftool -d --cached' \
+                gf='git fetch --tags' \
+                gl='git pull --tags -f --rebase --autostash' \
+                gdiff="git difftool" \
+                gmt="git mergetool" \
+                gua="git remote | xargs -L1 git push --all" \
+                glog="git log --graph --pretty='%Cred%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --abbrev-commit" \
+                gloga="git log --graph --pretty='%Cred%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all" \
+                glogd="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative" \
+                glogp='git log -p' \
+                gm='git merge' \
+                gma='git merge --abort' \
+                gp='git push -u' \
+                gpf='git push --force-with-lease' \
+                gpf!='git push --force' \
+                gra='git remote add' \
+                grr='git remote remove' \
+                grv='git remote -v' \
+                grba='git rebase --abort' \
+                grbc='git rebase --continue' \
+                grbi='git rebase -i' \
+                grbm='git rebase -i master' \
+                grbom='git rebase -i origin/master' \
+                gr='git reset' \
+                gr!='git reset --hard' \
+                grh='git reset HEAD' \
+                grh!='git reset --hard HEAD' \
+                garh!='git add --all && git reset --hard HEAD' \
+                gs='git show --show-signature' \
+                gss='git status -sb' \
+                gst='git status' \
+                gsa='git submodule add' \
+                gsu='git submodule update --remote' \
+                gsr='git submodule-remove'
+
+gcl() {
+    git clone --recursive "$@"
+    cd -- "${${${@: -1}##*/}%.*}"
+}
+
+grf() {
+    upstream="$(git remote get-url upstream 2>/dev/null || git remote get-url origin)"
+    if [[ $# == 1 ]]; then
+        if [[ "$upstream" == https* ]]; then
+            fork=$(echo "$upstream" | awk -v name="$1" -F/ '{ print $1 "/" $2 "/" $3 "/" name "/" $5 }')
+        else
+            fork=$(echo "$upstream" | awk -v name="$1" -F/ '{ print "https://github.com/" name "/" $2 }')
+        fi
+        echo $fork
+        exit 3
+
+        git remote remove "$1" 2>/dev/null
+        git remote add "$1" "$fork"
+        git fetch "$1"
+    else
+        myfork=$(echo "$upstream" | awk -v name="$USER" -F/ '{ print "git@github.com:" name "/" $5 }')
+        echo $myfork
+        exit 4
+
+        git remote remove upstream 2>/dev/null
+        git remote remove origin 2>/dev/null
+
+        git remote add upstream "$upstream"
+        git remote add origin "$myfork"
+
+        git fetch upstream
+        git fetch origin
+
+        git branch --set-upstream-to=upstream/master master
+    fi
+}
+
+# pacman alias
+# help: https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks
+
+alias pacallinstalled="pacman -Qe" \
+      pacu="sudo pacman -Syu" \
+      pacqet="pacman -Qett --color=always | less" \
+      pacforeigninstalled="pacman -Qm" \
+      pacmnative="pacman -Qn" \
+      pacregex="pacman -Qs $1" \
+      pacnativedep="pacman -Qent" \
+      pacdev="pacman -Qq | grep -Ee '-(bzr|cvs|darcs|git|hg|svn)$'" \
+      pacshow="pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
+
+paconesize() {
+  local PACKAGE="$1"
+  if [[ "$PACKAGE" == "" ]]; then
+    echo "pacmanqlq 'package name'"
+  else
+    pacman -Qlq $1 | grep -v '/$' | xargs -r du -h | sort -h
+  fi
+}
+
+paciden() {
+  find /etc /usr /opt /var | LC_ALL=C pacman -Qqo - 2>&1 > /dev/null | cut -d ' ' -f 5-
+}
+pacfiles() {
+  pacman -Qii | awk '/^MODIFIED/ {print $2}'
+}
+pacdeplist() {
+  [[ $# == 1 ]] && LC_ALL=C pacman -Si $1 | awk -F'[:<=>]' '/^Depends/ {print $2}' | xargs -n1 | sort -u
+}
+paclall() {
+  LC_ALL=C pacman -Qi | awk '/^Name/{name=$3} /^Installed Size/{print $4$5, name}' | sort -h
+}
+
+command -v expac &> /dev/null && \
+          alias paclsize="expac -S -H M '%k\t%n' $(pacman -Qqu) | sort -sh" \
+                pacdownsize="expac -S -H M '%k\t%n' $1" \
+                pacnotinbase="comm -23 <(pacman -Qqe | sort) <(expac -l '\n' '%E' base | sort)" \
+                pacnotinbaseanddev="comm -23 <(pacman -Qqt | sort) <({ pacman -Qqg base-devel; expac -l '\n' '%E' base; } | sort -u)" \
+                pacdeplistex="expac -l '\n' %E -S $1 | sort -u" \
+                pactop20="expac --timefmt='%Y-%m-%d %T' '%l\t%n' | sort | tail -n 20"
+
+pacnotinbaseanddevdes() {
+  expac -H M '%-20n\t%10d' $(comm -23 <(pacman -Qqt | sort) <({ pacman -Qqg base-devel; expac -l '\n' '%E' base; } | sort -u))
+}
+pacldate() {
+  expac -H M '%011m\t%-20n\t%10d' $(comm -23 <(pacman -Qqen | sort) <({ pacman -Qqg base-devel; expac -l '\n' '%E' base; } | sort | uniq)) | sort -n
+}
+
+# Usage: palette
+colors255() {
+    local -a colors
+    for i in {000..255}; do
+        colors+=("%F{$i}$i%f")
+    done
+    print -cP $colors
+}
+# Usage: printc COLOR_CODE
+colorp() {
+    local color="%F{$1}"
+    print -cP $color
+    echo -E ${(qqqq)${(%)color}}
+    echo "obase=16;$1" | bc
+}

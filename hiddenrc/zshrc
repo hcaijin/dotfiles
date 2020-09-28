@@ -1,31 +1,3 @@
-# Antigen: https://github.com/zsh-users/antigen
-ANTIGEN="$HOME/.local/bin/antigen.zsh"
-
-# Install antigen.zsh if not exist
-if [ ! -f "$ANTIGEN" ]; then
-  echo "Installing antigen ..."
-  [ ! -d "$HOME/.local" ] && mkdir -p "$HOME/.local" 2> /dev/null
-  [ ! -d "$HOME/.local/bin" ] && mkdir -p "$HOME/.local/bin" 2> /dev/null
-  # [ ! -f "$HOME/.z" ] && touch "$HOME/.z"
-  URL="http://git.io/antigen"
-  TMPFILE="/tmp/antigen.zsh"
-  if [ -x "$(which curl)" ]; then
-    curl -L "$URL" -o "$TMPFILE"
-  elif [ -x "$(which wget)" ]; then
-    wget "$URL" -O "$TMPFILE"
-  else
-    echo "ERROR: please install curl or wget before installation !!"
-    exit
-  fi
-  if [ ! $? -eq 0 ]; then
-    echo ""
-    echo "ERROR: downloading antigen.zsh ($URL) failed !!"
-    exit
-  fi;
-  echo "move $TMPFILE to $ANTIGEN"
-  mv "$TMPFILE" "$ANTIGEN"
-fi
-
 # Initialize command prompt
 if [[ -z $DISPLAY ]]; then
   export EDITOR='vim'
@@ -42,104 +14,142 @@ export FZF_DEFAULT_OPTS='--height 40% --reverse --multi'
 [ -z "$VISUAL" ] && export VISUAL='vim'
 [ -z "$TERM" ] && export TERM="xterm-256color"
 
-# Initialize antigen
-source "$ANTIGEN"
+# exit for non-interactive shell
+[[ $- != *i* ]] && return
 
-# Initialize prezto
-# antigen use prezto
-antigen use oh-my-zsh
-# antigen use http://git.grml.org/f/grml-etc-core/etc/zsh/zshrc
+# Documentation: https://github.com/romkatv/zsh4humans/blob/v3/README.md.
+# sendvim=$(file ~/.vimrc | awk '{print $NF}')
+# Periodic auto-update on Zsh startup: 'ask' or 'no'.
 
-# default bundles
-# antigen bundle git
-# antigen bundle rupa/z z.sh
-# antigen bundle sinetoami/web-search
-antigen bundle z
-antigen bundle web-search
-antigen bundle romkatv/archive
-antigen bundle zdharma/fast-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
-# antigen bundle zsh-users/zsh-completions
-# antigen bundle Vifon/deer
-# antigen bundle willghatch/zsh-cdr
-# antigen bundle zsh-users/zaw
+zstyle ':z4h:'                auto-update          'no'
+zstyle ':z4h:*'               channel              stable
+zstyle ':z4h:autosuggestions' forward-char         'accept'
+zstyle ':z4h:autosuggestions' end-of-line          'accept'
+zstyle ':z4h:ssh:*'           ssh-command          command ssh
+zstyle ':z4h:ssh:route'           passthrough          yes
+zstyle ':z4h:ssh:*'           send-extra-files     '~/.aliases' '~/.vimrc' '~/.vim' '~/.dotfiles'
+# zstyle ':z4h:ssh:*'           retrieve-extra-files '~/.aliases'
+zstyle ':z4h:ssh:*'           retrieve-history     $ZDOTDIR/.zsh_history.remote
 
-case ${TERM} in
-  xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
-    antigen theme romkatv/powerlevel10k
-    ;;
-  *)
-    antigen theme ys
-    ;;
-esac
+# theme
+# zstyle ':z4h:romkatv/powerlevel10k' channel command ln -s ~/.p10k.zsh
+# Clone additional Git repositories from GitHub.
+#
+# This doesn't do anything apart from cloning the repository and keeping it
+# up-to-date. Cloned files can be used after `z4h init`. This is just an
+# example. If you don't plan to use Oh My Zsh, delete this line.
+# z4h install hcaijin/grml-etc-core || return
+z4h install romkatv/archive || return
+z4h install sinetoami/web-search || return
+z4h install rupa/z || return
 
-antigen apply
+# Install or update core components (fzf, zsh-autosuggestions, etc.) and
+# initialize Zsh. After this point console I/O is unavailable until Zsh
+# is fully initialized. Everything that requires user interaction or can
+# perform network I/O must be done above. Everything else is best done below.
+z4h init || return
 
+# Export environment variables.
+export GPG_TTY=$TTY
+
+# Extend PATH.
+path=(~/bin $path)
+
+# z4h compile -- $Z4H/hcaijin/grml-etc-core/grml-zsh-init.zsh
+z4h source $Z4H/rupa/z/z.sh
+z4h source $Z4H/sinetoami/web-search/web_search.plugin.zsh
+fpath+=($Z4H/romkatv/archive)
 autoload -Uz archive lsarchive unarchive edit-command-line
 
 zle -N edit-command-line
 
 my-ctrl-z() {
-if [[ $#BUFFER -eq 0 ]]; then
-  BUFFER="fg"
-  zle accept-line -w
-else
-  zle push-input -w
-  zle clear-screen -w
-fi
+    if [[ $#BUFFER -eq 0 ]]; then
+        BUFFER="fg"
+        zle accept-line -w
+    else
+        zle push-input -w
+        zle clear-screen -w
+    fi
 }
 zle -N my-ctrl-z
 
 toggle-sudo() {
-[[ -z "$BUFFER" ]] && zle up-history -w
-if [[ "$BUFFER" != "sudo "* ]]; then
-  BUFFER="sudo $BUFFER"
-  CURSOR=$(( CURSOR + 5 ))
-else
-  BUFFER="${BUFFER#sudo }"
-fi
+    [[ -z "$BUFFER" ]] && zle up-history -w
+    if [[ "$BUFFER" != "sudo "* ]]; then
+        BUFFER="sudo $BUFFER"
+        CURSOR=$(( CURSOR + 5 ))
+    else
+        BUFFER="${BUFFER#sudo }"
+    fi
 }
 zle -N toggle-sudo
 
 toggle-ddg() {
-[[ -z "$BUFFER" ]] && zle up-history -w
-if [[ "$BUFFER" != "ddg "* ]]; then
-  BUFFER="ddg $BUFFER"
-  CURSOR=$(( CURSOR + 5 ))
-else
-  BUFFER="${BUFFER#ddg }"
-fi
+    [[ -z "$BUFFER" ]] && zle up-history -w
+    if [[ "$BUFFER" != "ddg "* ]]; then
+        BUFFER="ddg $BUFFER"
+        CURSOR=$(( CURSOR + 5 ))
+    else
+        BUFFER="${BUFFER#ddg }"
+    fi
 }
 zle -N toggle-ddg
 
-function mdg() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -- "$1" }
-compdef _directories mdg
+###
 
+z4h bindkey z4h-cd-back             Alt+H
+z4h bindkey z4h-cd-forward          Alt+L
+z4h bindkey z4h-cd-up               Alt+K
+z4h bindkey z4h-cd-down             Alt+J
 
-bindkey -s '\eo' 'cd ..\n'
+z4h bindkey toggle-ddg              Alt+G
+z4h bindkey toggle-sudo             Alt+S
+z4h bindkey my-ctrl-z               Ctrl+Z
+z4h bindkey edit-command-line       Alt+E
+
+###
+
 bindkey -s '\e;' 'll\n'
-bindkey -s '\eu' 'ranger\n'
 bindkey -s '\e-' 'cd -\n'
 bindkey -s '\e0' 'cd ~\n'
+bindkey -s '\e[' 'cd ..\n'
+bindkey -s '\eu' 'ranger\n'
 bindkey -s '\ep' 'ncdu\n'
 bindkey -s '\ea' 'bc -l\n'
-bindkey -s '^t' 'cd "$(dirname "$(fzf)")"\n'
-# Edit line in vim with ctrl-e:
-bindkey '\ee' edit-command-line
-bindkey '\es' toggle-sudo
-bindkey '\ei' toggle-ddg
-bindkey '^z'  my-ctrl-z
 
-# p10k configure
-# POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
-[ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
-# ~/.fzf/install -all
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+###
 
-# source other file if exit
-[ -f ~/.aliases ] && source ~/.aliases
+command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
 
-# source other shell file
-for confile (~/.config/custom-login/*.zsh); do
-  source $confile
-done
+###
+
+# Sort completion candidates when pressing Tab?
+zstyle ':completion:*'                      sort               false
+# Keep cursor position unchanged when Up/Down fetches a command from history?
+zstyle ':zle:up-line-or-beginning-search'   leave-cursor       true
+zstyle ':zle:down-line-or-beginning-search' leave-cursor       true
+# fzf-tab
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm,cmd -w -w"
+# zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
+# When presented with the list of choices upon hitting Tab, accept selection
+# and trigger another completion with this key binding.
+zstyle ':fzf-tab:*'                         continuous-trigger tab
+
+# mutiple change file name
+autoload -Uz zmv
+alias mmv='noglob zmv -W'
+
+# Replace `ssh` with `z4h ssh` to automatically teleport z4h to remote hosts.
+function ssh() { z4h ssh "$@" }
+
+# Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
+setopt glob_dots
+
+# Source additional local files if they exist.
+z4h source -c -- $ZDOTDIR/.aliases
+z4h source -c -- $ZDOTDIR/.config/custom-login/func.sh
+z4h source -c -- $ZDOTDIR/.config/custom-login/local.zsh
+# z4h compile   -- $ZDOTDIR/{.zshenv,.zprofile,.zshrc,.zlogin,.zlogout}
+
+# patch -Np1 -i ~/.dotfiles/z4h.patch -r /dev/null -d $Z4H/zsh4humans/

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+type systemctl >/dev/null 2>&1 || exit
+
 failed_user="$(systemctl --plain --no-legend --user list-units --state=failed | awk '{ print $1 }')"
 failed_system="$(systemctl --plain --no-legend list-units --state=failed | awk '{ print $1 }')"
 

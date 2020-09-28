@@ -8,35 +8,35 @@
     "modules-center": ["sway/window"],
     "modules-right": ["custom/mpd", "custom/weather", "network", "battery", "backlight", "pulseaudio", "custom/vpn", "custom/idle", "clock", "custom/tablet"],
     // Modules configuration
-    //"sway/workspaces": {
-    //    "disable-scroll": true,
-    //    "all-outputs": true,
-    //    "format": "{icon}",
-    //    "format-icons": {
-    //        "0": " ",
-    //        "1": "",
-    //        "2": "",
-    //        "3": "",
-    //        "4": "",
-    //        "5": "",
-    //        "6": "",
-    //        "7": " ",
-    //        "8": "",
-    //        "9": " ",
-    //        "10": "",
-    //        "urgen": "",
-    //        "focused": "",
-    //        "default": ""
-    //    }
-    //},
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "0": " ",
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "6": "",
+            "7": " ",
+            "8": "",
+            "9": " ",
+            "10": "",
+            "urgen": "",
+            "focused": "",
+            "default": ""
+        }
+    },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
     "custom/mpd": {
         "format": "🎵{}",
         "max-length": 25,
-        "interval": 10, 
-        "exec": "mpc current", 
+        "interval": 10,
+        "exec": "mpc current",
         "exec-if": "pgrep mpd",
         "on-click": "mpc toggle",
         "on-scroll-up": "mpc next",

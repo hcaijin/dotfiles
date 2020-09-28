@@ -58,14 +58,6 @@ doUninstall() {
     echo "Nothing to do!! Please check you lock exit!"
     exit
   fi
-  if [ -e ~/.fzf ]
-  then
-    if [ -e ~/.fzf.orig ]
-    then
-      rm -rf ~/.fzf.orig
-    fi
-    mv ~/.fzf ~/.fzf.orig
-  fi
   for file in `cat $LOCKFILE | sort -n | uniq`;
   do
     delink $file
@@ -138,22 +130,6 @@ doLink() {
   linkFolder local/share
   # Install hidden file to ~
   linkHiddenFile
-  # Install FZF
-  if [ -e ~/.fzf ]
-  then
-    printf "Installed $Red~/.fzf$Color_off\n"
-  else
-    if [ -e ~/.fzf.orig ]
-    then
-      mv ~/.fzf.orig ~/.fzf
-      printf "$Blue Finished Installing fzf$Color_off\n"
-    else
-      printf "$Cyan Downloading  fzf -> $Blue$HOME/.fzf$Color_off\n"
-      git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-      ~/.fzf/install --all --no-update-rc
-      printf "$Blue Finished Installing fzf$Color_off\n"
-    fi
-  fi
 }
 
 domain() {
