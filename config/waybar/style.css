@@ -75,6 +75,30 @@ window#waybar.chromium {
     border-bottom: 3px solid #ffffff;
 }
 
+/* task bar */
+#taskbar {
+    padding-right: 30px;
+}
+
+#taskbar button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #ffffff;
+    border-bottom: 3px solid transparent;
+}
+
+#taskbar button:hover {
+    background: rgba(0.1, 0.1, 0.1, 0.5);
+    box-shadow: inherit;
+    border-bottom: 3px solid #ffffff;
+}
+
+#taskbar button.active {
+    background-color: #64727D;
+    border-bottom: 3px solid #ffffff;
+}
+/* task bar */
+
 #clock,
 #battery,
 #cpu,

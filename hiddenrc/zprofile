@@ -22,7 +22,7 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   # WLR_DRM_DEVICES=/dev/dri/card0 exec sway 2>/tmp/sway.log
   if command -v wayfire >/dev/null; then
     export SWAYSOCK=/run/user/$(id -u)/wayland-0.sock
-    exec wayfire -d > ~/.cache/wayfire.log
+    exec wayfire > ~/.cache/wayfire.log
   else
     export XDG_CURRENT_DESKTOP=sway
     exec sway 2> ~/.cache/sway.log

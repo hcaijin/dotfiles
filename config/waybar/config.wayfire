@@ -1,0 +1,290 @@
+[{
+    "layer": "bottom", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 30, // Waybar height (to be removed for auto height)
+    // "width": 1280, // Waybar width
+    // Choose the order of the modules
+    //"modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-left": ["wlr/taskbar"],
+    //"modules-center": ["sway/window"],
+    "modules-right": ["custom/mpd", "custom/weather", "network", "battery", "backlight", "pulseaudio", "custom/vpn", "custom/idle", "clock", "custom/tablet"],
+    // Modules configuration
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "0": " ",
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "6": "",
+            "7": " ",
+            "8": "",
+            "9": " ",
+            "10": "",
+            "urgen": "",
+            "focused": "",
+            "default": ""
+        }
+    },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "wlr/taskbar": {
+      //"all-outputs": true,
+      //"active-first": true,
+      "format": "{icon}",
+      //"icon-size": 14,
+      "icon-theme": "Numix-Circle",
+      "tooltip-format": "{title}",
+      "on-click": "activate",
+      "on-click-middle": "close",
+      "on-click-right": "fullscreen"
+    },
+    "custom/mpd": {
+        "format": "🎵{}",
+        "max-length": 25,
+        "interval": 10,
+        "exec": "mpc current",
+        "exec-if": "pgrep mpd",
+        "on-click": "mpc toggle",
+        "on-scroll-up": "mpc next",
+        "on-scroll-down": "mpc prev",
+        "on-click-right": "$TERMINAL -e 'ncmpcpp'"
+    },
+    "mpd": {
+        "format": "🎶 {stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",
+        "format-disconnected": "🎶 Disconnected",
+        "format-stopped": "🎶 {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped",
+        "unknown-tag": "N/A",
+        "interval": 2,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#f53c3c\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)",
+        "on-click-right": "$TERMINAL -e 'ncmpcpp'"
+    },
+    "custom/idle": {
+        "interval": "once",
+        "signal": 7,
+        "return-type": "json",
+        "exec": "start-swayidle show",
+        "on-click": "start-swayidle click"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "clock": {
+        // "timezone": "America/New_York",
+        "format": "  {:%H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "  {:%Y-%m-%d}"
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": "{icon}",
+        "format-alt": "{temperatureC}°C {icon}",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "on-scroll-up": "sway-light.sh up 1",
+        "on-scroll-down": "sway-light.sh down 1",
+        "on-click-middle": "sway-light.sh set 50",
+        "format": "{icon}",
+        "format-alt": "{icon} {percent}%",
+        "format-icons": [" ", "", "  "]
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon}",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{icon} {capacity}%",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": " ",
+        "format-ethernet": " {ifname}",
+        "format-linked": " {ifname} (No IP)",
+        "format-disconnected": "  ",
+        //"format-alt": "  {signalStrength}%",
+        //"tooltip-format": "{essid}: {signalStrength}%\n{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format-wifi": "{essid}: {signalStrength}%\n{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "Network Disconnected!",
+        "on-click-right": "~/.config/waybar/module/shownetip.sh",
+        "on-click-middle": "~/.config/waybar/module/shownetip.sh rm"
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{icon}",
+        "format-bluetooth": "{icon}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " ",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "tooltip": false,
+        "format-alt": "{icon} {volume}%",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-scroll-up": "sway-pulseaudio.sh up 1",
+        "on-scroll-down": "sway-pulseaudio.sh down 1",
+        "on-click-middle": "sway-pulseaudio.sh toggle",
+        "on-click-right": "$TERMINAL -e 'alsamixer'"
+    },
+    "custom/weather": {
+        "return-type": "json",
+        "exec": "export LOCAL=Shanghai,London,Hong_Kong; ~/.config/waybar/module/weather.sh show",
+        //"exec-if": "ping wttr.in -c1",
+        "on-click-middle": "export LOCAL=Shanghai,London,Hong_Kong; ~/.config/waybar/module/weather.sh refresh",
+        "interval": 3600,
+        "signal": 9
+    },
+    "custom/pacman": {
+        "format": " {}",
+        "interval": 3600,
+        "return-type": "json",
+        "exec": "~/.config/waybar/module/checkupdate.sh",
+        "exec-if": "exit 0",
+        "on-click": "$TERMINAL -e 'popupgrade'",
+        "on-click-middle": "~/.config/waybar/module/checkupdate.sh -f",
+        "signal": 8
+    },
+    "custom/vpn": {
+        "format": " VPN",
+        "exec": "echo '{\"class\": \"connected\"}'",
+        "exec-if": "test -d /proc/sys/net/ipv4/conf/tun0",
+        "return-type": "json",
+        "interval": 60
+    },
+    "custom/tablet": {
+        "exec": "waybar-tablet",
+        "return-type": "json",
+        "signal": 4,
+        "interval": "once",
+        "on-click": "waybar-tablet toggle"
+    },
+    "custom/newsboat": {
+        "format": "  {}",
+        "exec": "~/.config/waybar/module/newsboat.sh show",
+        "return-type": "json",
+        "signal": 5,
+        "interval": "once",
+        "on-click": "$TERMINAL -e 'newsboat'",
+        "on-click-middle": "~/.config/waybar/module/newsboat.sh reload"
+    }
+},
+{
+    "layer": "bottom",
+    "position": "bottom",
+
+    "modules-left": ["tray", "custom/usbguard", "custom/recording"],
+    "modules-center": ["network#speed", "custom/progress"],
+    "modules-right": ["custom/systemd", "custom/updates", "disk", "temperature", "cpu", "memory" ],
+    "network#speed": {
+        "format-wifi": "<span foreground='#929292'></span> {bandwidthDownOctets} <span foreground='#929292'></span> {bandwidthUpOctets}",
+        "format-ethernet": "<span foreground='#929292'></span> {bandwidthDownOctets} <span foreground='#929292'></span> {bandwidthUpOctets}",
+        "tooltip": false,
+        "interval": 2
+    },
+    "temperature": {
+        "format": "<span foreground='#929292'></span> {temperatureC}°C",
+        "thermal-zone": 1,
+        "critical-threshold": 60,
+	    "format-critical": "<span foreground='#ff5c57'></span> {temperatureC}°C"
+    },
+    "cpu": {
+        "interval": 3,
+        "format": "<span foreground='#929292'></span> {usage}%"
+    },
+    "memory": {
+        "on-click": "$TERMINAL -e 'htop'",
+        "interval": 3,
+        "format": "<span foreground='#929292'></span> {percentage}%"
+    },
+    "tray": {
+        "icon-size": 14,
+        "spacing": 10
+    },
+    "custom/usbguard": {
+        "exec": "sudo waybar-usbguard watch",
+        "return-type": "json",
+        "on-click": "sudo waybar-usbguard allow",
+        "on-click-right": "sudo waybar-usbguard reject"
+    },
+    "custom/progress": {
+        "exec": "waybar-progress show",
+        "return-type": "json",
+        "interval": 1
+    },
+    "custom/systemd": {
+        "format": "<span foreground='#ff5c57'>{}</span>",
+        "exec": "waybar-systemd",
+        "return-type": "json",
+        "interval": 10
+    },
+    "custom/updates": {
+        "format": "<span foreground='#929292'> </span>{}",
+        "exec": "waybar-updates show",
+        "return-type": "json",
+        "signal": 1,
+        "on-click-middle": "waybar-updates refresh",
+        "on-click-right": "$TERMINAL -e 'yay -Syu'; waybar-updates refresh",
+        "interval": "once"
+    },
+    "custom/recording": {
+        "exec": "waybar-recording",
+        "on-click": "killall -s 2 wf-recorder",
+        "return-type": "json",
+        "signal": 3,
+        "interval": "once"
+    },
+    "disk": {
+        "interval": 60,
+        "format": "<span foreground='#929292'></span> {percentage_used}%",
+        "path": "/"
+    }
+}]

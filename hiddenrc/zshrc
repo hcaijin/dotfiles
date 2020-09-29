@@ -38,7 +38,7 @@ zstyle ':z4h:ssh:*'           retrieve-history     $ZDOTDIR/.zsh_history.remote
 # This doesn't do anything apart from cloning the repository and keeping it
 # up-to-date. Cloned files can be used after `z4h init`. This is just an
 # example. If you don't plan to use Oh My Zsh, delete this line.
-# z4h install hcaijin/grml-etc-core || return
+z4h install hcaijin/grml-etc-core || return
 z4h install romkatv/archive || return
 z4h install sinetoami/web-search || return
 z4h install rupa/z || return
@@ -55,7 +55,7 @@ export GPG_TTY=$TTY
 # Extend PATH.
 path=(~/bin $path)
 
-# z4h compile -- $Z4H/hcaijin/grml-etc-core/grml-zsh-init.zsh
+z4h compile -- $Z4H/hcaijin/grml-etc-core/grml-zsh-init.zsh
 z4h source $Z4H/rupa/z/z.sh
 z4h source $Z4H/sinetoami/web-search/web_search.plugin.zsh
 fpath+=($Z4H/romkatv/archive)
@@ -147,9 +147,6 @@ function ssh() { z4h ssh "$@" }
 setopt glob_dots
 
 # Source additional local files if they exist.
-z4h source -c -- $ZDOTDIR/.aliases
-z4h source -c -- $ZDOTDIR/.config/custom-login/func.sh
-z4h source -c -- $ZDOTDIR/.config/custom-login/local.zsh
-# z4h compile   -- $ZDOTDIR/{.zshenv,.zprofile,.zshrc,.zlogin,.zlogout}
-
+z4h source -c -- $ZDOTDIR/{.aliases,.func.zsh,.locals.zsh}
+z4h compile   -- $ZDOTDIR/{.zshenv,.zprofile,.zshrc,.zlogin,.zlogout}
 # patch -Np1 -i ~/.dotfiles/z4h.patch -r /dev/null -d $Z4H/zsh4humans/
