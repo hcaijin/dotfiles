@@ -33,4 +33,4 @@ A list of applications that I use:
 ## Video
 
 - [![youtube](https://i.ytimg.com/vi/NdQ_W1NEeIw/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLAw8xFWYqtS25OoPPeDX8UyLozX5w)](https://youtu.be/NdQ_W1NEeIw "ArchLinux使用Wayfire配置的桌面效果") 点击图片跳转Youtube观看视频效果
-- [![bilibili](//i1.hdslb.com/bfs/archive/ad5289e0ec4911ceea819f12b9d05f53bf402897.jpg_246x154.jpg)](https://www.bilibili.com/video/BV1Ta4y177VS/ "ArchLinux使用Wayfire配置的桌面效果") 点击图片跳转Bilibili观看视频效果
+- [![bilibili](https://i1.hdslb.com/bfs/archive/ad5289e0ec4911ceea819f12b9d05f53bf402897.jpg_246x154.jpg)](https://www.bilibili.com/video/BV1Ta4y177VS/ "ArchLinux使用Wayfire配置的桌面效果") 点击图片跳转Bilibili观看视频效果
