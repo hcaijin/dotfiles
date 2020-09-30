@@ -7,17 +7,17 @@
 # PID=`ps -ef | grep 'wf-recorder' | awk '{print $2}'`
 # kill -2 $PID 2>&1 > /dev/null
 
-killall -s 2 wf-recorder 2>&1 > /dev/null
+killall -s 2 wf-recorder > /dev/null 2>&1
 
 FILE=$HOME/screenshot/screenshot-`date +%F-%H%M%S`.png
-VFILE=$HOME/screenshot/recorder-`date +%F-%H%M%S`.mp4
+VFILE=$HOME/screenshot/recorder-`date +%F-%H%M%S`.mkv
 
 case "$1" in
   sw)
-    grim - | tee $FILE 2>&1 > /dev/null
+    grim - | tee $FILE > /dev/null 2>&1
     ;;
   sp)
-    grim -g "$(slurp)" - | tee $FILE 2>&1 > /dev/null
+    grim -g "$(slurp)" - | tee $FILE > /dev/null 2>&1
     ;;
   rw)
     { sleep 1 && pkill -RTMIN+3 -x waybar; } &
