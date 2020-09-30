@@ -38,7 +38,6 @@ zstyle ':z4h:ssh:*'           retrieve-history     $ZDOTDIR/.zsh_history.remote
 # This doesn't do anything apart from cloning the repository and keeping it
 # up-to-date. Cloned files can be used after `z4h init`. This is just an
 # example. If you don't plan to use Oh My Zsh, delete this line.
-z4h install hcaijin/grml-etc-core || return
 z4h install romkatv/archive || return
 z4h install sinetoami/web-search || return
 z4h install rupa/z || return
@@ -55,7 +54,6 @@ export GPG_TTY=$TTY
 # Extend PATH.
 path=(~/bin $path)
 
-z4h compile -- $Z4H/hcaijin/grml-etc-core/grml-zsh-init.zsh
 z4h source $Z4H/rupa/z/z.sh
 z4h source $Z4H/sinetoami/web-search/web_search.plugin.zsh
 fpath+=($Z4H/romkatv/archive)

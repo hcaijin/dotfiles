@@ -30,12 +30,12 @@ Plug 'xolox/vim-misc'
 Plug 'majutsushi/tagbar',         {'on': 'TagbarToggle'}
 Plug 'mbbill/undotree',           {'on': 'UndotreeToggle'}
 Plug 'raghur/fruzzy',             {'do': { -> fruzzy#install()}}
-
 Plug 'junegunn/vim-easy-align',   {'on': '<plug>(LiveEasyAlign)'}
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'dyng/ctrlsf.vim'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug '~/.cache/zsh4humans/v3/fzf'
 call plug#end()
 " }}}1
 
