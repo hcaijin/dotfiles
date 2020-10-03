@@ -11,3 +11,4 @@ config/mpd/
 config/systemd/user/graphical-session.target.wants
 packages/
 hiddenrc/wallpaper/Downloaded
+.vscode

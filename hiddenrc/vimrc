@@ -20,6 +20,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'lilydjwg/fcitx.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'kshenoy/vim-signature'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
@@ -107,7 +108,6 @@ call plug#end()
 " }}}
 
 " :help mapping {{{1
-    nnoremap <leader>:        :terminal<cr>
     tnoremap <A-e>            <nop>
     tnoremap <esc>            <c-\><c-n>
     tnoremap <C-d>            <C-\><C-N>ZQ
@@ -117,7 +117,10 @@ call plug#end()
     tnoremap <C-k>            <C-\><C-N><C-w>k
     tnoremap <C-l>            <C-\><C-N><C-w>l
     if has('nvim')
-        autocmd TermOpen,BufEnter term://* startinsert
+      autocmd TermOpen,BufEnter term://* startinsert
+      nnoremap <leader>:        :sp +terminal<cr>
+    else
+      nnoremap <leader>:        :terminal<cr>
     endif
 
     " 禁用按键
@@ -352,7 +355,11 @@ call plug#end()
     " -----------------------------------------------------------------------------
     " :SaveSession!
     " :OpenSession!
-    let g:session_autosave = 'yes'
+    let g:session_persist_globals = ['&sessionoptions']
+    call add(g:session_persist_globals, 'g:session_autoload')
+    call add(g:session_persist_globals, 'g:session_autosave')
+    call add(g:session_persist_globals, 'g:session_default_to_last')
+    call add(g:session_persist_globals, 'g:session_persist_globals')
     "}}}2
 
     " Plugin: vim-easy-align {{{2
@@ -362,8 +369,6 @@ call plug#end()
 
     " Plugin: fzf {{{2
     nnoremap <leader><leader> :Buffers<cr>
-    nnoremap <C-p> :FZF<cr>
-    " set runtimepath+=~/.fzf
     let g:fzf_history_dir = '~/.local/share/fzf-history'
     nnoremap <leader>B :Barschemes<cr>
     nnoremap <leader>C :Colorschemes<cr>
