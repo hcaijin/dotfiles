@@ -1,3 +1,5 @@
+#!/bin/bash
+
 PATH="$(find $HOME/.local/bin -type l,d | cut -f2 | tr '\n' ':')$PATH"
 
 export ANDROID_HOME="$HOME/Tools/android-sdk-linux"
@@ -21,12 +23,26 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   # The first card is used for actual rendering, and display buffers are copied to the secondary cards for any displays connected to them.
   # WLR_DRM_DEVICES=/dev/dri/card0 exec sway 2>/tmp/sway.log
   export XDG_CURRENT_DESKTOP=sway
-  if command -v wayfire >/dev/null; then
-    # export GDK_BACKEND=x11
-    export SWAYSOCK=/run/user/$(id -u)/wayland-0.sock
-    exec wayfire > ~/.cache/wayfire.log
-  else
-    exec sway -d > ~/.cache/sway.log
-    # systemd-cat -t sway sway
-  fi
+
+  local REPLY
+  local -a reply
+  echo && echo -e "  Enter [0-1] choose your start wm:
+  0. Sway
+  1. Wayfire
+  " && echo
+  read
+  case "$REPLY" in
+    0)
+      exec sway -d > ~/.cache/sway.log
+      # systemd-cat -t sway sway
+      ;;
+    1)
+      export SWAYSOCK=/run/user/$(id -u)/wayland-0.sock
+      exec wayfire > ~/.cache/wayfire.log
+      ;;
+    *)
+      echo "请输入正确数字 [0-1]"
+      return 2
+      ;;
+  esac
 fi
