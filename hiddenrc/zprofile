@@ -25,7 +25,6 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   export XDG_CURRENT_DESKTOP=sway
 
   local REPLY
-  local -a reply
   echo && echo -e "  Enter [0-1] choose your start wm:
   0. Sway
   1. Wayfire
@@ -33,7 +32,7 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   read
   case "$REPLY" in
     0)
-      exec sway -d > ~/.cache/sway.log
+      exec sway > ~/.cache/sway.log
       # systemd-cat -t sway sway
       ;;
     1)

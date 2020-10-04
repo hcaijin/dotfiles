@@ -9,7 +9,7 @@
 
 killall -s 2 wf-recorder > /dev/null 2>&1
 
-FILE=$HOME/screenshot/screenshot-`date +%F-%H%M%S`.png
+FILE=$HOME/screenshot/screenshot-`date +%F-%H%M%S`.webp
 VFILE=$HOME/screenshot/recorder-`date +%F-%H%M%S`.mkv
 
 case "$1" in
