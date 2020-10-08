@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
-server=$(which systemctl) || server=$(which loginctl)
+btn="$1"
+[ -n "${btn}" ] || {
+  pgrep -x wofi && exit
+  swidth=$(swaymsg -t get_tree | jq -r '.rect | .width')
+  width=${swidth:-1915}
+  btn=$(printf "lock\nlogout\nsuspend\nhibernate\nreboot\nshutdown" | wofi -L 6 -b -x $((width - 210)) -y 0 -W 100 --show dmenu -i -p "Power Button:") || exit
+}
 
-# ! type systemctl >/dev/null 2>&1 && server=$(which loginctl)
+server=$(which systemctl) || server=$(which loginctl)
 
 function pre_exit(){
   [ -f "$HOME/.config/mpd/pid" ] && mpd --kill
@@ -10,7 +16,7 @@ function pre_exit(){
   pkill -U $UID -f "$SWAYSOCK.wob"
 }
 
-case "$1" in
+case "$btn" in
     lock)
         lockwin
         ;;

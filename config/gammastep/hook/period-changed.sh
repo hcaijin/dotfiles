@@ -12,6 +12,6 @@ case $1 in
     exec notify-send "Gammastep Other" "$2 Period changed to $3"
     ;;
   *)
-    echo >&2 "Usage: This's gammastep hook!"
+    echo >& "Usage: This's gammastep hook!"
     ;;
 esac

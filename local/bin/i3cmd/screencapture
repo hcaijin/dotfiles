@@ -7,12 +7,39 @@
 # PID=`ps -ef | grep 'wf-recorder' | awk '{print $2}'`
 # kill -2 $PID 2>&1 > /dev/null
 
-killall -s 2 wf-recorder > /dev/null 2>&1
+pgrep -x wf-recorder && killall -s 2 wf-recorder > /dev/null 2>&1
+
+btn="$1"
+[ -n "${btn}" ] || {
+  pgrep -x wofi && exit
+  btnstr=$(printf "screenshot windowns\nscreenshot slurp\nscreen recorder windowns\nscreen recorder by raw\nscreen recorder by slurp" | wofi -L 5 -b -x 0 -y 0 -W 190 --show dmenu -i -p "Screen Capture Select:") || exit
+  case "$btnstr" in
+    "screenshot windowns")
+      btn="sw"
+      ;;
+    "screenshot slurp")
+      btn="sp"
+      ;;
+    "screen recorder windowns")
+      btn="rw"
+      ;;
+    "screen recorder by raw")
+      btn="raw"
+      ;;
+    "screen recorder by slurp")
+      btn="rp"
+      ;;
+    *)
+      notify-check-send "📹Screen Capture:" "Pls select!"
+      exit
+      ;;
+  esac
+}
 
 FILE=$HOME/screenshot/screenshot-`date +%F-%H%M%S`.webp
 VFILE=$HOME/screenshot/recorder-`date +%F-%H%M%S`.mkv
 
-case "$1" in
+case "$btn" in
   sw)
     grim - | tee $FILE > /dev/null 2>&1
     ;;
