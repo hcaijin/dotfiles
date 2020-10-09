@@ -32,12 +32,12 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   read
   case "$REPLY" in
     0)
-      exec sway > ~/.cache/sway.log
+      exec sway &> ~/.cache/sway.log
       # systemd-cat -t sway sway
       ;;
     1)
-      export SWAYSOCK=/run/user/$(id -u)/wayland-0.sock
-      exec wayfire > ~/.cache/wayfire.log
+      export SWAYSOCK=/run/user/$(id -u)/wayland-0
+      exec wayfire &> ~/.cache/wayfire.log
       ;;
     *)
       echo "请输入正确数字 [0-1]"

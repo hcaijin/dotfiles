@@ -12,25 +12,25 @@ pgrep -x wf-recorder && killall -s 2 wf-recorder > /dev/null 2>&1
 btn="$1"
 [ -n "${btn}" ] || {
   pgrep -x wofi && exit
-  btnstr=$(printf "screenshot windowns\nscreenshot slurp\nscreen recorder windowns\nscreen recorder by raw\nscreen recorder by slurp" | wofi -L 5 -b -x 0 -y 0 -W 190 --show dmenu -i -p "Screen Capture Select:") || exit
+  btnstr=$(printf "screen\npart+screen\nrecorder\naudio+recorder\npart+recorder" | wofi -L 5 -b -x 0 -y 0 -W 190 --show dmenu -i -p "Screen Capture Select:") || exit
   case "$btnstr" in
-    "screenshot windowns")
+    "screen")
       btn="sw"
       ;;
-    "screenshot slurp")
+    "part+screen")
       btn="sp"
       ;;
-    "screen recorder windowns")
+    "recorder")
       btn="rw"
       ;;
-    "screen recorder by raw")
+    "audio+recorder")
       btn="raw"
       ;;
-    "screen recorder by slurp")
+    "part+recorder")
       btn="rp"
       ;;
     *)
-      notify-check-send "📹Screen Capture:" "Pls select!"
+      notify-check-send "📹Screen Capture:" "Pls select option!"
       exit
       ;;
   esac
