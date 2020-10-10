@@ -3,9 +3,11 @@
 btn="$1"
 [ -n "${btn}" ] || {
   pgrep -x wofi && exit
-  [ -n "$SWAYSOCK" ] && command -v wlr-randr >/dev/null \
-  && width=$(wlr-randr | grep -A1 'Modes:' | tail -1 | awk '{print $1}' | cut -dx -f1) \
-  || width=$(swaymsg -t get_tree | jq -r '.rect | .width')
+  if [[ "$XDG_CURRENT_DESKTOP" == "sway" && -n "$SWAYSOCK" ]]; then
+    width=$(swaymsg -t get_tree | jq -r '.rect | .width')
+  else
+    width=$(wlr-randr | grep -A1 'Modes:' | tail -1 | awk '{print $1}' | cut -dx -f1)
+  fi
   btn=$(printf "lock\nlogout\nsuspend\nhibernate\nreboot\nshutdown" | wofi -L 6 -b -x $((width - 210)) -y 0 -W 100 --show dmenu -i -p "Power Button:") || exit
 }
 

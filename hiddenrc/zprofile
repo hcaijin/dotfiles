@@ -22,8 +22,6 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   # exec sway -d 2> /tmp/sway.log # sway debug
   # The first card is used for actual rendering, and display buffers are copied to the secondary cards for any displays connected to them.
   # WLR_DRM_DEVICES=/dev/dri/card0 exec sway 2>/tmp/sway.log
-  export XDG_CURRENT_DESKTOP=sway
-
   local REPLY
   echo && echo -e "  Enter [0-1] choose your start wm:
   0. Sway
@@ -32,16 +30,13 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   read
   case "$REPLY" in
     0)
+      export XDG_CURRENT_DESKTOP=sway
       exec sway &> ~/.cache/sway.log
       # systemd-cat -t sway sway
       ;;
     1)
       export SWAYSOCK=/run/user/$(id -u)/wayland-0
       exec wayfire &> ~/.cache/wayfire.log
-      ;;
-    *)
-      echo "请输入正确数字 [0-1]"
-      return 2
       ;;
   esac
 fi

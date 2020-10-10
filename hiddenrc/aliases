@@ -46,6 +46,7 @@ command -v exa       &> /dev/null    && alias lk='ll -s=size'                   
 command -v exa       &> /dev/null    && alias lm='ll -s=modified'                                  || alias lm='ll -r --sort=time'
 
 alias root='sudo -i' \
+           termite="termite --display=${DISPLAY}" \
            sudo='sudo -E ' \
            pkill="pkill -U $UID" \
            pgrep="pgrep -U $UID" \
