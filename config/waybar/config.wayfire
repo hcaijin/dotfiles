@@ -135,8 +135,8 @@
         // "scroll-step": 1, // %, can be a float
         "format": "{icon}",
         "format-bluetooth": "{icon}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " ",
+        "format-bluetooth-muted": "{icon} {format_source}",
+        "format-muted": "",
         "format-source": " {volume}%",
         "format-source-muted": "",
         "tooltip": false,
@@ -148,7 +148,7 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", ""]
+            "default": ["", ""]
         },
         "on-scroll-up": "sway-pulseaudio.sh up 1",
         "on-scroll-down": "sway-pulseaudio.sh down 1",
