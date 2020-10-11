@@ -36,7 +36,7 @@ case "$1" in
         pkill -RTMIN+1 -x waybar
         ;;
     *)
-        echo >& "Usage: $0 <show|refresh>"
+        echo "Usage: $0 <show|refresh>"
         exit 1
         ;;
 esac

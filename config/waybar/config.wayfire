@@ -21,8 +21,9 @@
     },
     "custom/logo": {
       "format": "{}",
-      "exec": "~/.config/waybar/module/neofetch.sh",
-      "on-click": "$TERMINAL --display=$DISPLAY --hold -t \"neofetch\" -e \"cat $HOME/.cache/neofetch.log\""
+      "exec": "~/.config/waybar/module/neofetch.sh logo",
+      "on-click": "~/.config/waybar/module/neofetch.sh show",
+      "on-click-right": "~/.config/waybar/module/neofetch.sh refresh"
     },
     "custom/mpd": {
         "format": "🎵{}",
@@ -247,7 +248,7 @@
         "interval": 10
     },
     "custom/updates": {
-        "format": "<span foreground='#929292'> </span>{}",
+        "format": "<span foreground='#929292'>📦 </span>{}",
         "exec": "waybar-updates show",
         "return-type": "json",
         "signal": 1,

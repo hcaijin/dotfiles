@@ -263,7 +263,7 @@
         "interval": 10
     },
     "custom/updates": {
-        "format": "<span foreground='#929292'> </span>{}",
+        "format": "<span foreground='#929292'>📦 </span>{}",
         "exec": "waybar-updates show",
         "return-type": "json",
         "signal": 1,
