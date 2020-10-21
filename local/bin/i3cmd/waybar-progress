@@ -20,7 +20,7 @@ case "$1" in
     printf '{"text": "%s", "tooltip": "%s"}\n' "$text" "$tooltip"
     ;;
   *)
-    echo >&2 "Usage: $0 <show|listen>"
+    echo "Usage: $0 <show|listen>"
     exit 1
     ;;
 esac

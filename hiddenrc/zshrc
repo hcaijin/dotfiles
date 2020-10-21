@@ -56,6 +56,7 @@ export GPG_TTY=$TTY
 # Extend PATH.
 path=(~/bin $path)
 
+# z4h source -c -- $Z4H/ohmyzsh/ohmyzsh/oh-my-zsh.sh
 z4h source $Z4H/rupa/z/z.sh
 z4h source $Z4H/sinetoami/web-search/web_search.plugin.zsh
 fpath+=($Z4H/romkatv/archive)
@@ -143,10 +144,15 @@ alias mmv='noglob zmv -W'
 # Replace `ssh` with `z4h ssh` to automatically teleport z4h to remote hosts.
 function ssh() { z4h ssh "$@" }
 
+# history
+
+#v#
+# HISTSIZE=5000
+SAVEHIST=100000 # useful for setopt append_history
+
 # Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
 setopt glob_dots
 
 # Source additional local files if they exist.
 z4h source -c -- $ZDOTDIR/{.aliases,.func.zsh,.locals.zsh}
-z4h compile   -- $ZDOTDIR/{.zshenv,.zprofile,.zshrc,.zlogin,.zlogout}
-# patch -Np1 -i ~/.dotfiles/z4h.patch -r /dev/null -d $Z4H/zsh4humans/
+# z4h compile   -- $ZDOTDIR/{.zshenv,.zprofile,.zshrc,.zlogin,.zlogout}

@@ -1,6 +1,53 @@
 #!/usr/bin/env bash
 # Time: 2020-08-16 17:28:13
 
+# utility functions
+# this function checks if a command exists and returns either true
+# or false. This avoids using 'which' and 'whence', which will
+# avoid problems with aliases for which on certain weird systems. :-)
+# Usage: check_com [-c|-g] word
+#   -c  only checks for external commands
+#   -g  does the usual tests and also checks for global aliases
+function check_com () {
+    emulate -L zsh
+    local -i comonly gatoo
+    comonly=0
+    gatoo=0
+
+    if [[ $1 == '-c' ]] ; then
+        comonly=1
+        shift 1
+    elif [[ $1 == '-g' ]] ; then
+        gatoo=1
+        shift 1
+    fi
+
+    if (( ${#argv} != 1 )) ; then
+        printf 'usage: check_com [-c|-g] <command>\n' >&2
+        return 1
+    fi
+
+    if (( comonly > 0 )) ; then
+        (( ${+commands[$1]}  )) && return 0
+        return 1
+    fi
+
+    if     (( ${+commands[$1]}    )) \
+        || (( ${+functions[$1]}   )) \
+        || (( ${+aliases[$1]}     )) \
+        || (( ${+reswords[(r)$1]} )) ; then
+        return 0
+    fi
+
+    if (( gatoo > 0 )) && (( ${+galiases[$1]} )) ; then
+        return 0
+    fi
+
+    return 1
+}
+
+
+
 make() {
    [ "$1" == 'install' ] &&
      echo -e "WARNING:\nDON'T INSTALL SOFTWARE MANUALY\nDON'T USE unset make TO OVERRIDE" &&
@@ -192,3 +239,178 @@ unsetproxy() {
 unlockbw() {
   export BW_SESSION="$(bw unlock --raw)"
 }
+
+function whatwhen () {
+    emulate -L zsh
+    local usage help ident format_l format_s first_char remain first last
+    usage='USAGE: whatwhen [options] <searchstring> <search range>'
+    help='Use `whatwhen -h'\'' for further explanations.'
+    ident=${(l,${#${:-Usage: }},, ,)}
+    format_l="${ident}%s\t\t\t%s\n"
+    format_s="${format_l//(\\t)##/\\t}"
+    # Make the first char of the word to search for case
+    # insensitive; e.g. [aA]
+    first_char=[${(L)1[1]}${(U)1[1]}]
+    remain=${1[2,-1]}
+    # Default search range is `-100'.
+    first=${2:-\-100}
+    # Optional, just used for `<first> <last>' given.
+    last=$3
+    case $1 in
+        ("")
+            printf '%s\n\n' 'ERROR: No search string specified. Aborting.'
+            printf '%s\n%s\n\n' ${usage} ${help} && return 1
+        ;;
+        (-h)
+            printf '%s\n\n' ${usage}
+            print 'OPTIONS:'
+            printf $format_l '-h' 'show help text'
+            print '\f'
+            print 'SEARCH RANGE:'
+            printf $format_l "'0'" 'the whole history,'
+            printf $format_l '-<n>' 'offset to the current history number; (default: -100)'
+            printf $format_s '<[-]first> [<last>]' 'just searching within a give range'
+            printf '\n%s\n' 'EXAMPLES:'
+            printf ${format_l/(\\t)/} 'whatwhen grml' '# Range is set to -100 by default.'
+            printf $format_l 'whatwhen zsh -250'
+            printf $format_l 'whatwhen foo 1 99'
+        ;;
+        (\?)
+            printf '%s\n%s\n\n' ${usage} ${help} && return 1
+        ;;
+        (*)
+            # -l list results on stout rather than invoking $EDITOR.
+            # -i Print dates as in YYYY-MM-DD.
+            # -m Search for a - quoted - pattern within the history.
+            fc -li -m "*${first_char}${remain}*" $first $last
+        ;;
+    esac
+}
+
+# Create small urls via http://goo.gl using curl(1).
+# API reference: https://code.google.com/apis/urlshortener/
+function zurl () {
+    emulate -L zsh
+    setopt extended_glob
+
+    if [[ -z $1 ]]; then
+        print "USAGE: zurl <URL>"
+        return 1
+    fi
+
+    local PN url prog api json contenttype item
+    local -a data
+    PN=$0
+    url=$1
+
+    # Prepend 'http://' to given URL where necessary for later output.
+    if [[ ${url} != http(s|)://* ]]; then
+        url='http://'${url}
+    fi
+
+    if check_com -c curl; then
+        prog=curl
+    else
+        print "curl is not available, but mandatory for ${PN}. Aborting."
+        return 1
+    fi
+    api='https://www.googleapis.com/urlshortener/v1/url'
+    contenttype="Content-Type: application/json"
+    json="{\"longUrl\": \"${url}\"}"
+    data=(${(f)"$($prog --silent -H ${contenttype} -d ${json} $api)"})
+    # Parse the response
+    for item in "${data[@]}"; do
+        case "$item" in
+            ' '#'"id":'*)
+                item=${item#*: \"}
+                item=${item%\",*}
+                printf '%s\n' "$item"
+                return 0
+                ;;
+        esac
+    done
+    return 1
+}
+
+# mercurial related stuff
+if check_com -c hg ; then
+    # gnu like diff for mercurial
+    # http://www.selenic.com/mercurial/wiki/index.cgi/TipsAndTricks
+    #f5# GNU like diff for mercurial
+    function hgdi () {
+        emulate -L zsh
+        local i
+        for i in $(hg status -marn "$@") ; diff -ubwd <(hg cat "$i") "$i"
+    }
+
+    # build debian package
+    #a2# Alias for \kbd{hg-buildpackage}
+    alias hbp='hg-buildpackage'
+
+    # execute commands on the versioned patch-queue from the current repos
+    [[ -n "$GRML_NO_SMALL_ALIASES" ]] || alias mq='hg -R $(readlink -f $(hg root)/.hg/patches)'
+
+    # diffstat for specific version of a mercurial repository
+    #   hgstat      => display diffstat between last revision and tip
+    #   hgstat 1234 => display diffstat between revision 1234 and tip
+    #f5# Diffstat for specific version of a mercurial repos
+    function hgstat () {
+        emulate -L zsh
+        [[ -n "$1" ]] && hg diff -r $1 -r tip | diffstat || hg export tip | diffstat
+    }
+
+fi # end of check whether we have the 'hg'-executable
+
+# dirstack handling
+
+DIRSTACKSIZE=${DIRSTACKSIZE:-10}
+DIRSTACKFILE=${DIRSTACKFILE:-${ZDOTDIR:-${HOME}}/.zdirs}
+
+if zstyle -T ':grml:chpwd:dirstack' enable; then
+    typeset -gaU GRML_PERSISTENT_DIRSTACK
+    function grml_dirstack_filter () {
+        local -a exclude
+        local filter entry
+        if zstyle -s ':grml:chpwd:dirstack' filter filter; then
+            $filter $1 && return 0
+        fi
+        if zstyle -a ':grml:chpwd:dirstack' exclude exclude; then
+            for entry in "${exclude[@]}"; do
+                [[ $1 == ${~entry} ]] && return 0
+            done
+        fi
+        return 1
+    }
+
+    function chpwd () {
+        (( ZSH_SUBSHELL )) && return
+        (( $DIRSTACKSIZE <= 0 )) && return
+        [[ -z $DIRSTACKFILE ]] && return
+        grml_dirstack_filter $PWD && return
+        GRML_PERSISTENT_DIRSTACK=(
+            $PWD "${(@)GRML_PERSISTENT_DIRSTACK[1,$DIRSTACKSIZE]}"
+        )
+        builtin print -l ${GRML_PERSISTENT_DIRSTACK} >! ${DIRSTACKFILE}
+    }
+
+    if [[ -f ${DIRSTACKFILE} ]]; then
+        # Enabling NULL_GLOB via (N) weeds out any non-existing
+        # directories from the saved dir-stack file.
+        dirstack=( ${(f)"$(< $DIRSTACKFILE)"}(N) )
+        # "cd -" won't work after login by just setting $OLDPWD, so
+        [[ -d $dirstack[1] ]] && cd -q $dirstack[1] && cd -q $OLDPWD
+    fi
+
+    if zstyle -t ':grml:chpwd:dirstack' filter-on-load; then
+        for i in "${dirstack[@]}"; do
+            if ! grml_dirstack_filter "$i"; then
+                GRML_PERSISTENT_DIRSTACK=(
+                    "${GRML_PERSISTENT_DIRSTACK[@]}"
+                    $i
+                )
+            fi
+        done
+    else
+        GRML_PERSISTENT_DIRSTACK=( "${dirstack[@]}" )
+    fi
+fi
