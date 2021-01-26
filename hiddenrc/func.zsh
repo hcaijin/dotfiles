@@ -236,6 +236,16 @@ unsetproxy() {
 # By default, enable proxy configuration for terminal login
 [ -z "$(ss -tlnp | grep 1080)" ] || setproxy
 
+setchtsh() {
+    export CHTSH_URL="http://localhost:8002"
+}
+
+unsetchtsh() {
+    unset CHTSH_URL
+}
+
+[ -z "$(ss -tlnp | grep 8002)" ] || setchtsh
+
 unlockbw() {
   export BW_SESSION="$(bw unlock --raw)"
 }
@@ -414,3 +424,20 @@ if zstyle -T ':grml:chpwd:dirstack' enable; then
         GRML_PERSISTENT_DIRSTACK=( "${dirstack[@]}" )
     fi
 fi
+
+
+
+function composer () {
+    tty=
+    tty -s && tty=--tty
+    docker run \
+        $tty \
+        --interactive \
+        --rm \
+        --user $(id -u):$(id -g) \
+        --volume ~/.laradock/composer:/tmp \
+        --volume /etc/passwd:/etc/passwd:ro \
+        --volume /etc/group:/etc/group:ro \
+        --volume $(pwd):/app \
+        composer "$@"
+    }

@@ -4,15 +4,13 @@
     "height": 30, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     // Choose the order of the modules
-    "modules-left": ["wlr/taskbar"],
+    "modules-left": ["custom/mpd"],
     "modules-center": ["custom/logo"],
     "modules-right": ["custom/mpd", "custom/weather", "network", "battery", "backlight", "pulseaudio", "custom/vpn", "custom/idle", "clock", "custom/tablet"],
     // Modules configuration
     "wlr/taskbar": {
-      //"all-outputs": true,
-      //"active-first": true,
       "format": "{icon}",
-      //"icon-size": 14,
+      "icon-size": 14,
       "icon-theme": "Numix-Circle",
       "tooltip-format": "{title}",
       "on-click": "activate",

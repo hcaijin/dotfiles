@@ -37,6 +37,8 @@ Plug 'honza/vim-snippets'
 Plug 'dyng/ctrlsf.vim'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug '~/.cache/zsh4humans/v3/fzf'
+Plug 'scrooloose/syntastic'
+Plug 'dbeniamine/cheat.sh-vim'
 call plug#end()
 " }}}1
 
@@ -51,11 +53,11 @@ call plug#end()
 	" 将制表符扩展为空格
 	set expandtab
 	" 设置编辑时制表符占用空格数
-	set tabstop=2
+	set tabstop=4
 	" 设置格式化时制表符占用空格数
-	set shiftwidth=2
+	set shiftwidth=4
 	" 让 vim 把连续数量的空格视为一个制表符
-	set softtabstop=2
+	set softtabstop=4
 	" backgroud: light|dark
     set background=light
 	set go=a
@@ -132,9 +134,9 @@ call plug#end()
     nnoremap <leader>a :set autochdir<cr>
     nnoremap <leader>A :set noautochdir<cr>
     " 保存快捷键
-    " nnoremap <leader>ss :SaveSession!<cr>
+    nnoremap <leader>es :SaveSession!<cr>
     " 恢复快捷键
-    " nnoremap <leader>rs :OpenSession!<cr>
+    nnoremap <leader>er :OpenSession!<cr>
     " vsplit | split
     nnoremap <leader>v :vs<CR>
     nnoremap <leader>b :sp<CR>
@@ -204,8 +206,21 @@ call plug#end()
         nnoremap <silent> <leader>y2 :let @"=fnamemodify(bufname('%'),":p:t")<CR>
         " copy full path to clipboard, foo/bar/foobar.c => foo/bar/foobar.c
         nnoremap <silent> <leader>y3 :let @"=fnamemodify(bufname('%'),":p")<CR>
-    endif " }}}if
+   endif " }}}if
 
+    " coc-translator mapping
+    " popup
+    nmap <Leader>tt <Plug>(coc-translator-p)
+    vmap <Leader>tt <Plug>(coc-translator-pv)
+    " echo
+    nmap <Leader>te <Plug>(coc-translator-e)
+    vmap <Leader>te <Plug>(coc-translator-ev)
+    " replace
+    nmap <Leader>tr <Plug>(coc-translator-r)
+    vmap <Leader>tr <Plug>(coc-translator-rv)
+
+    nnoremap <leader>L ggVG=:w<CR>''
+    nnoremap <leader>r :edit<CR>
 " }}}
 
 " plugin {{{1
@@ -355,6 +370,7 @@ call plug#end()
     " -----------------------------------------------------------------------------
     " :SaveSession!
     " :OpenSession!
+    let g:session_lock_enabled = 0
     let g:session_persist_globals = ['&sessionoptions']
     call add(g:session_persist_globals, 'g:session_autoload')
     call add(g:session_persist_globals, 'g:session_autosave')
@@ -639,6 +655,16 @@ call plug#end()
     nnoremap <silent><nowait> <leader><space>k  :<C-u>CocPrev<CR>
     " Resume latest coc list.
     nnoremap <silent><nowait> <leader><space>p  :<C-u>CocListResume<CR>
+    "}}}2
+
+    "{{{2 cheat.sh-vim github: https://github.com/chubin/cheat.sh
+    let g:CheatSheetUrlGetter='curl --silent'
+    let g:syntastic_javascript_checkers = [ 'jshint' ]
+    let g:syntastic_ocaml_checkers = ['merlin']
+    let g:syntastic_python_checkers = ['pylint']
+    let g:syntastic_shell_checkers = ['shellcheck']
+    " let g:CheatSheetBaseUrl='http://localhost:8002'
+    let g:CheatSheetProviders = ['syntastic', 'quickfix']
     "}}}2
 
 "}}}1

@@ -53,11 +53,14 @@ alias root='sudo -i' \
            shred="shred -zf" \
            Chinese="trans -shell -brief :zh" \
            English="trans -shell -brief" \
-           wget="wget -U 'noleak'" \
-           curl="curl --user-agent 'noleak'" \
+           ch="cht.sh" \
+           # wget="wget -U 'noleak'" \
+           # curl="curl --user-agent 'noleak'" \
+           alias dl='axel -a -n 8 -U "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6" -H "Accept:text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5 Accept-Language: en-us,en;q=0.5 Accept-Encoding: gzip,deflate Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7 Keep-Alive: 300"' \
+           alias adl="aria2c -s16 -x16" \
            tsharkbyopenwrt="ssh openwrt 'tcpdump -s 0 -U -n -w - -i eth0 not port 22' | wireshark -k -i -" \
            msfconsole="msfconsole --quiet -x \"db_connect ${USER}@msf\"" \
-           go='http_proxy=http://127.0.0.1:7777/ https_proxy=http://127.0.0.1:7777/ no_proxy=localhost,127.0.0.0/8,::1 go' \
+           gop='http_proxy=http://127.0.0.1:7777/ https_proxy=http://127.0.0.1:7777/ no_proxy=localhost,127.0.0.0/8,::1 go' \
            mkd="mkdir -pv" \
            mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
            calcurse="calcurse -D ~/.config/calcurse" \
@@ -183,16 +186,12 @@ grf() {
         else
             fork=$(echo "$upstream" | awk -v name="$1" -F/ '{ print "https://github.com/" name "/" $2 }')
         fi
-        echo $fork
-        exit 3
 
         git remote remove "$1" 2>/dev/null
         git remote add "$1" "$fork"
         git fetch "$1"
     else
         myfork=$(echo "$upstream" | awk -v name="$USER" -F/ '{ print "git@github.com:" name "/" $5 }')
-        echo $myfork
-        exit 4
 
         git remote remove upstream 2>/dev/null
         git remote remove origin 2>/dev/null

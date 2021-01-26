@@ -27,7 +27,7 @@ zstyle ':z4h:autosuggestions' forward-char         'accept'
 zstyle ':z4h:autosuggestions' end-of-line          'accept'
 zstyle ':z4h:ssh:*'           ssh-command          command ssh
 zstyle ':z4h:ssh:route'           passthrough          yes
-zstyle ':z4h:ssh:*'           send-extra-files     '~/.aliases' '~/.vimrc' '~/.vim'
+zstyle ':z4h:ssh:*'           send-extra-files     '~/.aliases' '~/.vimrc' '~/.vim' '~/.tmux.conf' '~/.dotfiles'
 # zstyle ':z4h:ssh:*'           retrieve-extra-files '~/.aliases'
 zstyle ':z4h:ssh:*'           retrieve-history     $ZDOTDIR/.zsh_history.remote
 
@@ -39,7 +39,7 @@ zstyle ':z4h:ssh:*'           retrieve-history     $ZDOTDIR/.zsh_history.remote
 # up-to-date. Cloned files can be used after `z4h init`. This is just an
 # example. If you don't plan to use Oh My Zsh, delete this line.
 
-# z4h install ohmyzsh/ohmyzsh || return
+z4h install ohmyzsh/ohmyzsh || return
 z4h install romkatv/archive || return
 z4h install sinetoami/web-search || return
 z4h install rupa/z || return
@@ -56,10 +56,10 @@ export GPG_TTY=$TTY
 # Extend PATH.
 path=(~/bin $path)
 
-# z4h source -c -- $Z4H/ohmyzsh/ohmyzsh/oh-my-zsh.sh
 z4h source $Z4H/rupa/z/z.sh
 z4h source $Z4H/sinetoami/web-search/web_search.plugin.zsh
-fpath+=($Z4H/romkatv/archive)
+# z4h source $Z4H/ohmyzsh/ohmyzsh/plugins/virtualenvwrapper/virtualenvwrapper.plugin.zsh
+fpath+=($Z4H/romkatv/archive ~/.zsh.d/)
 autoload -Uz archive lsarchive unarchive edit-command-line
 
 zle -N edit-command-line
@@ -97,6 +97,17 @@ toggle-ddg() {
 }
 zle -N toggle-ddg
 
+toggle-cht() {
+    [[ -z "$BUFFER" ]] && zle up-history -w
+    if [[ "$BUFFER" != "curl cht.sh/"* ]]; then
+        BUFFER="curl cht.sh/$BUFFER"
+        CURSOR=$(( CURSOR + 5 ))
+    else
+        BUFFER="${BUFFER#ddg }"
+    fi
+}
+zle -N toggle-cht
+
 ###
 
 z4h bindkey z4h-cd-back             Alt+H
@@ -104,6 +115,7 @@ z4h bindkey z4h-cd-forward          Alt+L
 z4h bindkey z4h-cd-up               Alt+K
 z4h bindkey z4h-cd-down             Alt+J
 
+z4h bindkey toggle-cht              Alt+M
 z4h bindkey toggle-ddg              Alt+G
 z4h bindkey toggle-sudo             Alt+S
 z4h bindkey my-ctrl-z               Ctrl+Z
